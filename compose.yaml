@@ -15,9 +15,12 @@ services:
       HOST: 0.0.0.0
       PORT: "9000"
       MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
-      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to your Cloudflare public hostname}"
+      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to localhost, the server IP, and any public hostname}"
     ports:
-      - "127.0.0.1:9000:9000"
+      # Publish on every host interface so LAN clients and a host-level reverse
+      # proxy/tunnel can both reach the MCP service. MCP_ALLOWED_HOSTS still
+      # restricts which Host headers the application accepts.
+      - "9000:9000"
     volumes:
       - cxm-auth-data:/app/data
 

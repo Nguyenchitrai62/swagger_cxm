@@ -57,11 +57,27 @@ Health: http://127.0.0.1:9000/healthz
 Info:   http://127.0.0.1:9000/
 ```
 
+Nếu cần truy cập từ máy khác trong LAN hoặc qua reverse proxy, đặt `HOST=0.0.0.0`
+và thêm IP/domain thực tế vào `MCP_ALLOWED_HOSTS`. Ví dụ cho máy chủ hiện tại:
+
+```env
+HOST=0.0.0.0
+MCP_ALLOWED_HOSTS=localhost,127.0.0.1,10.0.10.62,mcp-erp.lm.io.vn
+```
+
+Sau đó có thể kiểm tra từ máy khác bằng
+`http://10.0.10.62:9000/healthz`. Nếu kết nối bị timeout dù health check local
+thành công, cần cho phép inbound TCP 9000 trong Windows Firewall.
+
 Agent có thể kết nối trực tiếp bằng query key:
 
 ```text
 http://127.0.0.1:9000/mcp?MCP_KEY=<YOUR_KEY>
 ```
+
+`/mcp` là endpoint giao thức, không phải giao diện liệt kê tool. Mở URL này
+bằng trình duyệt sẽ chuyển tới trang đăng nhập CXM; MCP client mới thực hiện
+`initialize`, `tools/list` và `tools/call` trên chính URL đó.
 
 Agent chỉ cần cài URL này thành một MCP server. Với Agent_bot/Gemini Live,
 không nên bật đồng thời toàn bộ 347 POST; hãy block các nhóm không dùng và
@@ -116,10 +132,12 @@ docker compose ps
 docker compose logs -f mcp
 ```
 
-Compose chỉ publish MCP tại `127.0.0.1:9000` trên host, phù hợp khi
-`cloudflared` chạy trực tiếp trên cùng server và route tới
-`http://127.0.0.1:9000`. Named volume `cxm-auth-data` giữ refresh token qua các
-lần rebuild/recreate container.
+Compose publish MCP tại cổng `9000` trên mọi interface của host để máy trong
+LAN và reverse proxy/tunnel trên host đều truy cập được. `MCP_ALLOWED_HOSTS`
+vẫn giới hạn các IP/domain được ứng dụng chấp nhận. Với cấu hình mẫu của máy
+chủ này, dùng `http://10.0.10.62:9000` trong LAN; `cloudflared` chạy trực tiếp
+trên host có thể route tới `http://127.0.0.1:9000`. Named volume
+`cxm-auth-data` giữ refresh token qua các lần rebuild/recreate container.
 
 Nếu `cloudflared` chạy trong một container khác, hãy nối hai service vào cùng
 Docker network và dùng `http://hicas-cxm-mcp:9000` thay cho `127.0.0.1`.
@@ -130,7 +148,7 @@ Docker network và dùng `http://hicas-cxm-mcp:9000` thay cho `127.0.0.1`.
 docker build -t hicas-cxm-mcp .
 docker run --rm -p 9000:9000 --env-file .env `
   -e HOST=0.0.0.0 `
-  -e MCP_ALLOWED_HOSTS=localhost,127.0.0.1 `
+  -e MCP_ALLOWED_HOSTS=localhost,127.0.0.1,10.0.10.62,mcp-erp.lm.io.vn `
   hicas-cxm-mcp
 ```
 
