@@ -52,15 +52,15 @@ npm run dev
 Các endpoint local:
 
 ```text
-MCP:    http://127.0.0.1:8000/mcp
-Health: http://127.0.0.1:8000/healthz
-Info:   http://127.0.0.1:8000/
+MCP:    http://127.0.0.1:9000/mcp
+Health: http://127.0.0.1:9000/healthz
+Info:   http://127.0.0.1:9000/
 ```
 
 Agent có thể kết nối trực tiếp bằng query key:
 
 ```text
-http://127.0.0.1:8000/mcp?MCP_KEY=<YOUR_KEY>
+http://127.0.0.1:9000/mcp?MCP_KEY=<YOUR_KEY>
 ```
 
 Agent chỉ cần cài URL này thành một MCP server. Với Agent_bot/Gemini Live,
@@ -97,9 +97,38 @@ trả về cho agent và không được ghi log.
 
 ## Docker
 
+### Docker Compose (khuyên dùng)
+
+Tạo `.env` và điền ít nhất `MCP_KEY` cùng public hostname của Cloudflare:
+
+```env
+HOST=0.0.0.0
+PORT=9000
+MCP_KEY=<YOUR_STRONG_KEY>
+MCP_ALLOWED_HOSTS=mcp-erp.lm.io.vn,localhost,127.0.0.1
+```
+
+Khởi chạy hoặc cập nhật service:
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f mcp
+```
+
+Compose chỉ publish MCP tại `127.0.0.1:9000` trên host, phù hợp khi
+`cloudflared` chạy trực tiếp trên cùng server và route tới
+`http://127.0.0.1:9000`. Named volume `cxm-auth-data` giữ refresh token qua các
+lần rebuild/recreate container.
+
+Nếu `cloudflared` chạy trong một container khác, hãy nối hai service vào cùng
+Docker network và dùng `http://hicas-cxm-mcp:9000` thay cho `127.0.0.1`.
+
+### Docker CLI
+
 ```powershell
 docker build -t hicas-cxm-mcp .
-docker run --rm -p 8000:8000 --env-file .env `
+docker run --rm -p 9000:9000 --env-file .env `
   -e HOST=0.0.0.0 `
   -e MCP_ALLOWED_HOSTS=localhost,127.0.0.1 `
   hicas-cxm-mcp
@@ -111,7 +140,7 @@ ra Internet khi chưa bật cả HTTPS lẫn xác thực.
 
 ```env
 HOST=0.0.0.0
-PORT=8000
+PORT=9000
 MCP_ALLOWED_HOSTS=<YOUR_MCP_DOMAIN>
 MCP_KEY=<YOUR_KEY>
 ```

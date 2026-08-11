@@ -3,12 +3,12 @@ import test from "node:test";
 
 import { loadSettings } from "../src/settings.js";
 
-test("settings default to port 8000 and accept MCP_KEY", () => {
+test("settings default to port 9000 and accept MCP_KEY", () => {
   const settings = loadSettings({
     HOST: "127.0.0.1",
     MCP_KEY: "fixed-key",
   });
-  assert.equal(settings.port, 8000);
+  assert.equal(settings.port, 9000);
   assert.equal(settings.mcpApiKey, "fixed-key");
   assert.equal(settings.cxmOAuthClientId, "CxmApi_App");
   assert.equal(settings.cxmOAuthScope, "offline_access CxmApi");

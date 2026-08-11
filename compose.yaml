@@ -1,0 +1,25 @@
+name: hicas-cxm-mcp
+
+services:
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hicas-cxm-mcp:latest
+    container_name: hicas-cxm-mcp
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: "9000"
+      MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
+      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to your Cloudflare public hostname}"
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - cxm-auth-data:/app/data
+
+volumes:
+  cxm-auth-data:

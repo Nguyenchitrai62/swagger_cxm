@@ -85,7 +85,7 @@ export function loadSettings(env: NodeJS.ProcessEnv = process.env): AppSettings 
 
   const settings: AppSettings = {
     host,
-    port: integerSetting(env, "PORT", 8000, 1, 65_535),
+    port: integerSetting(env, "PORT", 9000, 1, 65_535),
     cxmBaseUrl,
     cxmOAuthClientId: optional(env.CXM_OAUTH_CLIENT_ID) ?? "CxmApi_App",
     cxmOAuthScope: optional(env.CXM_OAUTH_SCOPE) ?? "offline_access CxmApi",

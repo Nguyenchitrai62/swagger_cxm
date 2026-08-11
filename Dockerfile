@@ -13,7 +13,7 @@ FROM node:24-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
-    PORT=8000 \
+    PORT=9000 \
     MCP_ALLOWED_HOSTS=localhost,127.0.0.1
 
 COPY package.json package-lock.json ./
@@ -23,7 +23,7 @@ COPY --chown=node:node config ./config
 RUN mkdir -p /app/data && chown node:node /app/data
 
 USER node
-EXPOSE 8000
+EXPOSE 9000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD node -e "const h=(process.env.MCP_ALLOWED_HOSTS||'127.0.0.1').split(',')[0].trim();require('node:http').get({hostname:'127.0.0.1',port:8000,path:'/healthz',headers:{Host:h}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+  CMD node -e "const h=(process.env.MCP_ALLOWED_HOSTS||'127.0.0.1').split(',')[0].trim();require('node:http').get({hostname:'127.0.0.1',port:9000,path:'/healthz',headers:{Host:h}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 CMD ["npm", "start"]
