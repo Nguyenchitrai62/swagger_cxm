@@ -185,12 +185,13 @@ function errorResult(error: unknown, tool: ToolDefinition): CallToolResult {
 export function createCxmMcpServer(
   tools: readonly ToolDefinition[],
   client: CxmApiClient,
+  instanceName = "hicas-cxm",
 ): McpServer {
   const getCount = tools.filter((tool) => tool.method === "GET").length;
   const postCount = tools.filter((tool) => tool.method === "POST").length;
   const server = new McpServer(
     {
-      name: "hicas-cxm",
+      name: instanceName,
       version: "1.0.0",
       description:
         "Allowlisted GET and POST access to HICAS CXM for agent-assisted data QC and controlled operations.",

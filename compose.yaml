@@ -14,6 +14,7 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: "9000"
+      MCP_INSTANCE_NAME: "hicas-cxm-uat"
       CXM_BASE_URL: "https://cxm.erp-uat.hicas.vn"
       CXM_TOOLS_CONFIG: "config/tools.json"
       CXM_WRITE_TOOLS_CONFIG: "config/write-tools.json"
@@ -41,6 +42,7 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: "9000"
+      MCP_INSTANCE_NAME: "hicas-cxm-sit"
       CXM_BASE_URL: "https://api.hawee.hicas.vn"
       CXM_TOOLS_CONFIG: "config/sit/tools.json"
       CXM_WRITE_TOOLS_CONFIG: "config/sit/write-tools.json"

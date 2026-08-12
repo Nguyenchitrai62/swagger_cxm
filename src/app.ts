@@ -60,6 +60,7 @@ function withMcpKey(path: string, request: Request): string {
 function sendAuthPage(
   request: Request,
   response: Response,
+  settings: AppSettings,
   tokenProvider: TokenProvider,
   options: { error?: string; success?: boolean } = {},
 ): void {
@@ -77,6 +78,8 @@ function sendAuthPage(
   response.type("html").send(
     renderAuthPage({
       authenticated: status.authenticated,
+      instanceName: settings.mcpInstanceName,
+      upstreamHost: settings.cxmBaseUrl.hostname,
       actionUrl: withMcpKey("/auth/login", request),
       logoutUrl: withMcpKey("/auth/logout", request),
       mcpUrl: withMcpKey("/mcp", request),
@@ -140,14 +143,18 @@ export function createCxmMcpRuntime(
 
   const client = new CxmApiClient(settings, tokenProvider, fetchImpl);
   const tools = [...readConfig.tools, ...writeConfig.tools];
-  const handler = createMcpHandler(() => createCxmMcpServer(tools, client), {
-    responseMode: "auto",
-    onerror: (error) => console.error("MCP protocol error:", error.message),
-  });
+  const handler = createMcpHandler(
+    () => createCxmMcpServer(tools, client, settings.mcpInstanceName),
+    {
+      responseMode: "auto",
+      onerror: (error) => console.error("MCP protocol error:", error.message),
+    },
+  );
 
   app.get("/", (_request, response) => {
     response.json({
-      name: "hicas-cxm",
+      name: settings.mcpInstanceName,
+      upstream: settings.cxmBaseUrl.origin,
       version: "1.0.0",
       transport: "MCP Streamable HTTP",
       endpoint: "/mcp",
@@ -164,6 +171,8 @@ export function createCxmMcpRuntime(
   app.get("/healthz", (_request, response) => {
     response.json({
       status: "ok",
+      instance: settings.mcpInstanceName,
+      upstream: settings.cxmBaseUrl.origin,
       readToolCount: readConfig.tools.length,
       writeToolCount: writeConfig.tools.length,
       totalToolCount: tools.length,
@@ -175,14 +184,14 @@ export function createCxmMcpRuntime(
 
   const auth = mcpKeyAuth(settings.mcpApiKey);
   app.get("/auth/login", auth, (request, response) => {
-    sendAuthPage(request, response, tokenProvider, {
+    sendAuthPage(request, response, settings, tokenProvider, {
       success: request.query.success === "1",
     });
   });
   app.post("/auth/login", auth, async (request, response) => {
     if (!tokenProvider.login) {
       response.status(501);
-      sendAuthPage(request, response, tokenProvider, {
+      sendAuthPage(request, response, settings, tokenProvider, {
         error: "Token provider hiện tại không hỗ trợ đăng nhập tương tác.",
       });
       return;
@@ -192,7 +201,9 @@ export function createCxmMcpRuntime(
     const remember = request.body?.remember === "true";
     if (username.length > 200 || password.length > 500) {
       response.status(400);
-      sendAuthPage(request, response, tokenProvider, { error: "Dữ liệu đăng nhập không hợp lệ." });
+      sendAuthPage(request, response, settings, tokenProvider, {
+        error: "Dữ liệu đăng nhập không hợp lệ.",
+      });
       return;
     }
     try {
@@ -201,7 +212,7 @@ export function createCxmMcpRuntime(
       response.redirect(303, `${loginUrl}${loginUrl.includes("?") ? "&" : "?"}success=1`);
     } catch (error) {
       response.status(error instanceof CxmAuthenticationError ? 401 : 502);
-      sendAuthPage(request, response, tokenProvider, {
+      sendAuthPage(request, response, settings, tokenProvider, {
         error:
           error instanceof CxmAuthenticationError
             ? error.message
@@ -215,12 +226,14 @@ export function createCxmMcpRuntime(
   });
   app.get("/auth/status", auth, (_request, response) => {
     response.setHeader("cache-control", "no-store");
-    response.json(
-      tokenProvider.getStatus?.() ?? {
+    response.json({
+      instance: settings.mcpInstanceName,
+      upstream: settings.cxmBaseUrl.origin,
+      ...(tokenProvider.getStatus?.() ?? {
         configured: tokenProvider.configured,
         authenticated: tokenProvider.configured,
-      },
-    );
+      }),
+    });
   });
 
   // A human opening the MCP URL gets the login UI. MCP clients use JSON/SSE Accept headers.

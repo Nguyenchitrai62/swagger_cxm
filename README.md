@@ -145,6 +145,12 @@ Compose chạy hai MCP độc lập từ cùng một image:
 | `mcp` (UAT) | `9000` | `https://cxm.erp-uat.hicas.vn` | `config/tools.json`, `config/write-tools.json` | `cxm-auth-data` |
 | `mcp-sit` | `9001` | `https://api.hawee.hicas.vn` | `config/sit/tools.json`, `config/sit/write-tools.json` | `cxm-auth-data-sit` |
 
+Hai instance cũng công bố danh tính MCP khác nhau (`hicas-cxm-uat` và
+`hicas-cxm-sit`). Điều này tránh việc MCP client gộp hoặc thay thế hai kết nối
+do cùng server name và cùng tên tool. Trang đăng nhập, `/`, `/healthz` và
+`/auth/status` đều hiển thị instance cùng upstream tương ứng để phát hiện route
+nhầm port mà không lộ token.
+
 Service UAT vẫn giữ tên `mcp`, container `hicas-cxm-mcp`, volume và host port
 hiện tại. Vì vậy route public hiện có tới port `9000` vẫn là UAT. SIT map
 `9001:9000`: ứng dụng trong container vẫn nghe port `9000`, còn máy chủ mở thêm

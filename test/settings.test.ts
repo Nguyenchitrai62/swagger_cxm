@@ -9,10 +9,19 @@ test("settings default to port 9000 and accept MCP_KEY", () => {
     MCP_KEY: "fixed-key",
   });
   assert.equal(settings.port, 9000);
+  assert.equal(settings.mcpInstanceName, "hicas-cxm");
   assert.equal(settings.mcpApiKey, "fixed-key");
   assert.equal(settings.cxmOAuthClientId, "CxmApi_App");
   assert.equal(settings.cxmOAuthScope, "offline_access CxmApi");
   assert.equal(settings.cxmInteractiveLogin, false);
+});
+
+test("settings accept a distinct MCP instance name", () => {
+  const settings = loadSettings({
+    HOST: "127.0.0.1",
+    MCP_INSTANCE_NAME: "hicas-cxm-sit",
+  });
+  assert.equal(settings.mcpInstanceName, "hicas-cxm-sit");
 });
 
 test("interactive login mode can require a fresh browser login after restart", () => {

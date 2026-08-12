@@ -57,6 +57,7 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
   const settings: AppSettings = {
     host: "127.0.0.1",
     port: 8000,
+    mcpInstanceName: "hicas-cxm-test",
     mcpApiKey: "test-mcp-key",
     cxmBaseUrl: new URL("https://cxm.example.test"),
     cxmOAuthClientId: "CxmApi_App",
@@ -84,6 +85,21 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
   const unauthorized = await fetch(`http://127.0.0.1:${port}/mcp`);
   assert.equal(unauthorized.status, 401);
 
+  const info = await fetch(`http://127.0.0.1:${port}/`);
+  assert.deepEqual(await info.json(), {
+    name: "hicas-cxm-test",
+    upstream: "https://cxm.example.test",
+    version: "1.0.0",
+    transport: "MCP Streamable HTTP",
+    endpoint: "/mcp",
+    login: "/auth/login?MCP_KEY=<YOUR_KEY>",
+    health: "/healthz",
+    readTools: 183,
+    writeTools: 347,
+    totalTools: 530,
+    authentication: ["MCP_KEY query parameter", "Authorization Bearer header"],
+  });
+
   const browserOpen = await fetch(
     `http://127.0.0.1:${port}/mcp?MCP_KEY=test-mcp-key`,
     { headers: { accept: "text/html" }, redirect: "manual" },
@@ -100,6 +116,8 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
   assert.match(loginPage.headers.get("content-security-policy") ?? "", /default-src 'none'/);
   const loginHtml = await loginPage.text();
   assert.match(loginHtml, /Đã đăng nhập CXM/);
+  assert.match(loginHtml, /hicas-cxm-test/);
+  assert.match(loginHtml, /cxm\.example\.test/);
   assert.doesNotMatch(loginHtml, /mcp-write/);
 
   const removedWriteEndpoint = await fetch(
@@ -113,6 +131,7 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
   );
   await client.connect(transport);
   t.after(async () => client.close());
+  assert.equal(client.getServerVersion()?.name, "hicas-cxm-test");
 
   const listed = await client.listTools();
   assert.equal(listed.tools.length, 530);

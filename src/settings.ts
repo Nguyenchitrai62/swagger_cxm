@@ -3,6 +3,7 @@ import { isIP } from "node:net";
 export interface AppSettings {
   host: string;
   port: number;
+  mcpInstanceName: string;
   allowedHosts?: string[];
   allowedOrigins?: string[];
   mcpApiKey?: string;
@@ -86,6 +87,7 @@ export function loadSettings(env: NodeJS.ProcessEnv = process.env): AppSettings 
   const settings: AppSettings = {
     host,
     port: integerSetting(env, "PORT", 9000, 1, 65_535),
+    mcpInstanceName: optional(env.MCP_INSTANCE_NAME) ?? "hicas-cxm",
     cxmBaseUrl,
     cxmOAuthClientId: optional(env.CXM_OAUTH_CLIENT_ID) ?? "CxmApi_App",
     cxmOAuthScope: optional(env.CXM_OAUTH_SCOPE) ?? "offline_access CxmApi",

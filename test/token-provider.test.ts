@@ -101,6 +101,67 @@ test("interactive login persists only the refresh token and restores it after re
   assert.equal(await readFile(refreshTokenFile, "utf8"), "rotated-refresh\n");
 });
 
+test("UAT and SIT providers persist and refresh tokens without cross-environment overwrite", async (t) => {
+  const directory = await mkdtemp(join(tmpdir(), "cxm-mcp-dual-token-provider-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const uatTokenFile = join(directory, "uat", "refresh-token");
+  const sitTokenFile = join(directory, "sit", "refresh-token");
+  const uatSettings = loadSettings({
+    HOST: "127.0.0.1",
+    MCP_INSTANCE_NAME: "hicas-cxm-uat",
+    CXM_BASE_URL: "https://uat.example.test",
+    CXM_REFRESH_TOKEN_FILE: uatTokenFile,
+  });
+  const sitSettings = loadSettings({
+    HOST: "127.0.0.1",
+    MCP_INSTANCE_NAME: "hicas-cxm-sit",
+    CXM_BASE_URL: "https://sit.example.test",
+    CXM_REFRESH_TOKEN_FILE: sitTokenFile,
+  });
+
+  const requests: Array<{ upstream: string; grantType: string | null; refreshToken: string | null }> = [];
+  const mockFetch = async (input: string | URL | Request, init?: RequestInit) => {
+    const upstream = new URL(String(input)).hostname;
+    const body = init?.body as URLSearchParams;
+    requests.push({
+      upstream,
+      grantType: body.get("grant_type"),
+      refreshToken: body.get("refresh_token"),
+    });
+    const environment = upstream.startsWith("uat") ? "uat" : "sit";
+    const grantType = body.get("grant_type");
+    return Response.json({
+      access_token: `${environment}-${grantType}-access`,
+      refresh_token: `${environment}-${grantType}-refresh`,
+    });
+  };
+
+  const uatProvider = createTokenProvider(uatSettings, mockFetch);
+  const sitProvider = createTokenProvider(sitSettings, mockFetch);
+  await uatProvider.login?.({ username: "uat-user", password: "secret", remember: true });
+  await sitProvider.login?.({ username: "sit-user", password: "secret", remember: true });
+
+  assert.equal(await readFile(uatTokenFile, "utf8"), "uat-password-refresh\n");
+  assert.equal(await readFile(sitTokenFile, "utf8"), "sit-password-refresh\n");
+
+  const restoredUat = createTokenProvider(uatSettings, mockFetch);
+  const restoredSit = createTokenProvider(sitSettings, mockFetch);
+  assert.equal(await restoredUat.getToken(), "uat-refresh_token-access");
+  assert.equal(await restoredSit.getToken(), "sit-refresh_token-access");
+  assert.deepEqual(requests.slice(-2), [
+    {
+      upstream: "uat.example.test",
+      grantType: "refresh_token",
+      refreshToken: "uat-password-refresh",
+    },
+    {
+      upstream: "sit.example.test",
+      grantType: "refresh_token",
+      refreshToken: "sit-password-refresh",
+    },
+  ]);
+});
+
 test("a missing refresh-token file behaves like a signed-out provider", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "cxm-mcp-token-provider-"));
   t.after(() => rm(directory, { recursive: true, force: true }));
