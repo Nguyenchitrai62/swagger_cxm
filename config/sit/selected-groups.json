@@ -1,0 +1,36 @@
+{
+  "sourceOpenApi": "https://api.hawee.hicas.vn/swagger/v1/swagger.json",
+  "expectedSourceGetCount": 227,
+  "expectedGetToolCount": 183,
+  "expectedSourcePostCount": 393,
+  "expectedPostToolCount": 347,
+  "excludedTags": [
+    "AbpApiDefinition",
+    "AbpApplicationConfiguration",
+    "AbpApplicationLocalization",
+    "Permissions",
+    "Features",
+    "Login",
+    "Profile",
+    "Tenant",
+    "AbpTenant",
+    "User",
+    "CxmUser",
+    "UserLookup",
+    "Role",
+    "OrganizationUnit",
+    "TimeZoneSettings",
+    "EmailSettings",
+    "EmailTemplate",
+    "ExternalApiLog",
+    "Banner",
+    "Account",
+    "DynamicClaims"
+  ],
+  "excludedPaths": [
+    "/api/app/purchase-order/admin/sync-progress/{eventId}"
+  ],
+  "reviewPaths": [
+    "/api/app/workflow/workflow-definition-sync"
+  ]
+}

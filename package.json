@@ -9,6 +9,8 @@
   },
   "scripts": {
     "generate:tools": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts",
+    "generate:tools:uat": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile uat",
+    "generate:tools:sit": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile sit",
     "dev": "node --env-file-if-exists=.env --import tsx src/server.ts",
     "dev:watch": "node --env-file-if-exists=.env --watch --import tsx src/server.ts",
     "build": "tsc -p tsconfig.json",

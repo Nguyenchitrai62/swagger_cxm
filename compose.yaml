@@ -14,6 +14,10 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: "9000"
+      CXM_BASE_URL: "https://cxm.erp-uat.hicas.vn"
+      CXM_TOOLS_CONFIG: "config/tools.json"
+      CXM_WRITE_TOOLS_CONFIG: "config/write-tools.json"
+      CXM_REFRESH_TOKEN_FILE: "/app/data/cxm-refresh-token"
       MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
       MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to localhost, the server IP, and any public hostname}"
     ports:
@@ -24,5 +28,35 @@ services:
     volumes:
       - cxm-auth-data:/app/data
 
+  mcp-sit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hicas-cxm-mcp:latest
+    container_name: hicas-cxm-mcp-sit
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: "9000"
+      CXM_BASE_URL: "https://api.hawee.hicas.vn"
+      CXM_TOOLS_CONFIG: "config/sit/tools.json"
+      CXM_WRITE_TOOLS_CONFIG: "config/sit/write-tools.json"
+      # Never inherit a UAT token from the shared .env. SIT authentication is
+      # established through its own login page and persisted in its own volume.
+      CXM_ACCESS_TOKEN: ""
+      CXM_ACCESS_TOKEN_FILE: ""
+      CXM_REFRESH_TOKEN: ""
+      CXM_REFRESH_TOKEN_FILE: "/app/data/cxm-refresh-token"
+      MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
+      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to both UAT and SIT hostnames}"
+    ports:
+      - "9001:9000"
+    volumes:
+      - cxm-auth-data-sit:/app/data
+
 volumes:
   cxm-auth-data:
+  cxm-auth-data-sit:

@@ -420,9 +420,29 @@ function createOutput(
 }
 
 async function main(): Promise<void> {
-  const selectedPath = resolve("config/selected-groups.json");
-  const readOutputPath = resolve("config/tools.json");
-  const writeOutputPath = resolve("config/write-tools.json");
+  const profileArgumentIndex = process.argv.indexOf("--profile");
+  const hasExplicitProfile = profileArgumentIndex >= 0;
+  const profile = profileArgumentIndex >= 0 ? process.argv[profileArgumentIndex + 1] : "uat";
+  if (!profile || !/^[a-z0-9_-]+$/i.test(profile)) {
+    throw new Error("--profile must be followed by a safe profile name");
+  }
+
+  // Keep the existing UAT paths as defaults so current deployments and custom
+  // CXM_TOOLS_CONFIG overrides remain backwards compatible. Other environments
+  // get their own frozen allowlists under config/<profile>/.
+  const profileDirectory = profile.toLowerCase() === "uat" ? "config" : `config/${profile}`;
+  const selectedPath = resolve(
+    (!hasExplicitProfile ? process.env.CXM_SELECTED_GROUPS_CONFIG : undefined) ??
+      `${profileDirectory}/selected-groups.json`,
+  );
+  const readOutputPath = resolve(
+    (!hasExplicitProfile ? process.env.CXM_TOOLS_CONFIG : undefined) ??
+      `${profileDirectory}/tools.json`,
+  );
+  const writeOutputPath = resolve(
+    (!hasExplicitProfile ? process.env.CXM_WRITE_TOOLS_CONFIG : undefined) ??
+      `${profileDirectory}/write-tools.json`,
+  );
   const selected = JSON.parse(await readFile(selectedPath, "utf8")) as SelectedGroups;
 
   const response = await fetch(selected.sourceOpenApi, {
@@ -463,7 +483,8 @@ async function main(): Promise<void> {
   await writeFile(readOutputPath, `${JSON.stringify(readResult.output, null, 2)}\n`, "utf8");
   await writeFile(writeOutputPath, `${JSON.stringify(writeResult.output, null, 2)}\n`, "utf8");
   process.stdout.write(
-    `Generated ${readResult.toolCount} GET tools (${readResult.excludedCount} excluded) and ` +
+    `Generated ${profile.toUpperCase()} allowlists: ` +
+      `${readResult.toolCount} GET tools (${readResult.excludedCount} excluded) and ` +
       `${writeResult.toolCount} POST tools (${writeResult.excludedCount} excluded).\n`,
   );
 }

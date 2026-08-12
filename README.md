@@ -7,7 +7,9 @@ liệu phục vụ QC: dự án, hợp đồng, PO, kho, giao dịch kho, giá b
 chính và trạng thái workflow.
 
 OpenAPI nguồn:
-`https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json`.
+
+- UAT: `https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json`.
+- SIT: `https://api.hawee.hicas.vn/swagger/v1/swagger.json`.
 
 ## Phạm vi 530 tool
 
@@ -29,6 +31,10 @@ Danh sách GET nằm tại [`config/tools.json`](config/tools.json); danh sách 
 nằm tại [`config/write-tools.json`](config/write-tools.json). Service không đọc Swagger khi khởi
 động, vì vậy thay đổi ngoài ý muốn trên OpenAPI sẽ không tự động mở rộng phạm vi
 MCP.
+
+SIT có snapshot độc lập tại `config/sit/tools.json` và
+`config/sit/write-tools.json`. Hai snapshot có thể khác nhau khi SIT và UAT đang
+chạy các phiên bản API khác nhau.
 
 ## Chạy local
 
@@ -121,7 +127,7 @@ Tạo `.env` và điền ít nhất `MCP_KEY` cùng public hostname của Cloudf
 HOST=0.0.0.0
 PORT=9000
 MCP_KEY=<YOUR_STRONG_KEY>
-MCP_ALLOWED_HOSTS=mcp-erp.lm.io.vn,localhost,127.0.0.1
+MCP_ALLOWED_HOSTS=mcp-erp.lm.io.vn,mcp-erp-sit.lm.io.vn,localhost,127.0.0.1
 ```
 
 Khởi chạy hoặc cập nhật service:
@@ -132,12 +138,47 @@ docker compose ps
 docker compose logs -f mcp
 ```
 
-Compose publish MCP tại cổng `9000` trên mọi interface của host để máy trong
-LAN và reverse proxy/tunnel trên host đều truy cập được. `MCP_ALLOWED_HOSTS`
-vẫn giới hạn các IP/domain được ứng dụng chấp nhận. Với cấu hình mẫu của máy
-chủ này, dùng `http://10.0.10.62:9000` trong LAN; `cloudflared` chạy trực tiếp
-trên host có thể route tới `http://127.0.0.1:9000`. Named volume
-`cxm-auth-data` giữ refresh token qua các lần rebuild/recreate container.
+Compose chạy hai MCP độc lập từ cùng một image:
+
+| Service | Host port | API nguồn | Tool allowlist | Token volume |
+|---|---:|---|---|---|
+| `mcp` (UAT) | `9000` | `https://cxm.erp-uat.hicas.vn` | `config/tools.json`, `config/write-tools.json` | `cxm-auth-data` |
+| `mcp-sit` | `9001` | `https://api.hawee.hicas.vn` | `config/sit/tools.json`, `config/sit/write-tools.json` | `cxm-auth-data-sit` |
+
+Service UAT vẫn giữ tên `mcp`, container `hicas-cxm-mcp`, volume và host port
+hiện tại. Vì vậy route public hiện có tới port `9000` vẫn là UAT. SIT map
+`9001:9000`: ứng dụng trong container vẫn nghe port `9000`, còn máy chủ mở thêm
+port `9001`.
+
+Hai service cùng đọc `.env`, vì vậy dùng chung `MCP_KEY` và các giới hạn vận
+hành. `MCP_ALLOWED_HOSTS` phải chứa cả hai hostname public:
+
+```env
+MCP_ALLOWED_HOSTS=localhost,127.0.0.1,10.0.10.62,mcp-erp.lm.io.vn,mcp-erp-sit.lm.io.vn
+```
+
+Route `mcp-erp.lm.io.vn` tới `http://127.0.0.1:9000` và route
+`mcp-erp-sit.lm.io.vn` tới `http://127.0.0.1:9001`. Dù dùng chung `.env`, Compose
+ghi đè `CXM_BASE_URL`, tool allowlist và `CXM_REFRESH_TOKEN_FILE` cho từng
+container. Hai named volume khác nhau nên đăng nhập tại UAT và SIT tạo hai phiên
+CXM độc lập, không ghi đè refresh token của nhau. Container SIT cũng chủ động
+bỏ qua `CXM_ACCESS_TOKEN`/`CXM_REFRESH_TOKEN` có thể đang dùng cho UAT trong
+`.env`; SIT chỉ khôi phục phiên từ volume `cxm-auth-data-sit`.
+
+Sau khi khởi động, kiểm tra riêng từng service bằng:
+
+```text
+UAT MCP:    http://127.0.0.1:9000/mcp?MCP_KEY=<MCP_KEY>
+UAT Health: http://127.0.0.1:9000/healthz
+SIT MCP:    http://127.0.0.1:9001/mcp?MCP_KEY=<MCP_KEY>
+SIT Health: http://127.0.0.1:9001/healthz
+```
+
+Compose publish UAT tại cổng `9000` và SIT tại cổng `9001` trên mọi interface
+của host để máy trong LAN và reverse proxy/tunnel trên host đều truy cập được.
+`MCP_ALLOWED_HOSTS` vẫn giới hạn các IP/domain được ứng dụng chấp nhận. Named
+volume `cxm-auth-data` và `cxm-auth-data-sit` giữ riêng refresh token qua các lần
+rebuild/recreate container.
 
 Nếu `cloudflared` chạy trong một container khác, hãy nối hai service vào cùng
 Docker network và dùng `http://hicas-cxm-mcp:9000` thay cho `127.0.0.1`.
@@ -287,13 +328,16 @@ nhạy cảm hơn access token; chỉ lưu trong secret store hoặc file giới
 Chỉ chạy thao tác này khi chủ động review API mới:
 
 ```powershell
-npm run generate:tools
+npm run generate:tools:uat
+npm run generate:tools:sit
 npm run check
 ```
 
-Generator đọc quy tắc loại trừ trong `config/selected-groups.json` và sẽ thất bại
-nếu Swagger không còn đúng 227 GET/393 POST hoặc kết quả không còn đúng 183 GET/
-347 POST. Đây là
+Generator UAT đọc quy tắc loại trừ trong `config/selected-groups.json`; generator
+SIT đọc `config/sit/selected-groups.json`. Mỗi profile ghi ra snapshot GET/POST
+riêng và sẽ thất bại nếu số endpoint nguồn hoặc số tool không khớp giá trị kỳ
+vọng của profile. Khi một môi trường thay đổi API hợp lệ, hãy review Swagger và
+cập nhật các giá trị `expected*` của đúng profile trước khi generate lại. Đây là
 chốt an toàn buộc người vận hành xem xét thay đổi upstream và danh sách API quản
 trị trước khi cập nhật file allowlist.
 

@@ -72,3 +72,15 @@ test("write allowlist contains 347 confirmed non-administration POST tools", () 
   assert.equal(config.tools.filter((tool) => tool.requestBody?.mode === "multipart").length, 25);
   assert.equal(config.tools.filter((tool) => !tool.requestBody).length, 62);
 });
+
+test("SIT uses an independently frozen GET and POST allowlist", () => {
+  const readConfig = loadToolConfig("config/sit/tools.json");
+  const writeConfig = loadToolConfig("config/sit/write-tools.json");
+
+  assert.equal(readConfig.sourceOpenApi, "https://api.hawee.hicas.vn/swagger/v1/swagger.json");
+  assert.equal(writeConfig.sourceOpenApi, "https://api.hawee.hicas.vn/swagger/v1/swagger.json");
+  assert.ok(readConfig.tools.every((tool) => tool.method === "GET"));
+  assert.ok(writeConfig.tools.every((tool) => tool.method === "POST"));
+  assert.ok(readConfig.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+  assert.ok(writeConfig.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+});

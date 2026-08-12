@@ -7,7 +7,9 @@ import { loadToolConfig } from "./tool-config.js";
 
 const settings = loadSettings();
 const readConfig = loadToolConfig();
-const writeConfig = loadToolConfig("config/write-tools.json");
+const writeConfig = loadToolConfig(
+  process.env.CXM_WRITE_TOOLS_CONFIG ?? "config/write-tools.json",
+);
 const tokenProvider = createTokenProvider(settings);
 const runtime = createCxmMcpRuntime(settings, readConfig, writeConfig, tokenProvider);
 const httpServer = createServer(runtime.app);
