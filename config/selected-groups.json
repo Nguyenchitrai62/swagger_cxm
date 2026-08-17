@@ -1,9 +1,11 @@
 {
   "sourceOpenApi": "https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json",
   "expectedSourceGetCount": 227,
-  "expectedGetToolCount": 183,
-  "expectedSourcePostCount": 393,
-  "expectedPostToolCount": 347,
+  "expectedGetToolCount": 187,
+  "expectedSourcePostCount": 394,
+  "expectedPostToolCount": 348,
+  "expectedSourcePutCount": 78,
+  "expectedPutToolCount": 1,
   "excludedTags": [
     "AbpApiDefinition",
     "AbpApplicationConfiguration",
@@ -32,5 +34,15 @@
   ],
   "reviewPaths": [
     "/api/app/workflow/workflow-definition-sync"
+  ],
+  "includedEndpoints": [
+    "GET /api/permission-management/permissions",
+    "PUT /api/permission-management/permissions",
+    "GET /api/identity/roles/all",
+    "GET /api/identity/users/by-username/{userName}",
+    "GET /api/identity/users/{id}/roles"
+  ],
+  "destructiveEndpoints": [
+    "PUT /api/permission-management/permissions"
   ]
 }

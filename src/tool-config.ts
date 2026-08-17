@@ -12,7 +12,7 @@ const parameterSchema = z.strictObject({
   wireName: z.string().min(1),
   source: z.enum(["path", "query"]),
   type: z.enum(["string", "integer", "number", "boolean", "array", "object"]),
-  itemType: z.enum(["string", "integer", "number", "boolean"]).optional(),
+  itemType: z.enum(["string", "integer", "number", "boolean", "object"]).optional(),
   required: z.boolean().default(false),
   description: z.string().min(1),
   minimum: z.number().optional(),
@@ -25,7 +25,7 @@ const bodyFieldSchema = z.strictObject({
   name: z.string().regex(/^[a-z][a-zA-Z0-9]*$/),
   wireName: z.string().min(1),
   type: z.enum(["string", "integer", "number", "boolean", "array", "object"]),
-  itemType: z.enum(["string", "integer", "number", "boolean"]).optional(),
+  itemType: z.enum(["string", "integer", "number", "boolean", "object"]).optional(),
   required: z.boolean().default(false),
   description: z.string().min(1),
   format: z.string().min(1).optional(),
@@ -48,7 +48,7 @@ const toolDefinitionSchema = z.strictObject({
   title: z.string().min(1),
   description: z.string().min(1),
   tag: z.string().min(1),
-  method: z.enum(["GET", "POST"]),
+  method: z.enum(["GET", "POST", "PUT"]),
   path: z.string().startsWith("/"),
   safety: z.enum(["read-only", "review", "write", "destructive"]),
   parameters: z.array(parameterSchema).default([]),
@@ -112,8 +112,8 @@ export function validateToolConfig(config: ToolConfig): void {
     if (tool.method === "GET" && !["read-only", "review"].includes(tool.safety)) {
       throw new Error(`GET tool ${tool.name} has invalid safety ${tool.safety}`);
     }
-    if (tool.method === "POST" && !["write", "destructive"].includes(tool.safety)) {
-      throw new Error(`POST tool ${tool.name} has invalid safety ${tool.safety}`);
+    if (tool.method !== "GET" && !["write", "destructive"].includes(tool.safety)) {
+      throw new Error(`${tool.method} tool ${tool.name} has invalid safety ${tool.safety}`);
     }
     if (tool.method === "GET" && tool.requestBody) {
       throw new Error(`GET tool ${tool.name} cannot define a request body`);

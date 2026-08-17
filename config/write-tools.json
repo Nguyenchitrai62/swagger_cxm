@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T09:15:33.988Z",
+  "generatedAt": "2026-08-17T05:31:24.706Z",
   "sourceOpenApi": "https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json",
   "sourceTitle": "CxmApi API",
   "selectedTags": [
@@ -26,6 +26,7 @@
     "Partner",
     "Party",
     "PaymentRequest",
+    "Permissions",
     "Project",
     "ProjectFunction",
     "ProjectLevel",
@@ -1876,7 +1877,7 @@
     {
       "name": "cxm_post_contract_labor_import_item",
       "title": "Contract Labor: Import Item",
-      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLabor",
       "method": "POST",
       "path": "/api/app/contract-labor/import-item",
@@ -2022,7 +2023,7 @@
     {
       "name": "cxm_post_contract_labor_import_contract_labor_detail",
       "title": "Contract Labor: Import Contract Labor Detail",
-      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/import-contract-labor-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/import-contract-labor-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLabor",
       "method": "POST",
       "path": "/api/app/contract-labor/import-contract-labor-detail",
@@ -2399,7 +2400,7 @@
             "type": "array",
             "required": false,
             "description": "contractLaborDetailCreateDtos request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -2491,7 +2492,7 @@
     {
       "name": "cxm_post_contract_labor_sync_labor_unit_price_from_contract",
       "title": "Contract Labor: Sync Labor Unit Price From Contract",
-      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/sync-labor-unit-price-from-contract. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/sync-labor-unit-price-from-contract. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLabor",
       "method": "POST",
       "path": "/api/app/contract-labor/sync-labor-unit-price-from-contract",
@@ -2518,7 +2519,7 @@
     {
       "name": "cxm_post_contract_labor_cancel_contract_labor_by_contract_labor_id",
       "title": "Contract Labor: Cancel Contract Labor By Contract Labor Id",
-      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/cancel-contract-labor/{contractLaborId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLabor data in CXM. Endpoint: POST /api/app/contract-labor/cancel-contract-labor/{contractLaborId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLabor",
       "method": "POST",
       "path": "/api/app/contract-labor/cancel-contract-labor/{contractLaborId}",
@@ -2738,7 +2739,7 @@
     {
       "name": "cxm_post_contract_labor_appendix_import_item",
       "title": "Contract Labor Appendix: Import Item",
-      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLaborAppendix",
       "method": "POST",
       "path": "/api/app/contract-labor-appendix/import-item",
@@ -2892,7 +2893,7 @@
     {
       "name": "cxm_post_contract_labor_appendix_import_contract_labor_appendix_detail",
       "title": "Contract Labor Appendix: Import Contract Labor Appendix Detail",
-      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/import-contract-labor-appendix-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/import-contract-labor-appendix-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLaborAppendix",
       "method": "POST",
       "path": "/api/app/contract-labor-appendix/import-contract-labor-appendix-detail",
@@ -3210,7 +3211,7 @@
             "type": "array",
             "required": false,
             "description": "contractLaborAppendixDetails request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -3237,7 +3238,7 @@
     {
       "name": "cxm_post_contract_labor_appendix_cancel_contract_labor_appendix_by_contract_labor_appendix_id",
       "title": "Contract Labor Appendix: Cancel Contract Labor Appendix By Contract Labor Appendix Id",
-      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/cancel-contract-labor-appendix/{contractLaborAppendixId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/cancel-contract-labor-appendix/{contractLaborAppendixId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLaborAppendix",
       "method": "POST",
       "path": "/api/app/contract-labor-appendix/cancel-contract-labor-appendix/{contractLaborAppendixId}",
@@ -3436,7 +3437,7 @@
     {
       "name": "cxm_post_contract_labor_appendix_sync_labor_unit_price_by_contract_id",
       "title": "Contract Labor Appendix: Sync Labor Unit Price By Contract Id",
-      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/sync-labor-unit-price/{contractId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ContractLaborAppendix data in CXM. Endpoint: POST /api/app/contract-labor-appendix/sync-labor-unit-price/{contractId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ContractLaborAppendix",
       "method": "POST",
       "path": "/api/app/contract-labor-appendix/sync-labor-unit-price/{contractId}",
@@ -4823,7 +4824,7 @@
     {
       "name": "cxm_post_geo_location_import_regions_from_json",
       "title": "Geo Location: Import Regions From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-regions-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-regions-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-regions-from-json",
@@ -4849,7 +4850,7 @@
     {
       "name": "cxm_post_geo_location_import_subregions_from_json",
       "title": "Geo Location: Import Subregions From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-subregions-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-subregions-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-subregions-from-json",
@@ -4875,7 +4876,7 @@
     {
       "name": "cxm_post_geo_location_import_countries_from_json",
       "title": "Geo Location: Import Countries From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-countries-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-countries-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-countries-from-json",
@@ -4901,7 +4902,7 @@
     {
       "name": "cxm_post_geo_location_import_states_from_json",
       "title": "Geo Location: Import States From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-states-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-states-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-states-from-json",
@@ -4927,7 +4928,7 @@
     {
       "name": "cxm_post_geo_location_import_vietnam_states_from_json",
       "title": "Geo Location: Import Vietnam States From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-vietnam-states-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-vietnam-states-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-vietnam-states-from-json",
@@ -4953,7 +4954,7 @@
     {
       "name": "cxm_post_geo_location_import_cities_from_json",
       "title": "Geo Location: Import Cities From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-cities-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-cities-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-cities-from-json",
@@ -4979,7 +4980,7 @@
     {
       "name": "cxm_post_geo_location_import_vietnam_cities_from_json",
       "title": "Geo Location: Import Vietnam Cities From Json",
-      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-vietnam-cities-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute GeoLocation data in CXM. Endpoint: POST /import-vietnam-cities-from-json. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "GeoLocation",
       "method": "POST",
       "path": "/import-vietnam-cities-from-json",
@@ -5005,7 +5006,7 @@
     {
       "name": "cxm_post_investor_payment_import_item",
       "title": "Investor Payment: Import Item",
-      "description": "Execute InvestorPayment data in CXM. Endpoint: POST /api/app/investor-payment/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute InvestorPayment data in CXM. Endpoint: POST /api/app/investor-payment/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "InvestorPayment",
       "method": "POST",
       "path": "/api/app/investor-payment/import-item",
@@ -5133,7 +5134,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -5238,7 +5239,7 @@
     {
       "name": "cxm_post_job_title_update_many",
       "title": "Job Title: Update Many",
-      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "JobTitle",
       "method": "POST",
       "path": "/api/app/job-title/update-many",
@@ -5255,7 +5256,7 @@
     {
       "name": "cxm_post_job_title_delete_many",
       "title": "Job Title: Delete Many",
-      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "JobTitle",
       "method": "POST",
       "path": "/api/app/job-title/delete-many",
@@ -5354,7 +5355,7 @@
     {
       "name": "cxm_post_job_title_import",
       "title": "Job Title: Import",
-      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute JobTitle data in CXM. Endpoint: POST /api/app/job-title/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "JobTitle",
       "method": "POST",
       "path": "/api/app/job-title/import",
@@ -5592,7 +5593,7 @@
     {
       "name": "cxm_post_location_node_import_initial_by_project_id",
       "title": "Location Node: Import Initial By Project Id",
-      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-initial/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-initial/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "LocationNode",
       "method": "POST",
       "path": "/api/app/location-node/import-initial/{projectId}",
@@ -5730,7 +5731,7 @@
     {
       "name": "cxm_post_location_node_import_tower_unit_layout_by_project_id",
       "title": "Location Node: Import Tower Unit Layout By Project Id",
-      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-tower-unit-layout/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-tower-unit-layout/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "LocationNode",
       "method": "POST",
       "path": "/api/app/location-node/import-tower-unit-layout/{projectId}",
@@ -5854,7 +5855,7 @@
     {
       "name": "cxm_post_location_node_sync_resource_norms",
       "title": "Location Node: Sync Resource Norms",
-      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/sync-resource-norms. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/sync-resource-norms. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "LocationNode",
       "method": "POST",
       "path": "/api/app/location-node/sync-resource-norms",
@@ -5896,7 +5897,7 @@
     {
       "name": "cxm_post_location_node_sync_all_resource_norms",
       "title": "Location Node: Sync All Resource Norms",
-      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/sync-all-resource-norms. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/sync-all-resource-norms. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "LocationNode",
       "method": "POST",
       "path": "/api/app/location-node/sync-all-resource-norms",
@@ -5930,7 +5931,7 @@
     {
       "name": "cxm_post_location_node_import_tower_area_map",
       "title": "Location Node: Import Tower Area Map",
-      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-tower-area-map. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute LocationNode data in CXM. Endpoint: POST /api/app/location-node/import-tower-area-map. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "LocationNode",
       "method": "POST",
       "path": "/api/app/location-node/import-tower-area-map",
@@ -6209,7 +6210,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -6217,7 +6218,7 @@
     {
       "name": "cxm_post_material_acceptance_certificate_import_item",
       "title": "Material Acceptance Certificate: Import Item",
-      "description": "Execute material acceptance certificate and item data in CXM. Endpoint: POST /api/app/material-acceptance-certificate/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute material acceptance certificate and item data in CXM. Endpoint: POST /api/app/material-acceptance-certificate/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "MaterialAcceptanceCertificate",
       "method": "POST",
       "path": "/api/app/material-acceptance-certificate/import-item",
@@ -6345,7 +6346,7 @@
             "type": "array",
             "required": false,
             "description": "materialAcceptanceItems request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -6379,7 +6380,7 @@
     {
       "name": "cxm_post_material_group_import",
       "title": "Material Group: Import",
-      "description": "Execute MaterialGroup data in CXM. Endpoint: POST /api/app/material-group/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute MaterialGroup data in CXM. Endpoint: POST /api/app/material-group/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "MaterialGroup",
       "method": "POST",
       "path": "/api/app/material-group/import",
@@ -6502,7 +6503,7 @@
     {
       "name": "cxm_post_partner_import",
       "title": "Partner: Import",
-      "description": "Execute Partner data in CXM. Endpoint: POST /api/app/partner/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute Partner data in CXM. Endpoint: POST /api/app/partner/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Partner",
       "method": "POST",
       "path": "/api/app/partner/import",
@@ -6701,7 +6702,7 @@
     {
       "name": "cxm_post_partner_sync_partner_snapshot",
       "title": "Partner: Sync Partner Snapshot",
-      "description": "Execute Partner data in CXM. Endpoint: POST /api/app/partner/sync-partner-snapshot. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute Partner data in CXM. Endpoint: POST /api/app/partner/sync-partner-snapshot. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Partner",
       "method": "POST",
       "path": "/api/app/partner/sync-partner-snapshot",
@@ -7344,7 +7345,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -7684,7 +7685,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "materialAdvances",
@@ -7692,7 +7693,7 @@
             "type": "array",
             "required": false,
             "description": "materialAdvances request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "contractLaborId",
@@ -8094,7 +8095,7 @@
     {
       "name": "cxm_post_payment_request_sync_labor_info_by_project_id",
       "title": "Payment Request: Sync Labor Info By Project Id",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/sync-labor-info/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/sync-labor-info/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/sync-labor-info/{projectId}",
@@ -8182,7 +8183,7 @@
     {
       "name": "cxm_post_payment_request_delete_many_detail_payment",
       "title": "Payment Request: Delete Many Detail Payment",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/delete-many-detail-payment. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/delete-many-detail-payment. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/delete-many-detail-payment",
@@ -8330,7 +8331,7 @@
     {
       "name": "cxm_post_payment_request_import_detail_payment",
       "title": "Payment Request: Import Detail Payment",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/import-detail-payment. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/import-detail-payment. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/import-detail-payment",
@@ -8800,7 +8801,7 @@
     {
       "name": "cxm_post_payment_request_reject",
       "title": "Payment Request: Reject",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/reject. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/reject. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/reject",
@@ -8833,7 +8834,7 @@
     {
       "name": "cxm_post_payment_request_cancel",
       "title": "Payment Request: Cancel",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/cancel. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/cancel. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/cancel",
@@ -8987,7 +8988,7 @@
     {
       "name": "cxm_post_payment_request_reject_multi",
       "title": "Payment Request: Reject Multi",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/reject-multi. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/reject-multi. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/reject-multi",
@@ -9075,7 +9076,7 @@
     {
       "name": "cxm_post_payment_request_sync_boq_report_by_project_id",
       "title": "Payment Request: Sync Boq Report By Project Id",
-      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/sync-boq-report/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute PaymentRequest data in CXM. Endpoint: POST /api/app/payment-request/sync-boq-report/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PaymentRequest",
       "method": "POST",
       "path": "/api/app/payment-request/sync-boq-report/{projectId}",
@@ -10712,7 +10713,7 @@
     {
       "name": "cxm_post_project_import",
       "title": "Project: Import",
-      "description": "Execute project master data and project status in CXM. Endpoint: POST /api/app/project/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project master data and project status in CXM. Endpoint: POST /api/app/project/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Project",
       "method": "POST",
       "path": "/api/app/project/import",
@@ -10784,7 +10785,7 @@
     {
       "name": "cxm_post_project_sync_project_members",
       "title": "Project: Sync Project Members",
-      "description": "Execute project master data and project status in CXM. Endpoint: POST /api/app/project/sync-project-members. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project master data and project status in CXM. Endpoint: POST /api/app/project/sync-project-members. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Project",
       "method": "POST",
       "path": "/api/app/project/sync-project-members",
@@ -11186,7 +11187,7 @@
     {
       "name": "cxm_post_project_level_import",
       "title": "Project Level: Import",
-      "description": "Execute ProjectLevel data in CXM. Endpoint: POST /api/app/project-level/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ProjectLevel data in CXM. Endpoint: POST /api/app/project-level/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ProjectLevel",
       "method": "POST",
       "path": "/api/app/project-level/import",
@@ -11322,7 +11323,7 @@
             "type": "array",
             "required": false,
             "description": "roles request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -11515,7 +11516,7 @@
     {
       "name": "cxm_post_purchase_order_import_item",
       "title": "Purchase Order: Import Item",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/import-item",
@@ -11660,7 +11661,7 @@
     {
       "name": "cxm_post_purchase_order_import_extra_quantity",
       "title": "Purchase Order: Import Extra Quantity",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/import-extra-quantity. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/import-extra-quantity. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/import-extra-quantity",
@@ -11788,7 +11789,7 @@
     {
       "name": "cxm_post_purchase_order_project_by_project_id_sync_progress",
       "title": "Purchase Order: Project By Project Id Sync Progress",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/project/{projectId}/sync-progress. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/project/{projectId}/sync-progress. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/project/{projectId}/sync-progress",
@@ -11807,7 +11808,7 @@
     {
       "name": "cxm_post_purchase_order_by_purchase_order_id_sync_progress",
       "title": "Purchase Order: By Purchase Order Id Sync Progress",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/{purchaseOrderId}/sync-progress. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/{purchaseOrderId}/sync-progress. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/{purchaseOrderId}/sync-progress",
@@ -12022,7 +12023,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "additionalCosts",
@@ -12030,7 +12031,7 @@
             "type": "array",
             "required": false,
             "description": "additionalCosts request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "items",
@@ -12038,7 +12039,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "acceptCreateWithWarning",
@@ -12075,7 +12076,7 @@
     {
       "name": "cxm_post_purchase_order_cancel_purchase_order_by_purchase_order_id",
       "title": "Purchase Order: Cancel Purchase Order By Purchase Order Id",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/cancel-purchase-order/{purchaseOrderId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/cancel-purchase-order/{purchaseOrderId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/cancel-purchase-order/{purchaseOrderId}",
@@ -12457,7 +12458,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -12515,7 +12516,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -12542,7 +12543,7 @@
     {
       "name": "cxm_post_purchase_order_sync_contract_version",
       "title": "Purchase Order: Sync Contract Version",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/sync-contract-version. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/sync-contract-version. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/sync-contract-version",
@@ -12677,7 +12678,7 @@
     {
       "name": "cxm_post_purchase_order_reject",
       "title": "Purchase Order: Reject",
-      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/reject. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute purchase-order, allocation, cost-comparison, and process data in CXM. Endpoint: POST /api/app/purchase-order/reject. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "PurchaseOrder",
       "method": "POST",
       "path": "/api/app/purchase-order/reject",
@@ -12736,7 +12737,7 @@
     {
       "name": "cxm_post_quantity_payment_record_import_item",
       "title": "Quantity Payment Record: Import Item",
-      "description": "Execute QuantityPaymentRecord data in CXM. Endpoint: POST /api/app/quantity-payment-record/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute QuantityPaymentRecord data in CXM. Endpoint: POST /api/app/quantity-payment-record/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "QuantityPaymentRecord",
       "method": "POST",
       "path": "/api/app/quantity-payment-record/import-item",
@@ -12871,7 +12872,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "items",
@@ -12879,7 +12880,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -13003,7 +13004,7 @@
     {
       "name": "cxm_post_reallocation_request_update_typical_import",
       "title": "Reallocation Request: Update Typical Import",
-      "description": "Execute ReallocationRequest data in CXM. Endpoint: POST /api/app/reallocation-request/update-typical/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute ReallocationRequest data in CXM. Endpoint: POST /api/app/reallocation-request/update-typical/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "ReallocationRequest",
       "method": "POST",
       "path": "/api/app/reallocation-request/update-typical/import",
@@ -13117,7 +13118,7 @@
             "type": "array",
             "required": false,
             "description": "locationReallocations request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -13442,7 +13443,7 @@
     {
       "name": "cxm_post_sub_contractor_area_diagram_update_many",
       "title": "Sub Contractor Area Diagram: Update Many",
-      "description": "Execute SubContractorAreaDiagram data in CXM. Endpoint: POST /api/app/sub-contractor-area-diagram/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute SubContractorAreaDiagram data in CXM. Endpoint: POST /api/app/sub-contractor-area-diagram/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SubContractorAreaDiagram",
       "method": "POST",
       "path": "/api/app/sub-contractor-area-diagram/update-many",
@@ -13601,7 +13602,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -13609,7 +13610,7 @@
     {
       "name": "cxm_post_sub_contractor_map_delete_matrix_cell",
       "title": "Sub Contractor Map: Delete Matrix Cell",
-      "description": "Execute SubContractorMap data in CXM. Endpoint: POST /api/app/sub-contractor-map/delete-matrix-cell. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute SubContractorMap data in CXM. Endpoint: POST /api/app/sub-contractor-map/delete-matrix-cell. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SubContractorMap",
       "method": "POST",
       "path": "/api/app/sub-contractor-map/delete-matrix-cell",
@@ -13635,7 +13636,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -13697,7 +13698,7 @@
     {
       "name": "cxm_post_supply_contract_import_item",
       "title": "Supply Contract: Import Item",
-      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyContract",
       "method": "POST",
       "path": "/api/app/supply-contract/import-item",
@@ -13851,7 +13852,7 @@
     {
       "name": "cxm_post_supply_contract_import_supply_item",
       "title": "Supply Contract: Import Supply Item",
-      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/import-supply-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/import-supply-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyContract",
       "method": "POST",
       "path": "/api/app/supply-contract/import-supply-item",
@@ -14065,7 +14066,7 @@
     {
       "name": "cxm_post_supply_contract_reject_by_id",
       "title": "Supply Contract: Reject By Id",
-      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/reject/{id}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute supply-contract header, item, document, and process data in CXM. Endpoint: POST /api/app/supply-contract/reject/{id}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyContract",
       "method": "POST",
       "path": "/api/app/supply-contract/reject/{id}",
@@ -14311,7 +14312,7 @@
             "type": "array",
             "required": false,
             "description": "contractValues request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "contractFileId",
@@ -14335,7 +14336,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -14570,7 +14571,7 @@
             "type": "array",
             "required": false,
             "description": "contractValues request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "contractFileId",
@@ -14594,7 +14595,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -14838,7 +14839,7 @@
     {
       "name": "cxm_post_supply_contract_appendix_import_item",
       "title": "Supply Contract Appendix: Import Item",
-      "description": "Execute supply-contract appendix and contract-item data in CXM. Endpoint: POST /api/app/supply-contract-appendix/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute supply-contract appendix and contract-item data in CXM. Endpoint: POST /api/app/supply-contract-appendix/import-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyContractAppendix",
       "method": "POST",
       "path": "/api/app/supply-contract-appendix/import-item",
@@ -15008,7 +15009,7 @@
     {
       "name": "cxm_post_supply_contract_appendix_import_supply_appendix_item",
       "title": "Supply Contract Appendix: Import Supply Appendix Item",
-      "description": "Execute supply-contract appendix and contract-item data in CXM. Endpoint: POST /api/app/supply-contract-appendix/import-supply-appendix-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute supply-contract appendix and contract-item data in CXM. Endpoint: POST /api/app/supply-contract-appendix/import-supply-appendix-item. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyContractAppendix",
       "method": "POST",
       "path": "/api/app/supply-contract-appendix/import-supply-appendix-item",
@@ -15398,7 +15399,7 @@
             "type": "array",
             "required": false,
             "description": "contractAppendixValues request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "items",
@@ -15406,7 +15407,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -15612,7 +15613,7 @@
             "type": "array",
             "required": false,
             "description": "contractAppendixValues request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "items",
@@ -15620,7 +15621,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -15761,7 +15762,7 @@
     {
       "name": "cxm_post_supply_extend_info_sync_from_bim_by_project_by_project_id",
       "title": "Supply Extend Info: Sync From Bim By Project By Project Id",
-      "description": "Execute SupplyExtendInfo data in CXM. Endpoint: POST /api/app/supply-extend-info/sync-from-bim-by-project/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute SupplyExtendInfo data in CXM. Endpoint: POST /api/app/supply-extend-info/sync-from-bim-by-project/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyExtendInfo",
       "method": "POST",
       "path": "/api/app/supply-extend-info/sync-from-bim-by-project/{projectId}",
@@ -15780,7 +15781,7 @@
     {
       "name": "cxm_post_supply_extend_info_sync_from_bim_all_projects",
       "title": "Supply Extend Info: Sync From Bim All Projects",
-      "description": "Execute SupplyExtendInfo data in CXM. Endpoint: POST /api/app/supply-extend-info/sync-from-bim-all-projects. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute SupplyExtendInfo data in CXM. Endpoint: POST /api/app/supply-extend-info/sync-from-bim-all-projects. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "SupplyExtendInfo",
       "method": "POST",
       "path": "/api/app/supply-extend-info/sync-from-bim-all-projects",
@@ -16158,7 +16159,7 @@
     {
       "name": "cxm_post_typical_list_import",
       "title": "Typical List: Import",
-      "description": "Execute TypicalList data in CXM. Endpoint: POST /api/app/typical-list/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute TypicalList data in CXM. Endpoint: POST /api/app/typical-list/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "TypicalList",
       "method": "POST",
       "path": "/api/app/typical-list/import",
@@ -16332,7 +16333,7 @@
     {
       "name": "cxm_post_warehouse_update_many",
       "title": "Warehouse: Update Many",
-      "description": "Execute warehouse master data in CXM. Endpoint: POST /api/app/warehouse/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute warehouse master data in CXM. Endpoint: POST /api/app/warehouse/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Warehouse",
       "method": "POST",
       "path": "/api/app/warehouse/update-many",
@@ -16349,7 +16350,7 @@
     {
       "name": "cxm_post_warehouse_delete_many",
       "title": "Warehouse: Delete Many",
-      "description": "Execute warehouse master data in CXM. Endpoint: POST /api/app/warehouse/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute warehouse master data in CXM. Endpoint: POST /api/app/warehouse/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Warehouse",
       "method": "POST",
       "path": "/api/app/warehouse/delete-many",
@@ -16826,7 +16827,7 @@
     {
       "name": "cxm_post_warehouse_report_import_list",
       "title": "Warehouse Report: Import List",
-      "description": "Execute WarehouseReport data in CXM. Endpoint: POST /api/app/warehouse-report/import-list. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseReport data in CXM. Endpoint: POST /api/app/warehouse-report/import-list. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseReport",
       "method": "POST",
       "path": "/api/app/warehouse-report/import-list",
@@ -18300,7 +18301,7 @@
     {
       "name": "cxm_post_warehouse_temp_price_human_import",
       "title": "Warehouse Temp Price Human: Import",
-      "description": "Execute WarehouseTempPriceHuman data in CXM. Endpoint: POST /api/app/warehouse-temp-price-human/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseTempPriceHuman data in CXM. Endpoint: POST /api/app/warehouse-temp-price-human/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTempPriceHuman",
       "method": "POST",
       "path": "/api/app/warehouse-temp-price-human/import",
@@ -18380,7 +18381,7 @@
     {
       "name": "cxm_post_warehouse_temp_price_human_sync_warehouse_temp_price_humans_by_project_id",
       "title": "Warehouse Temp Price Human: Sync Warehouse Temp Price Humans By Project Id",
-      "description": "Execute WarehouseTempPriceHuman data in CXM. Endpoint: POST /api/app/warehouse-temp-price-human/sync-warehouse-temp-price-humans/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseTempPriceHuman data in CXM. Endpoint: POST /api/app/warehouse-temp-price-human/sync-warehouse-temp-price-humans/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTempPriceHuman",
       "method": "POST",
       "path": "/api/app/warehouse-temp-price-human/sync-warehouse-temp-price-humans/{projectId}",
@@ -18616,7 +18617,7 @@
     {
       "name": "cxm_post_warehouse_temp_price_material_import",
       "title": "Warehouse Temp Price Material: Import",
-      "description": "Execute WarehouseTempPriceMaterial data in CXM. Endpoint: POST /api/app/warehouse-temp-price-material/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseTempPriceMaterial data in CXM. Endpoint: POST /api/app/warehouse-temp-price-material/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTempPriceMaterial",
       "method": "POST",
       "path": "/api/app/warehouse-temp-price-material/import",
@@ -18704,7 +18705,7 @@
     {
       "name": "cxm_post_warehouse_temp_price_material_sync_warehouse_temp_price_material_by_project_id",
       "title": "Warehouse Temp Price Material: Sync Warehouse Temp Price Material By Project Id",
-      "description": "Execute WarehouseTempPriceMaterial data in CXM. Endpoint: POST /api/app/warehouse-temp-price-material/sync-warehouse-temp-price-material/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseTempPriceMaterial data in CXM. Endpoint: POST /api/app/warehouse-temp-price-material/sync-warehouse-temp-price-material/{projectId}. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTempPriceMaterial",
       "method": "POST",
       "path": "/api/app/warehouse-temp-price-material/sync-warehouse-temp-price-material/{projectId}",
@@ -19116,7 +19117,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "items",
@@ -19124,7 +19125,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "additionalCosts",
@@ -19132,7 +19133,7 @@
             "type": "array",
             "required": false,
             "description": "additionalCosts request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "acceptCreateWithWarning",
@@ -19219,7 +19220,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -19284,7 +19285,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -19725,7 +19726,7 @@
     {
       "name": "cxm_post_warehouse_transaction_sync_warehouse_inventory_balances",
       "title": "Warehouse Transaction: Sync Warehouse Inventory Balances",
-      "description": "Execute inventory movement, allocation, transfer, and partner data in CXM. Endpoint: POST /api/app/warehouse-transaction/sync-warehouse-inventory-balances. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute inventory movement, allocation, transfer, and partner data in CXM. Endpoint: POST /api/app/warehouse-transaction/sync-warehouse-inventory-balances. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTransaction",
       "method": "POST",
       "path": "/api/app/warehouse-transaction/sync-warehouse-inventory-balances",
@@ -19929,7 +19930,7 @@
     {
       "name": "cxm_post_warehouse_transaction_import_export_for_construction_allocation_detail",
       "title": "Warehouse Transaction: Import Export For Construction Allocation Detail",
-      "description": "Execute inventory movement, allocation, transfer, and partner data in CXM. Endpoint: POST /api/app/warehouse-transaction/import-export-for-construction-allocation-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute inventory movement, allocation, transfer, and partner data in CXM. Endpoint: POST /api/app/warehouse-transaction/import-export-for-construction-allocation-detail. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTransaction",
       "method": "POST",
       "path": "/api/app/warehouse-transaction/import-export-for-construction-allocation-detail",
@@ -20437,7 +20438,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "isDirectlyExport",
@@ -20483,7 +20484,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "additionalCosts",
@@ -20491,7 +20492,7 @@
             "type": "array",
             "required": false,
             "description": "additionalCosts request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "hyperLinks",
@@ -20499,7 +20500,7 @@
             "type": "array",
             "required": false,
             "description": "hyperLinks request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "exchangeRate",
@@ -20917,7 +20918,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "isDirectlyExport",
@@ -20963,7 +20964,7 @@
             "type": "array",
             "required": false,
             "description": "items request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "additionalCosts",
@@ -20971,7 +20972,7 @@
             "type": "array",
             "required": false,
             "description": "additionalCosts request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "hyperLinks",
@@ -20979,7 +20980,7 @@
             "type": "array",
             "required": false,
             "description": "hyperLinks request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "exchangeRate",
@@ -21173,7 +21174,7 @@
             "type": "array",
             "required": false,
             "description": "materials request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           },
           {
             "name": "dryRun",
@@ -21269,6 +21270,74 @@
       "tag": "WarehouseTransaction",
       "method": "POST",
       "path": "/api/app/warehouse-transaction/export-project-material-replacement-preflight-check-from-excel/{projectId}",
+      "safety": "write",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "specItemCodeAcolumn",
+          "wireName": "specItemCodeAColumn",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "specItemCodeAColumn query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "specItemCodeBcolumn",
+          "wireName": "specItemCodeBColumn",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "specItemCodeBColumn query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "sheetName",
+          "wireName": "sheetName",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "sheetName query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "headerRowIndex",
+          "wireName": "headerRowIndex",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "headerRowIndex query parameter from the CXM OpenAPI schema.",
+          "default": 1
+        }
+      ],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: file [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "file",
+            "type": "string",
+            "required": false,
+            "description": "file request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "cxm_post_warehouse_transaction_export_project_material_replacement_result_report_from_excel_by_project_id",
+      "title": "Warehouse Transaction: Export Project Material Replacement Result Report From Excel By Project Id",
+      "description": "Execute inventory movement, allocation, transfer, and partner data in CXM. Endpoint: POST /api/app/warehouse-transaction/export-project-material-replacement-result-report-from-excel/{projectId}. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "WarehouseTransaction",
+      "method": "POST",
+      "path": "/api/app/warehouse-transaction/export-project-material-replacement-result-report-from-excel/{projectId}",
       "safety": "write",
       "parameters": [
         {
@@ -21441,7 +21510,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -21592,7 +21661,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -21743,7 +21812,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -21751,7 +21820,7 @@
     {
       "name": "cxm_post_warehouse_transaction_import_import",
       "title": "Warehouse Transaction Import: Import",
-      "description": "Execute WarehouseTransactionImport data in CXM. Endpoint: POST /api/app/warehouse-transaction-import/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute WarehouseTransactionImport data in CXM. Endpoint: POST /api/app/warehouse-transaction-import/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WarehouseTransactionImport",
       "method": "POST",
       "path": "/api/app/warehouse-transaction-import/import",
@@ -21894,7 +21963,7 @@
             "type": "array",
             "required": false,
             "description": "towers request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -22043,7 +22112,7 @@
             "type": "array",
             "required": false,
             "description": "steps request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -22077,7 +22146,7 @@
             "type": "array",
             "required": false,
             "description": "steps request-body field from the CXM OpenAPI schema.",
-            "itemType": "string"
+            "itemType": "object"
           }
         ]
       }
@@ -22104,7 +22173,7 @@
     {
       "name": "cxm_post_workflow_by_id_deactivate_workflow_definition",
       "title": "Workflow: By Id Deactivate Workflow Definition",
-      "description": "Execute workflow definition, instance, approval-step, and approver data in CXM. Endpoint: POST /api/app/workflow/{id}/deactivate-workflow-definition. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute workflow definition, instance, approval-step, and approver data in CXM. Endpoint: POST /api/app/workflow/{id}/deactivate-workflow-definition. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Workflow",
       "method": "POST",
       "path": "/api/app/workflow/{id}/deactivate-workflow-definition",
@@ -22213,7 +22282,7 @@
     {
       "name": "cxm_post_workflow_reject_step",
       "title": "Workflow: Reject Step",
-      "description": "Execute workflow definition, instance, approval-step, and approver data in CXM. Endpoint: POST /api/app/workflow/reject-step. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute workflow definition, instance, approval-step, and approver data in CXM. Endpoint: POST /api/app/workflow/reject-step. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "Workflow",
       "method": "POST",
       "path": "/api/app/workflow/reject-step",
@@ -22419,7 +22488,7 @@
     {
       "name": "cxm_post_work_package_import_data",
       "title": "Work Package: Import Data",
-      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/import-data. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/import-data. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WorkPackage",
       "method": "POST",
       "path": "/api/app/work-package/import-data",
@@ -22679,7 +22748,7 @@
     {
       "name": "cxm_post_work_package_update_many",
       "title": "Work Package: Update Many",
-      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/update-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WorkPackage",
       "method": "POST",
       "path": "/api/app/work-package/update-many",
@@ -22696,7 +22765,7 @@
     {
       "name": "cxm_post_work_package_delete_many",
       "title": "Work Package: Delete Many",
-      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/delete-many. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WorkPackage",
       "method": "POST",
       "path": "/api/app/work-package/delete-many",
@@ -22853,7 +22922,7 @@
     {
       "name": "cxm_post_work_package_import",
       "title": "Work Package: Import",
-      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation.",
+      "description": "Execute project work-package data in CXM. Endpoint: POST /api/app/work-package/import. Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
       "tag": "WorkPackage",
       "method": "POST",
       "path": "/api/app/work-package/import",
@@ -22926,6 +22995,49 @@
             "required": false,
             "description": "maxResultCount request-body field from the CXM OpenAPI schema.",
             "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "cxm_put_permissions_permission_management_permissions",
+      "title": "Permissions: Permission Management Permissions",
+      "description": "Execute Permissions data in CXM. Endpoint: PUT /api/permission-management/permissions. Warning: this PUT may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Permissions",
+      "method": "PUT",
+      "path": "/api/permission-management/permissions",
+      "safety": "destructive",
+      "parameters": [
+        {
+          "name": "providerName",
+          "wireName": "providerName",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "providerName query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "providerKey",
+          "wireName": "providerKey",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "providerKey query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: permissions.",
+        "fields": [
+          {
+            "name": "permissions",
+            "wireName": "permissions",
+            "type": "array",
+            "required": false,
+            "description": "permissions request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
           }
         ]
       }

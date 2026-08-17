@@ -142,10 +142,12 @@ export function createInputSchema(tool: ToolDefinition): z.ZodObject<z.ZodRawSha
         "Required confirmation: this GET endpoint name suggests server-side synchronization.",
       );
   }
-  if (tool.method === "POST") {
+  if (tool.method !== "GET") {
     shape.confirmWrite = z
       .literal(true)
-      .describe("Required confirmation that the agent may execute this CXM POST request.");
+      .describe(
+        `Required confirmation that the agent may execute this CXM ${tool.method} request.`,
+      );
   }
   if (tool.safety === "destructive") {
     shape.confirmDestructive = z
@@ -189,19 +191,21 @@ export function createCxmMcpServer(
 ): McpServer {
   const getCount = tools.filter((tool) => tool.method === "GET").length;
   const postCount = tools.filter((tool) => tool.method === "POST").length;
+  const putCount = tools.filter((tool) => tool.method === "PUT").length;
+  const breakdown = [`${getCount} GET`, `${postCount} POST`, ...(putCount ? [`${putCount} PUT`] : [])];
   const server = new McpServer(
     {
       name: instanceName,
       version: "1.0.0",
       description:
-        "Allowlisted GET and POST access to HICAS CXM for agent-assisted data QC and controlled operations.",
+        "Allowlisted GET, POST and PUT access to HICAS CXM for agent-assisted data QC and controlled operations.",
     },
     {
       instructions:
-        `This server exposes ${tools.length} allowlisted CXM tools (${getCount} GET and ${postCount} POST). ` +
+        `This server exposes ${tools.length} allowlisted CXM tools (${breakdown.join(", ")}). ` +
         "Use GET tools to cross-check projects, contracts, purchase orders, warehouses, transactions, payments, " +
         "fiscal periods, and workflow state. Paginate instead of requesting large result sets. " +
-        "Every POST call requires confirmWrite=true. Tools marked destructive also require " +
+        "Every POST and PUT call requires confirmWrite=true. Tools marked destructive also require " +
         "confirmDestructive=true; confirm exact targets and payloads with the user before calling them.",
     },
   );
@@ -216,12 +220,12 @@ export function createCxmMcpServer(
             idempotentHint: true,
             openWorldHint: true,
           }
-        : tool.method === "POST"
+        : tool.method !== "GET"
           ? {
               title: tool.title,
               readOnlyHint: false,
               destructiveHint: tool.safety === "destructive",
-              idempotentHint: false,
+              idempotentHint: tool.method === "PUT",
               openWorldHint: true,
             }
           : {

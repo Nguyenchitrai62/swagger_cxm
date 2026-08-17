@@ -27,13 +27,28 @@ const excludedAdministrationTags = new Set([
   "DynamicClaims",
 ]);
 
-test("frozen allowlist contains all 183 non-administration GET tools", () => {
+// The administration surface stays closed except for these five endpoints, which
+// exist so an agent can read and rewrite role permissions during permission testing.
+const admittedAdministrationEndpoints = new Set([
+  "GET /api/permission-management/permissions",
+  "PUT /api/permission-management/permissions",
+  "GET /api/identity/roles/all",
+  "GET /api/identity/users/by-username/{userName}",
+  "GET /api/identity/users/{id}/roles",
+]);
+
+const isAdmitted = (tool: { method: string; path: string }): boolean =>
+  admittedAdministrationEndpoints.has(`${tool.method} ${tool.path}`);
+
+test("frozen allowlist contains all 187 GET tools", () => {
   const config = loadToolConfig();
-  assert.equal(config.tools.length, 183);
-  assert.equal(new Set(config.tools.map((tool) => tool.name)).size, 183);
+  assert.equal(config.tools.length, 187);
+  assert.equal(new Set(config.tools.map((tool) => tool.name)).size, 187);
   assert.ok(config.tools.every((tool) => tool.method === "GET"));
-  assert.equal(config.selectedTags.length, 47);
-  assert.ok(config.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+  assert.equal(config.selectedTags.length, 50);
+  assert.ok(
+    config.tools.every((tool) => isAdmitted(tool) || !excludedAdministrationTags.has(tool.tag)),
+  );
   assert.ok(config.tools.every((tool) => !tool.path.includes("/admin/")));
   assert.equal(config.tools.filter((tool) => tool.tag === "PaymentRequest").length, 23);
   assert.equal(config.tools.filter((tool) => tool.tag === "Project").length, 4);
@@ -60,17 +75,47 @@ test("list endpoints are capped and the synchronization endpoint requires review
   );
 });
 
-test("write allowlist contains 347 confirmed non-administration POST tools", () => {
+test("write allowlist contains 349 confirmed write tools", () => {
   const config = loadToolConfig("config/write-tools.json");
-  assert.equal(config.tools.length, 347);
-  assert.ok(config.tools.every((tool) => tool.method === "POST"));
+  assert.equal(config.tools.length, 349);
+  assert.equal(config.tools.filter((tool) => tool.method === "POST").length, 348);
+  assert.equal(config.tools.filter((tool) => tool.method === "PUT").length, 1);
   assert.ok(config.tools.every((tool) => ["write", "destructive"].includes(tool.safety)));
-  assert.ok(config.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+  assert.ok(
+    config.tools.every((tool) => isAdmitted(tool) || !excludedAdministrationTags.has(tool.tag)),
+  );
   assert.ok(config.tools.every((tool) => !tool.path.includes("/admin/")));
-  assert.equal(config.tools.filter((tool) => tool.safety === "destructive").length, 73);
-  assert.equal(config.tools.filter((tool) => tool.requestBody?.mode === "json").length, 260);
-  assert.equal(config.tools.filter((tool) => tool.requestBody?.mode === "multipart").length, 25);
+  assert.equal(config.tools.filter((tool) => tool.safety === "destructive").length, 74);
+  assert.equal(config.tools.filter((tool) => tool.requestBody?.mode === "json").length, 261);
+  assert.equal(config.tools.filter((tool) => tool.requestBody?.mode === "multipart").length, 26);
   assert.equal(config.tools.filter((tool) => !tool.requestBody).length, 62);
+});
+
+test("only the five listed administration endpoints are reachable", () => {
+  const tools = [
+    ...loadToolConfig().tools,
+    ...loadToolConfig("config/write-tools.json").tools,
+  ];
+  const administration = tools
+    .filter((tool) => excludedAdministrationTags.has(tool.tag))
+    .map((tool) => `${tool.method} ${tool.path}`)
+    .sort();
+
+  assert.deepEqual(administration, [...admittedAdministrationEndpoints].sort());
+
+  // Reading a user's roles is admitted; rewriting them must never be.
+  assert.ok(
+    !tools.some((tool) => tool.method === "PUT" && tool.path === "/api/identity/users/{id}/roles"),
+  );
+  // The one PUT in the allowlist overwrites an entire role's permission set.
+  const puts = tools.filter((tool) => tool.method === "PUT");
+  assert.equal(puts.length, 1);
+  assert.equal(puts[0]?.path, "/api/permission-management/permissions");
+  assert.equal(puts[0]?.safety, "destructive");
+  assert.equal(
+    puts[0]?.requestBody?.fields.find((field) => field.wireName === "permissions")?.itemType,
+    "object",
+  );
 });
 
 test("SIT uses an independently frozen GET and POST allowlist", () => {

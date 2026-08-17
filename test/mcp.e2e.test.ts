@@ -29,7 +29,7 @@ function close(server: Server): Promise<void> {
   );
 }
 
-test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", async (t) => {
+test("one MCP endpoint lists all 536 tools and forwards GET and POST calls", async (t) => {
   const config = loadToolConfig();
   const writeConfig = loadToolConfig("config/write-tools.json");
   const requests: Array<{
@@ -94,9 +94,9 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
     endpoint: "/mcp",
     login: "/auth/login?MCP_KEY=<YOUR_KEY>",
     health: "/healthz",
-    readTools: 183,
-    writeTools: 347,
-    totalTools: 530,
+    readTools: 187,
+    writeTools: 349,
+    totalTools: 536,
     authentication: ["MCP_KEY query parameter", "Authorization Bearer header"],
   });
 
@@ -134,7 +134,7 @@ test("one MCP endpoint lists all 530 tools and forwards GET and POST calls", asy
   assert.equal(client.getServerVersion()?.name, "hicas-cxm-test");
 
   const listed = await client.listTools();
-  assert.equal(listed.tools.length, 530);
+  assert.equal(listed.tools.length, 536);
   const toolsListBytes = Buffer.byteLength(JSON.stringify(listed));
   assert.ok(
     toolsListBytes < 2 * 1024 * 1024,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T09:15:33.968Z",
+  "generatedAt": "2026-08-17T05:31:24.685Z",
   "sourceOpenApi": "https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json",
   "sourceTitle": "CxmApi API",
   "selectedTags": [
@@ -23,6 +23,7 @@
     "MaterialAcceptanceCertificate",
     "Party",
     "PaymentRequest",
+    "Permissions",
     "Project",
     "ProjectFunction",
     "ProjectLevel",
@@ -33,6 +34,7 @@
     "QuantityPaymentRecord",
     "ReallocationRequest",
     "Region",
+    "Role",
     "State",
     "StatusManage",
     "SubContractorAreaDiagram",
@@ -42,6 +44,7 @@
     "SupplyContractAppendix",
     "SupplyContractExchangeRate",
     "TypicalList",
+    "User",
     "Warehouse",
     "WarehousePriceExportAllowPeriod",
     "WarehouseTempPriceHuman",
@@ -5498,6 +5501,33 @@
       ]
     },
     {
+      "name": "cxm_permissions_permission_management_permissions",
+      "title": "Permissions: Permission Management Permissions",
+      "description": "Read Permissions data in CXM. Endpoint: GET /api/permission-management/permissions.",
+      "tag": "Permissions",
+      "method": "GET",
+      "path": "/api/permission-management/permissions",
+      "safety": "read-only",
+      "parameters": [
+        {
+          "name": "providerName",
+          "wireName": "providerName",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "providerName query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "providerKey",
+          "wireName": "providerKey",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "providerKey query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
       "name": "cxm_project_list",
       "title": "Project: List",
       "description": "Read project master data and project status in CXM. Endpoint: GET /api/app/project.",
@@ -7144,6 +7174,16 @@
       ]
     },
     {
+      "name": "cxm_role_identity_roles_all",
+      "title": "Role: Identity Roles All",
+      "description": "Read Role data in CXM. Endpoint: GET /api/identity/roles/all.",
+      "tag": "Role",
+      "method": "GET",
+      "path": "/api/identity/roles/all",
+      "safety": "read-only",
+      "parameters": []
+    },
+    {
       "name": "cxm_state_list",
       "title": "State: List",
       "description": "Read State data in CXM. Endpoint: GET /api/app/state.",
@@ -8288,6 +8328,44 @@
           "type": "string",
           "required": true,
           "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "cxm_user_identity_users_by_id_roles",
+      "title": "User: Identity Users By Id Roles",
+      "description": "Read User data in CXM. Endpoint: GET /api/identity/users/{id}/roles.",
+      "tag": "User",
+      "method": "GET",
+      "path": "/api/identity/users/{id}/roles",
+      "safety": "read-only",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "cxm_user_identity_users_by_username_by_user_name",
+      "title": "User: Identity Users By Username By User Name",
+      "description": "Read User data in CXM. Endpoint: GET /api/identity/users/by-username/{userName}.",
+      "tag": "User",
+      "method": "GET",
+      "path": "/api/identity/users/by-username/{userName}",
+      "safety": "read-only",
+      "parameters": [
+        {
+          "name": "userName",
+          "wireName": "userName",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "userName path parameter from the CXM OpenAPI schema."
         }
       ]
     },

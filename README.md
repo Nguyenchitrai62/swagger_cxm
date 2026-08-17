@@ -1,7 +1,7 @@
 # HICAS CXM MCP
 
-MCP server chuẩn Streamable HTTP, chuyển tiếp 183 endpoint `GET` và 347 endpoint
-`POST` nghiệp vụ qua duy nhất `/mcp`. Mục tiêu chính là để
+MCP server chuẩn Streamable HTTP, chuyển tiếp 187 endpoint `GET`, 348 endpoint
+`POST` và 1 endpoint `PUT` qua duy nhất `/mcp`. Mục tiêu chính là để
 agent tra cứu, đối chiếu và thực hiện thao tác CXM có kiểm soát.
 liệu phục vụ QC: dự án, hợp đồng, PO, kho, giao dịch kho, giá bình quân, kỳ tài
 chính và trạng thái workflow.
@@ -11,15 +11,20 @@ OpenAPI nguồn:
 - UAT: `https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json`.
 - SIT: `https://api.hawee.hicas.vn/swagger/v1/swagger.json`.
 
-## Phạm vi 530 tool
+## Phạm vi 536 tool
 
-| Method | Swagger | Quản trị bị loại | MCP nghiệp vụ |
+| Method | Swagger | Quản trị bị loại | MCP |
 |---|---:|---:|---:|
-| GET | 227 | 44 | 183 |
-| POST | 393 | 46 | 347 |
-| **Tổng** | **620** | **90** | **530** |
+| GET | 227 | 40 | 187 |
+| POST | 394 | 46 | 348 |
+| PUT | 78 | 77 | 1 |
+| **Tổng** | **699** | **163** | **536** |
 
-GET MCP giữ 47 tag nghiệp vụ; POST MCP giữ 53 tag nghiệp vụ. Các tag quản trị bị loại: `AbpApiDefinition`,
+Trong đó 5 tool là endpoint quản trị được mở có chủ đích để phục vụ test phân
+quyền (xem [Endpoint quản trị được mở](#endpoint-quản-trị-được-mở)); 531 tool
+còn lại là nghiệp vụ.
+
+GET MCP giữ 50 tag; POST/PUT MCP giữ 54 tag. Các tag quản trị bị loại: `AbpApiDefinition`,
 `AbpApplicationConfiguration`, `AbpApplicationLocalization`, `Permissions`,
 `Features`, `Login`, `Profile`, `Tenant`, `AbpTenant`, `User`, `CxmUser`,
 `UserLookup`, `Role`, `OrganizationUnit`, `TimeZoneSettings`, `EmailSettings`,
@@ -35,6 +40,33 @@ MCP.
 SIT có snapshot độc lập tại `config/sit/tools.json` và
 `config/sit/write-tools.json`. Hai snapshot có thể khác nhau khi SIT và UAT đang
 chạy các phiên bản API khác nhau.
+
+### Endpoint quản trị được mở
+
+Tag quản trị vẫn bị loại theo mặc định. Riêng 5 endpoint dưới đây được mở lẻ qua
+`includedEndpoints` trong `config/selected-groups.json`, để agent có thể đọc và
+ghi lại tập quyền của một role khi test phân quyền:
+
+| Method | Endpoint | Safety | Dùng để |
+|---|---|---|---|
+| GET | `/api/permission-management/permissions` | read-only | Đọc cây quyền của role hoặc user |
+| PUT | `/api/permission-management/permissions` | destructive | Ghi đè toàn bộ tập quyền của role |
+| GET | `/api/identity/roles/all` | read-only | Liệt kê role |
+| GET | `/api/identity/users/by-username/{userName}` | read-only | Tra user theo username |
+| GET | `/api/identity/users/{id}/roles` | read-only | Đọc role của một user |
+
+`includedEndpoints` khớp theo đúng cặp `METHOD + path`, nên mở
+`GET /api/identity/users/{id}/roles` không kéo theo `PUT` cùng path — API đổi
+role của user vẫn nằm ngoài MCP.
+
+`PUT` là opt-in tuyệt đối: endpoint `PUT` chỉ được sinh khi có tên trong
+`includedEndpoints`, không bao giờ theo tag. Swagger UAT có 78 `PUT`, MCP mở
+đúng 1.
+
+`PUT /api/permission-management/permissions` **ghi đè** tập quyền chứ không
+merge: quyền không có trong payload sẽ bị tắt. Tool này gắn safety
+`destructive`, cần cả `confirmWrite=true` lẫn `confirmDestructive=true`. Hãy sao
+lưu cây quyền bằng `GET` trước khi ghi.
 
 ## Chạy local
 
@@ -86,7 +118,7 @@ bằng trình duyệt sẽ chuyển tới trang đăng nhập CXM; MCP client m�
 `initialize`, `tools/list` và `tools/call` trên chính URL đó.
 
 Agent chỉ cần cài URL này thành một MCP server. Với Agent_bot/Gemini Live,
-không nên bật đồng thời toàn bộ 347 POST; hãy block các nhóm không dùng và
+không nên bật đồng thời toàn bộ 348 POST; hãy block các nhóm không dùng và
 chỉ bật nhóm POST cần cho phiên hiện tại để tránh vượt giới hạn function của model.
 
 Input POST JSON dùng trường `body`. Multipart dùng `form` và `files`, trong đó
@@ -240,9 +272,11 @@ service này.
 - Chỉ path và method trong `config/tools.json` hoặc `config/write-tools.json`
   mới được gọi; agent không thể
   cung cấp URL tùy ý.
-- `/mcp` chứa cả GET và POST nghiệp vụ; không chứa API quản trị.
-- Mọi POST bắt buộc `confirmWrite: true`; 73 POST bulk/import/sync/cancel/reject/
-  reset/delete còn bắt buộc `confirmDestructive: true`.
+- `/mcp` chứa GET/POST nghiệp vụ cộng đúng 5 endpoint quản trị được liệt kê ở
+  [Endpoint quản trị được mở](#endpoint-quản-trị-được-mở); không có API quản trị
+  nào khác.
+- Mọi POST và PUT bắt buộc `confirmWrite: true`; 74 tool bulk/import/sync/cancel/
+  reject/reset/delete/ghi-đè-quyền còn bắt buộc `confirmDestructive: true`.
 - JSON body tối đa 1 MiB; tổng file upload mặc định tối đa 10 MiB; tối đa 10 file.
 - `MaxResultCount` mặc định là 25 và bị giới hạn tối đa 100.
 - Timeout mặc định 30 giây; phản hồi tối đa 512 KiB.
@@ -270,7 +304,7 @@ CXM tại đây, chọn duy trì đăng nhập rồi bấm **Đăng nhập CXM**
 đăng nhập qua HTTPS tới `/connect/token`, chỉ giữ access token trong bộ nhớ và
 không lưu mật khẩu. Nếu chọn duy trì đăng nhập, chỉ refresh token được lưu trong
 `CXM_REFRESH_TOKEN_FILE`; đây là credential nhạy cảm của tài khoản. Sau khi thành công, agent dùng duy nhất
-`/mcp?MCP_KEY=...` cho toàn bộ 183 GET và 347 POST.
+`/mcp?MCP_KEY=...` cho toàn bộ 187 GET, 348 POST và 1 PUT.
 
 MCP client không phải trình duyệt nên không thể tự hiển thị form HTML. Vì vậy,
 mỗi lần service restart mà chưa có refresh token đã lưu, hãy mở URL trên bằng
@@ -355,7 +389,9 @@ npm run check
 
 Bộ test kiểm tra:
 
-- đúng 183 GET và 347 POST, không chứa tag/path quản trị;
+- đúng 187 GET, 348 POST và 1 PUT;
+- chỉ đúng 5 endpoint quản trị được mở, và `PUT /api/identity/users/{id}/roles`
+  không bao giờ lọt vào allowlist;
 - không trùng tool/path/method;
 - chuyển đổi path/query parameter đúng OpenAPI;
 - giới hạn phân trang;

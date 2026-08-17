@@ -9,10 +9,22 @@ interface SelectedGroups {
   expectedGetToolCount: number;
   expectedSourcePostCount: number;
   expectedPostToolCount: number;
+  expectedSourcePutCount?: number;
+  expectedPutToolCount?: number;
   excludedTags: string[];
   excludedPaths: string[];
   reviewPaths: string[];
+  /**
+   * Administration endpoints re-admitted one at a time, written as "METHOD /path".
+   * Tag-level exclusion stays in force for everything else, so opening
+   * "GET /api/identity/users/{id}/roles" never also opens the PUT that rewrites them.
+   */
+  includedEndpoints?: string[];
+  /** Endpoints forced to `destructive` regardless of their path shape. */
+  destructiveEndpoints?: string[];
 }
+
+type HttpMethod = "GET" | "POST" | "PUT";
 
 interface GeneratedParameter {
   name: string;
@@ -32,7 +44,7 @@ interface GeneratedBodyField {
   name: string;
   wireName: string;
   type: GeneratedParameter["type"];
-  itemType?: GeneratedParameter["itemType"];
+  itemType?: GeneratedParameter["itemType"] | "object";
   required: boolean;
   description: string;
   format?: string;
@@ -263,7 +275,9 @@ function generateRequestBody(operation: JsonObject, openApi: JsonObject): Genera
     if (type === "array") {
       const items = expandObjectSchema(field.items, openApi);
       const itemType = mapType(items);
-      generated.itemType = itemType === "array" || itemType === "object" ? "string" : itemType;
+      // Object elements stay objects: collapsing them to strings made every
+      // array-of-object body field reject its own documented payload.
+      generated.itemType = itemType === "array" ? "string" : itemType;
       if (typeof items.format === "string" && !generated.format) generated.format = items.format;
     }
     fields.push(generated);
@@ -288,10 +302,10 @@ function pathRootForTag(tag: string): string {
 function generateToolName(
   tag: string,
   path: string,
-  method: "GET" | "POST",
+  method: HttpMethod,
   used: Set<string>,
 ): string {
-  const prefix = method === "POST" ? `cxm_post_${snake(tag)}` : `cxm_${snake(tag)}`;
+  const prefix = method === "GET" ? `cxm_${snake(tag)}` : `cxm_${method.toLowerCase()}_${snake(tag)}`;
   const root = pathRootForTag(tag);
   let remainder = path.startsWith(root) ? path.slice(root.length) : path.replace(/^\/api\//, "");
 
@@ -322,13 +336,29 @@ function generateToolName(
   return candidate;
 }
 
-function postSafety(path: string): "write" | "destructive" {
+function writeSafety(
+  selected: SelectedGroups,
+  path: string,
+  method: HttpMethod,
+): "write" | "destructive" {
+  if ((selected.destructiveEndpoints ?? []).includes(`${method} ${path}`)) return "destructive";
   return /(?:^|\/)(?:delete|delete-many|remove|cancel|reject|revoke|reset|clear|terminate|deactivate|rollback|import|sync|update-many)(?:\/|$|-)/i.test(path)
     ? "destructive"
     : "write";
 }
 
-function shouldExclude(selected: SelectedGroups, tag: string, path: string): boolean {
+function shouldExclude(
+  selected: SelectedGroups,
+  tag: string,
+  path: string,
+  method: HttpMethod,
+): boolean {
+  // An explicit per-endpoint opt-in outranks the tag and /admin/ exclusions, but
+  // only for the exact method listed.
+  if ((selected.includedEndpoints ?? []).includes(`${method} ${path}`)) return false;
+  // PUT is opt-in only. Tag-based inclusion would otherwise hand the agent every
+  // update endpoint in the API the moment PUT generation was switched on.
+  if (method === "PUT") return true;
   return (
     selected.excludedTags.includes(tag) ||
     selected.excludedPaths.includes(path) ||
@@ -339,8 +369,8 @@ function shouldExclude(selected: SelectedGroups, tag: string, path: string): boo
 function createOutput(
   openApi: JsonObject,
   selected: SelectedGroups,
-  method: "GET" | "POST",
-): { output: JsonObject; sourceCount: number; excludedCount: number; toolCount: number } {
+  method: HttpMethod,
+): { output: JsonObject; sourceCount: number; excludedCount: number; toolCount: number; tools: JsonObject[]; tags: Set<string> } {
   const paths = isObject(openApi.paths) ? openApi.paths : {};
   const tools: JsonObject[] = [];
   const usedToolNames = new Set<string>();
@@ -356,7 +386,7 @@ function createOutput(
     const tags = Array.isArray(operation.tags) ? operation.tags : [];
     const tag = tags.find((candidate): candidate is string => typeof candidate === "string");
     if (!tag) throw new Error(`${method} ${path} has no OpenAPI tag; review its classification`);
-    if (shouldExclude(selected, tag, path)) {
+    if (shouldExclude(selected, tag, path, method)) {
       excludedCount += 1;
       continue;
     }
@@ -372,7 +402,7 @@ function createOutput(
       .filter((parameter): parameter is GeneratedParameter => parameter !== undefined);
     const safety = method === "GET"
       ? selected.reviewPaths.includes(path) ? "review" : "read-only"
-      : postSafety(path);
+      : writeSafety(selected, path, method);
     const generatedName = generateToolName(tag, path, method, usedToolNames);
     const operationDescription =
       typeof operation.description === "string" && operation.description.trim()
@@ -383,15 +413,18 @@ function createOutput(
     const warning = safety === "review"
       ? " Warning: despite using GET, this endpoint name suggests possible server-side synchronization and requires explicit confirmation."
       : safety === "destructive"
-        ? " Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, or deletion action and requires destructive confirmation."
+        ? ` Warning: this ${method} may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.`
         : safety === "write"
-          ? " Warning: this POST may change CXM data and requires explicit write confirmation."
+          ? ` Warning: this ${method} may change CXM data and requires explicit write confirmation.`
           : "";
-    const requestBody = method === "POST" ? generateRequestBody(operation, openApi) : undefined;
+    const requestBody = method === "GET" ? undefined : generateRequestBody(operation, openApi);
+    const namePrefix = method === "GET"
+      ? `cxm_${snake(tag)}_`
+      : `cxm_${method.toLowerCase()}_${snake(tag)}_`;
 
     tools.push({
       name: generatedName,
-      title: `${title(tag)}: ${title(generatedName.replace(method === "POST" ? `cxm_post_${snake(tag)}_` : `cxm_${snake(tag)}_`, ""))}`,
+      title: `${title(tag)}: ${title(generatedName.replace(namePrefix, ""))}`,
       description: `${operationDescription}${warning}`,
       tag,
       method,
@@ -406,6 +439,8 @@ function createOutput(
     sourceCount,
     excludedCount,
     toolCount: tools.length,
+    tools,
+    tags: includedTags,
     output: {
       generatedAt: new Date().toISOString(),
       sourceOpenApi: selected.sourceOpenApi,
@@ -455,7 +490,36 @@ async function main(): Promise<void> {
 
   const openApi = (await response.json()) as JsonObject;
   const readResult = createOutput(openApi, selected, "GET");
-  const writeResult = createOutput(openApi, selected, "POST");
+  const postResult = createOutput(openApi, selected, "POST");
+  const putResult = createOutput(openApi, selected, "PUT");
+
+  // PUT tools ship in the same frozen write allowlist as POST: both mutate CXM and
+  // both gate on confirmWrite.
+  const writeResult = {
+    sourceCount: postResult.sourceCount,
+    excludedCount: postResult.excludedCount + putResult.excludedCount,
+    toolCount: postResult.toolCount + putResult.toolCount,
+    output: {
+      ...postResult.output,
+      selectedTags: [...new Set([...postResult.tags, ...putResult.tags])].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+      tools: [...postResult.tools, ...putResult.tools],
+    },
+  };
+
+  if (putResult.sourceCount !== (selected.expectedSourcePutCount ?? 0)) {
+    throw new Error(
+      `Expected ${selected.expectedSourcePutCount ?? 0} source PUT endpoints but found ${putResult.sourceCount}. ` +
+        "The upstream OpenAPI changed; review the administration exclusions.",
+    );
+  }
+  if (putResult.toolCount !== (selected.expectedPutToolCount ?? 0)) {
+    throw new Error(
+      `Expected ${selected.expectedPutToolCount ?? 0} PUT tools but generated ${putResult.toolCount}. ` +
+        "PUT endpoints are only admitted one at a time through includedEndpoints.",
+    );
+  }
   if (readResult.sourceCount !== selected.expectedSourceGetCount) {
     throw new Error(
       `Expected ${selected.expectedSourceGetCount} source GET endpoints but found ${readResult.sourceCount}. ` +
@@ -474,9 +538,9 @@ async function main(): Promise<void> {
         "The upstream OpenAPI may have changed; review before updating the frozen allowlist.",
     );
   }
-  if (writeResult.toolCount !== selected.expectedPostToolCount) {
+  if (postResult.toolCount !== selected.expectedPostToolCount) {
     throw new Error(
-      `Expected ${selected.expectedPostToolCount} POST tools but generated ${writeResult.toolCount}. ` +
+      `Expected ${selected.expectedPostToolCount} POST tools but generated ${postResult.toolCount}. ` +
         "The upstream OpenAPI may have changed; review before updating the frozen allowlist.",
     );
   }
@@ -484,8 +548,9 @@ async function main(): Promise<void> {
   await writeFile(writeOutputPath, `${JSON.stringify(writeResult.output, null, 2)}\n`, "utf8");
   process.stdout.write(
     `Generated ${profile.toUpperCase()} allowlists: ` +
-      `${readResult.toolCount} GET tools (${readResult.excludedCount} excluded) and ` +
-      `${writeResult.toolCount} POST tools (${writeResult.excludedCount} excluded).\n`,
+      `${readResult.toolCount} GET tools (${readResult.excludedCount} excluded), ` +
+      `${postResult.toolCount} POST tools (${postResult.excludedCount} excluded) and ` +
+      `${putResult.toolCount} PUT tools (${putResult.excludedCount} excluded).\n`,
   );
 }
 

@@ -200,11 +200,12 @@ export class CxmApiClient {
     });
     if (this.settings.cxmTenantId) headers.set("__tenant", this.settings.cxmTenantId);
 
+    const sendsBody = tool.method === "POST" || tool.method === "PUT";
     let requestBody: BodyInit | undefined;
-    if (tool.method === "POST" && tool.requestBody?.mode === "json") {
+    if (sendsBody && tool.requestBody?.mode === "json") {
       const mappedBody = mapBodyFields(tool, args.body);
       if (mappedBody === undefined && tool.requestBody.required) {
-        throw new CxmApiError("This POST requires a JSON body", "INVALID_TOOL_ARGUMENTS");
+        throw new CxmApiError(`This ${tool.method} requires a JSON body`, "INVALID_TOOL_ARGUMENTS");
       }
       if (mappedBody !== undefined) {
         const serialized = JSON.stringify(mappedBody);
@@ -217,7 +218,7 @@ export class CxmApiClient {
         headers.set("content-type", "application/json");
         requestBody = serialized;
       }
-    } else if (tool.method === "POST" && tool.requestBody?.mode === "multipart") {
+    } else if (sendsBody && tool.requestBody?.mode === "multipart") {
       const form = new FormData();
       const mappedForm = mapBodyFields(tool, args.form);
       if (mappedForm && typeof mappedForm === "object" && !Array.isArray(mappedForm)) {
