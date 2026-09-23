@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { loadToolConfig } from "../src/tool-config.js";
+import { createInputSchema, getAdditionalMcpToolCount } from "../src/mcp-server.js";
 
 const excludedAdministrationTags = new Set([
   "AbpApiDefinition",
@@ -128,4 +129,102 @@ test("SIT uses an independently frozen GET and POST allowlist", () => {
   assert.ok(writeConfig.tools.every((tool) => tool.method === "POST"));
   assert.ok(readConfig.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
   assert.ok(writeConfig.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+});
+
+test("BIM UAT exposes only the reviewed read-only surface", () => {
+  const config = loadToolConfig("config/bim/tools.json");
+  assert.equal(config.sourceOpenApi, "https://bim.erp-uat.hicas.vn/swagger/v1/swagger.json");
+  assert.equal(config.tools.length, 164);
+  assert.ok(config.tools.every((tool) => tool.method === "GET"));
+  assert.ok(config.tools.every((tool) => tool.safety === "read-only"));
+  assert.ok(config.tools.every((tool) => tool.upstream === "bim"));
+  assert.ok(config.tools.every((tool) => tool.name.startsWith("bim_")));
+  assert.ok(config.tools.every((tool) => !excludedAdministrationTags.has(tool.tag)));
+  assert.ok(config.tools.every((tool) => tool.tag !== "SystemInfo"));
+  assert.ok(config.tools.every((tool) => !tool.path.includes("/admin/")));
+});
+
+test("TingOp combines HRM and Project Swagger with confirmed write/delete tools", () => {
+  const readConfig = loadToolConfig("config/tingop/tools.json");
+  const writeConfig = loadToolConfig("config/tingop/write-tools.json");
+
+  assert.deepEqual(readConfig.sourceOpenApis, [
+    "https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json",
+    "https://tingop.tingconnect.com/swagger/8080_swagger/swagger.json",
+  ]);
+  assert.equal(readConfig.tools.length, 48);
+  assert.ok(readConfig.tools.every((tool) => tool.method === "GET"));
+  assert.ok(readConfig.tools.every((tool) => tool.safety === "read-only"));
+  assert.ok(readConfig.tools.every((tool) => tool.upstream === "tingop"));
+
+  assert.equal(writeConfig.tools.length, 78);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "POST").length, 29);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "PUT").length, 26);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "DELETE").length, 23);
+  assert.ok(writeConfig.tools.every((tool) => tool.upstream === "tingop"));
+  assert.ok(
+    writeConfig.tools
+      .filter((tool) => tool.method === "DELETE")
+      .every((tool) => tool.safety === "destructive"),
+  );
+
+  const deleteTool = writeConfig.tools.find((tool) => tool.path === "/Tag/{id}" && tool.method === "DELETE");
+  assert.ok(deleteTool);
+  assert.equal(createInputSchema(deleteTool).safeParse({ id: 7 }).success, false);
+  assert.equal(
+    createInputSchema(deleteTool).safeParse({
+      id: 7,
+      confirmWrite: true,
+      confirmDestructive: true,
+    }).success,
+    true,
+  );
+});
+
+test("TingOp Check-in uses the separate BE with read tools automatic and writes confirmed", () => {
+  const readConfig = loadToolConfig("config/tingop-checkin/tools.json");
+  const writeConfig = loadToolConfig("config/tingop-checkin/write-tools.json");
+
+  assert.equal(
+    readConfig.sourceOpenApi,
+    "https://sit.checkin.tingconnect.com/swagger/v1/swagger.json",
+  );
+  assert.equal(readConfig.tools.length, 31);
+  assert.ok(readConfig.tools.every((tool) => tool.method === "GET"));
+  assert.ok(readConfig.tools.every((tool) => tool.safety === "read-only"));
+  assert.ok(readConfig.tools.every((tool) => tool.upstream === "tingop-checkin"));
+  assert.ok(readConfig.tools.every((tool) => tool.name.startsWith("tingop-checkin_")));
+
+  assert.equal(writeConfig.tools.length, 47);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "POST").length, 31);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "PUT").length, 9);
+  assert.equal(writeConfig.tools.filter((tool) => tool.method === "DELETE").length, 7);
+  assert.ok(writeConfig.tools.every((tool) => tool.upstream === "tingop-checkin"));
+  assert.equal(getAdditionalMcpToolCount([...readConfig.tools, ...writeConfig.tools]), 2);
+  assert.ok(
+    writeConfig.tools
+      .filter((tool) => tool.method === "DELETE")
+      .every((tool) => tool.safety === "destructive"),
+  );
+
+  const deleteTool = writeConfig.tools.find(
+    (tool) => tool.method === "DELETE" && tool.path === "/api/Notes/{id}",
+  );
+  assert.ok(deleteTool);
+  const deleteSchema = createInputSchema(deleteTool);
+  assert.equal(deleteSchema.safeParse({ id: 7 }).success, false);
+  assert.equal(
+    deleteSchema.safeParse({ id: 7, confirmWrite: true, confirmDestructive: true }).success,
+    true,
+  );
+});
+
+test("TingOp exposes three read-only HR convenience tools when both upstream snapshots are loaded", () => {
+  const tools = [
+    ...loadToolConfig("config/tingop/tools.json").tools,
+    ...loadToolConfig("config/tingop/write-tools.json").tools,
+    ...loadToolConfig("config/tingop-checkin/tools.json").tools,
+    ...loadToolConfig("config/tingop-checkin/write-tools.json").tools,
+  ];
+  assert.equal(getAdditionalMcpToolCount(tools), 3);
 });

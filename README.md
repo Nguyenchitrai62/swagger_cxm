@@ -1,8 +1,13 @@
-# HICAS CXM MCP
+# HICAS CXM & BIM UAT MCP
 
 MCP server chuẩn Streamable HTTP, chuyển tiếp 187 endpoint `GET`, 348 endpoint
 `POST` và 1 endpoint `PUT` qua duy nhất `/mcp`. Mục tiêu chính là để
 agent tra cứu, đối chiếu và thực hiện thao tác CXM có kiểm soát.
+
+UAT còn có 164 tool `GET` Bim từ `https://bim.erp-uat.hicas.vn`. Các tool này có
+tiền tố `bim_`, dùng cùng bearer token UAT, không có endpoint POST/PUT/DELETE và
+loại trừ toàn bộ nhóm API quản trị (bao gồm `SystemInfo`). SIT không tải hay công bố
+bất kỳ tool Bim nào.
 liệu phục vụ QC: dự án, hợp đồng, PO, kho, giao dịch kho, giá bình quân, kỳ tài
 chính và trạng thái workflow.
 
@@ -10,6 +15,22 @@ OpenAPI nguồn:
 
 - UAT: `https://cxm.erp-uat.hicas.vn/swagger/v1/swagger.json`.
 - SIT: `https://api.hawee.hicas.vn/swagger/v1/swagger.json`.
+- TingOp HRM: `https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json`.
+- TingOp Project: `https://tingop.tingconnect.com/swagger/8080_swagger/swagger.json`.
+- TingOp Check-in: `https://sit.checkin.tingconnect.com/swagger/v1/swagger.json`.
+
+TingOp chạy thành MCP độc lập tại cổng `9002`, gồm 48 tool GET tự động, 29 POST,
+26 PUT và 23 DELETE. POST/PUT/DELETE cần xác nhận trong input MCP; các thao tác
+import, sửa file và xóa còn cần xác nhận destructive.
+TingOp cũng nạp thêm BE Check-in riêng với 31 tool GET, 31 POST, 9 PUT và 7
+DELETE. BE Check-in dùng chung access/refresh token của phiên đăng nhập TingOp;
+chỉ các tool GET được gọi tự động, còn mọi POST/PUT/DELETE đều yêu cầu xác nhận.
+MCP có thêm 3 tool nghiệp vụ đọc-only để HR gọi nhanh:
+`tingop_hr_directory` (công ty/dự án-văn phòng/team/nhân viên),
+`tingop_checkin_attendance_report` (tổng hợp theo công ty và khoảng ngày), và
+`tingop_checkin_team_daily` (một team/ngày, thiếu chấm công và các trường hợp đi
+muộn có đủ lịch ca). Các tool GET gốc vẫn được giữ làm đường lui cho yêu cầu
+đặc biệt; agent được hướng dẫn tự chuyển sang chúng khi tool tổng hợp không đủ.
 
 ## Phạm vi 536 tool
 
@@ -36,6 +57,37 @@ Danh sách GET nằm tại [`config/tools.json`](config/tools.json); danh sách 
 nằm tại [`config/write-tools.json`](config/write-tools.json). Service không đọc Swagger khi khởi
 động, vì vậy thay đổi ngoài ý muốn trên OpenAPI sẽ không tự động mở rộng phạm vi
 MCP.
+
+TingOp Check-in có snapshot riêng tại `config/tingop-checkin/tools.json` và
+`config/tingop-checkin/write-tools.json`; request của các tool này được định tuyến
+sang `https://sit.checkin.tingconnect.com` nhưng vẫn dùng token TingOp.
+
+### Tool HR tiện dụng
+
+Agent nên ưu tiên 3 tool tổng hợp sau khi nhận yêu cầu thông thường:
+
+- `tingop_hr_directory`: `resource` là `companies`, `projects`, `teams` hoặc
+  `employees`; có thể thêm `companyId`, `projectId`, `search`.
+- `tingop_checkin_attendance_report`: truyền `externalCompanyId`,
+  `fromWorkingDay`, `toWorkingDay` để nhận tổng giờ làm, giờ đã duyệt, số ngày
+  có công và bảng theo ngày/nhân viên.
+- `tingop_checkin_team_daily`: truyền `teamId`, `workingDay`; trả số người đã
+  chấm, chưa chấm và các trường hợp đi muộn khi API trả đủ lịch ca và timestamp.
+
+Ví dụ input:
+
+```json
+{
+  "externalCompanyId": 123,
+  "fromWorkingDay": "2026-09-01",
+  "toWorkingDay": "2026-09-30"
+}
+```
+
+Nếu câu hỏi cần ảnh check-in, ca cụ thể, bộ lọc hiếm hoặc dữ liệu chưa được
+tổng hợp, agent dùng các tool GET có tiền tố `tingop_`/`tingop-checkin_` tương
+ứng. Các tool gốc được giữ lại có chủ đích để không giới hạn những yêu cầu HR
+phức tạp phát sinh sau này.
 
 SIT có snapshot độc lập tại `config/sit/tools.json` và
 `config/sit/write-tools.json`. Hai snapshot có thể khác nhau khi SIT và UAT đang
@@ -170,15 +222,16 @@ docker compose ps
 docker compose logs -f mcp
 ```
 
-Compose chạy hai MCP độc lập từ cùng một image:
+Compose chạy ba MCP độc lập từ cùng một image:
 
 | Service | Host port | API nguồn | Tool allowlist | Token volume |
 |---|---:|---|---|---|
 | `mcp` (UAT) | `9000` | `https://cxm.erp-uat.hicas.vn` | `config/tools.json`, `config/write-tools.json` | `cxm-auth-data` |
 | `mcp-sit` | `9001` | `https://api.hawee.hicas.vn` | `config/sit/tools.json`, `config/sit/write-tools.json` | `cxm-auth-data-sit` |
+| `mcp-tingop` | `9002` | `https://tingop.tingconnect.com` + `https://sit.checkin.tingconnect.com` | `config/tingop/*`, `config/tingop-checkin/*` | `tingop-auth-data` |
 
-Hai instance cũng công bố danh tính MCP khác nhau (`hicas-cxm-uat` và
-`hicas-cxm-sit`). Điều này tránh việc MCP client gộp hoặc thay thế hai kết nối
+Các instance cũng công bố danh tính MCP khác nhau (`hicas-cxm-uat`,
+`hicas-cxm-sit` và `tingop`). Điều này tránh việc MCP client gộp hoặc thay thế các kết nối
 do cùng server name và cùng tên tool. Trang đăng nhập, `/`, `/healthz` và
 `/auth/status` đều hiển thị instance cùng upstream tương ứng để phát hiện route
 nhầm port mà không lộ token.
@@ -188,20 +241,22 @@ hiện tại. Vì vậy route public hiện có tới port `9000` vẫn là UAT.
 `9001:9000`: ứng dụng trong container vẫn nghe port `9000`, còn máy chủ mở thêm
 port `9001`.
 
-Hai service cùng đọc `.env`, vì vậy dùng chung `MCP_KEY` và các giới hạn vận
-hành. `MCP_ALLOWED_HOSTS` phải chứa cả hai hostname public:
+Ba service cùng đọc `.env`, vì vậy dùng chung `MCP_KEY` và các giới hạn vận
+hành. `MCP_ALLOWED_HOSTS` phải chứa cả ba hostname public:
 
 ```env
-MCP_ALLOWED_HOSTS=localhost,127.0.0.1,10.0.10.62,mcp-erp.lm.io.vn,mcp-erp-sit.lm.io.vn
+MCP_ALLOWED_HOSTS=localhost,127.0.0.1,10.0.10.62,mcp-erp.lm.io.vn,mcp-erp-sit.lm.io.vn,mcp-tingop.lm.io.vn
 ```
 
-Route `mcp-erp.lm.io.vn` tới `http://127.0.0.1:9000` và route
-`mcp-erp-sit.lm.io.vn` tới `http://127.0.0.1:9001`. Dù dùng chung `.env`, Compose
+Route `mcp-erp.lm.io.vn` tới `http://127.0.0.1:9000`, route
+`mcp-erp-sit.lm.io.vn` tới `http://127.0.0.1:9001` và route
+`mcp-tingop.lm.io.vn` tới `http://127.0.0.1:9002`. Dù dùng chung `.env`, Compose
 ghi đè `CXM_BASE_URL`, tool allowlist và `CXM_REFRESH_TOKEN_FILE` cho từng
-container. Hai named volume khác nhau nên đăng nhập tại UAT và SIT tạo hai phiên
-CXM độc lập, không ghi đè refresh token của nhau. Container SIT cũng chủ động
+container. Ba named volume khác nhau nên đăng nhập tại UAT, SIT và TingOp tạo ba
+phiên độc lập, không ghi đè refresh token của nhau. Container SIT và TingOp cũng chủ động
 bỏ qua `CXM_ACCESS_TOKEN`/`CXM_REFRESH_TOKEN` có thể đang dùng cho UAT trong
-`.env`; SIT chỉ khôi phục phiên từ volume `cxm-auth-data-sit`.
+`.env`; SIT chỉ khôi phục phiên từ volume `cxm-auth-data-sit`, còn TingOp từ
+`tingop-auth-data`.
 
 Sau khi khởi động, kiểm tra riêng từng service bằng:
 
@@ -210,15 +265,17 @@ UAT MCP:    http://127.0.0.1:9000/mcp?MCP_KEY=<MCP_KEY>
 UAT Health: http://127.0.0.1:9000/healthz
 SIT MCP:    http://127.0.0.1:9001/mcp?MCP_KEY=<MCP_KEY>
 SIT Health: http://127.0.0.1:9001/healthz
+TingOp MCP:    http://127.0.0.1:9002/mcp?MCP_KEY=<MCP_KEY>
+TingOp Health: http://127.0.0.1:9002/healthz
 ```
 
-Compose publish UAT tại cổng `9000` và SIT tại cổng `9001` trên mọi interface
+Compose publish UAT tại cổng `9000`, SIT tại cổng `9001` và TingOp tại cổng `9002` trên mọi interface
 của host để máy trong LAN và reverse proxy/tunnel trên host đều truy cập được.
 `MCP_ALLOWED_HOSTS` vẫn giới hạn các IP/domain được ứng dụng chấp nhận. Named
-volume `cxm-auth-data` và `cxm-auth-data-sit` giữ riêng refresh token qua các lần
+volume `cxm-auth-data`, `cxm-auth-data-sit` và `tingop-auth-data` giữ riêng refresh token qua các lần
 rebuild/recreate container.
 
-Nếu `cloudflared` chạy trong một container khác, hãy nối hai service vào cùng
+Nếu `cloudflared` chạy trong một container khác, hãy nối các service vào cùng
 Docker network và dùng `http://hicas-cxm-mcp:9000` thay cho `127.0.0.1`.
 
 ### Docker CLI
@@ -269,14 +326,17 @@ service này.
 
 ## Cơ chế an toàn
 
-- Chỉ path và method trong `config/tools.json` hoặc `config/write-tools.json`
+- Chỉ path và method trong các snapshot `config/tools.json`, `config/write-tools.json`,
+  `config/tingop/*` hoặc `config/tingop-checkin/*`
   mới được gọi; agent không thể
   cung cấp URL tùy ý.
 - `/mcp` chứa GET/POST nghiệp vụ cộng đúng 5 endpoint quản trị được liệt kê ở
   [Endpoint quản trị được mở](#endpoint-quản-trị-được-mở); không có API quản trị
   nào khác.
-- Mọi POST và PUT bắt buộc `confirmWrite: true`; 74 tool bulk/import/sync/cancel/
+- Mọi POST, PUT và DELETE bắt buộc `confirmWrite: true`; các tool bulk/import/sync/cancel/
   reject/reset/delete/ghi-đè-quyền còn bắt buộc `confirmDestructive: true`.
+- Tool `tingop_hr_directory`, `tingop_checkin_attendance_report` và
+  `tingop_checkin_team_daily` chỉ gọi GET và không yêu cầu xác nhận.
 - JSON body tối đa 1 MiB; tổng file upload mặc định tối đa 10 MiB; tối đa 10 file.
 - `MaxResultCount` mặc định là 25 và bị giới hạn tối đa 100.
 - Timeout mặc định 30 giây; phản hồi tối đa 512 KiB.
@@ -363,18 +423,29 @@ Với deployment lâu dài, `CXM_REFRESH_TOKEN_FILE` phải nằm trên file/vol
 quyền ghi để server cập nhật refresh token mới khi CXM xoay token. Refresh token
 nhạy cảm hơn access token; chỉ lưu trong secret store hoặc file giới hạn quyền.
 
+TingOp dùng cùng giao diện đăng nhập và tự refresh token, nhưng dùng OAuth client
+riêng (`TingOp`, scope `offline_access API`) và volume `tingop-auth-data`. Khi
+chạy Compose, mở `https://mcp-tingop.lm.io.vn/mcp?MCP_KEY=<YOUR_KEY>` để đăng nhập.
+Các tool Check-in trên MCP dùng chính token đó; không cần đăng nhập thêm tại
+`sit.checkin.tingconnect.com`.
+
 ## Cập nhật allowlist khi Swagger thay đổi
 
 Chỉ chạy thao tác này khi chủ động review API mới:
 
 ```powershell
 npm run generate:tools:uat
+npm run generate:tools:bim
 npm run generate:tools:sit
+npm run generate:tools:tingop
+npm run generate:tools:tingop-checkin
 npm run check
 ```
 
 Generator UAT đọc quy tắc loại trừ trong `config/selected-groups.json`; generator
-SIT đọc `config/sit/selected-groups.json`. Mỗi profile ghi ra snapshot GET/POST
+SIT đọc `config/sit/selected-groups.json`; TingOp đọc hai Swagger HRM/Project và
+`config/tingop/selected-groups.json`; Check-in đọc
+`config/tingop-checkin/selected-groups.json`. Mỗi profile ghi ra snapshot GET và write
 riêng và sẽ thất bại nếu số endpoint nguồn hoặc số tool không khớp giá trị kỳ
 vọng của profile. Khi một môi trường thay đổi API hợp lệ, hãy review Swagger và
 cập nhật các giá trị `expected*` của đúng profile trước khi generate lại. Đây là

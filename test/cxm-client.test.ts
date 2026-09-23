@@ -48,6 +48,27 @@ test("buildRequestUrl encodes path identifiers and flattens object filters", () 
   assert.equal(filteredUrl.searchParams.get("Filters.nested.value"), "3");
 });
 
+test("BIM tools are forwarded to the isolated BIM UAT upstream", async () => {
+  const tool = loadToolConfig("config/bim/tools.json").tools.find(
+    (candidate) => candidate.name === "bim_boq_item_boq_item_list",
+  );
+  assert.ok(tool);
+  let target = "";
+  const mockFetch = (async (input: string | URL | Request) => {
+    target = String(input);
+    return Response.json({ items: [] });
+  }) as typeof fetch;
+  const tokenProvider: TokenProvider = { configured: true, async getToken() { return "test-token"; } };
+  const client = new CxmApiClient(
+    loadSettings({ HOST: "127.0.0.1", BIM_BASE_URL: "https://bim.example.test" }),
+    tokenProvider,
+    mockFetch,
+  );
+  await client.call(tool, {});
+  assert.equal(new URL(target).origin, "https://bim.example.test");
+  assert.equal(new URL(target).pathname, "/api/BoqItem/list");
+});
+
 test("POST multipart tools forward bounded base64 files as form data", async () => {
   const config = loadToolConfig("config/write-tools.json");
   const uploadTool = config.tools.find((tool) => tool.path === "/api/files/upload");
@@ -88,4 +109,58 @@ test("POST multipart tools forward bounded base64 files as form data", async () 
   });
   assert.equal(observedFileName, "sample.txt");
   assert.equal(observedFileText, "hello");
+});
+
+test("TingOp DELETE tools forward the method and path with bearer auth", async () => {
+  const tool = loadToolConfig("config/tingop/write-tools.json").tools.find(
+    (candidate) => candidate.method === "DELETE" && candidate.path === "/Tag/{id}",
+  );
+  assert.ok(tool);
+  let observedRequest: Request | undefined;
+  const mockFetch = (async (input: string | URL | Request, init?: RequestInit) => {
+    observedRequest = new Request(input, init);
+    return Response.json({ deleted: true });
+  }) as typeof fetch;
+  const client = new CxmApiClient(
+    loadSettings({
+      HOST: "127.0.0.1",
+      CXM_BASE_URL: "https://tingop.example.test",
+    }),
+    { configured: true, async getToken() { return "tingop-token"; } },
+    mockFetch,
+  );
+
+  await client.call(tool, { id: 7 });
+  assert.equal(observedRequest?.method, "DELETE");
+  assert.equal(observedRequest?.headers.get("authorization"), "Bearer tingop-token");
+  assert.equal(new URL(observedRequest?.url ?? "").pathname, "/Tag/7");
+});
+
+test("TingOp Check-in tools reuse the TingOp bearer token on the separate Check-in API", async () => {
+  const tool = loadToolConfig("config/tingop-checkin/tools.json").tools.find(
+    (candidate) => candidate.path === "/api/CheckIn/v2/team/{team_id}",
+  );
+  assert.ok(tool);
+  const teamParameter = tool.parameters.find((parameter) => parameter.source === "path");
+  assert.ok(teamParameter);
+  let observedRequest: Request | undefined;
+  const mockFetch = (async (input: string | URL | Request, init?: RequestInit) => {
+    observedRequest = new Request(input, init);
+    return Response.json({ items: [] });
+  }) as typeof fetch;
+  const client = new CxmApiClient(
+    loadSettings({
+      HOST: "127.0.0.1",
+      CXM_BASE_URL: "https://tingop.example.test",
+      TINGOP_CHECKIN_BASE_URL: "https://checkin.example.test",
+    }),
+    { configured: true, async getToken() { return "tingop-token"; } },
+    mockFetch,
+  );
+
+  await client.call(tool, { [teamParameter.name]: "team-1" });
+  assert.equal(observedRequest?.method, "GET");
+  assert.equal(observedRequest?.headers.get("authorization"), "Bearer tingop-token");
+  assert.equal(new URL(observedRequest?.url ?? "").origin, "https://checkin.example.test");
+  assert.equal(new URL(observedRequest?.url ?? "").pathname, "/api/CheckIn/v2/team/team-1");
 });

@@ -60,6 +60,8 @@ test("one MCP endpoint lists all 536 tools and forwards GET and POST calls", asy
     mcpInstanceName: "hicas-cxm-test",
     mcpApiKey: "test-mcp-key",
     cxmBaseUrl: new URL("https://cxm.example.test"),
+    bimBaseUrl: new URL("https://bim.example.test"),
+    tingopCheckInBaseUrl: new URL("https://checkin.example.test"),
     cxmOAuthClientId: "CxmApi_App",
     cxmOAuthScope: "offline_access CxmApi",
     cxmInteractiveLogin: false,
@@ -97,6 +99,7 @@ test("one MCP endpoint lists all 536 tools and forwards GET and POST calls", asy
     readTools: 187,
     writeTools: 349,
     totalTools: 536,
+    bimReadTools: 0,
     authentication: ["MCP_KEY query parameter", "Authorization Bearer header"],
   });
 

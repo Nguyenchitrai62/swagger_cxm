@@ -2,8 +2,25 @@ import type { CallToolResult } from "@modelcontextprotocol/server";
 import { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 
+import { summarizeAttendanceReport } from "./attendance-report.js";
 import { CxmApiClient, CxmApiError, type JsonValue } from "./cxm-client.js";
+import { getHrToolCount, registerHrTools } from "./hr-tools.js";
 import type { ToolDefinition, ToolParameter } from "./tool-config.js";
+
+export const ATTENDANCE_REPORT_TOOL_NAME = "tingop_checkin_attendance_report";
+
+function findAttendanceReportTool(tools: readonly ToolDefinition[]): ToolDefinition | undefined {
+  return tools.find(
+    (tool) =>
+      tool.upstream === "tingop-checkin" &&
+      tool.method === "GET" &&
+      tool.path === "/api/CheckIn/attendance/company/external/{external_company_Id}/report/range",
+  );
+}
+
+export function getAdditionalMcpToolCount(tools: readonly ToolDefinition[]): number {
+  return (findAttendanceReportTool(tools) ? 1 : 0) + getHrToolCount(tools);
+}
 
 function baseSchema(parameter: ToolParameter): z.ZodTypeAny {
   let schema: z.ZodTypeAny;
@@ -166,6 +183,64 @@ const outputSchema = z.object({
   }),
 });
 
+const attendanceReportInputSchema = z
+  .strictObject({
+    externalCompanyId: z
+      .number()
+      .int()
+      .positive()
+      .describe("Mã companyId số trong TingOp dùng làm external_company_Id của Check-in."),
+    fromWorkingDay: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Use the yyyy-MM-dd format")
+      .describe("Ngày bắt đầu, định dạng yyyy-MM-dd."),
+    toWorkingDay: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Use the yyyy-MM-dd format")
+      .describe("Ngày kết thúc, định dạng yyyy-MM-dd."),
+    includeDailyRows: z
+      .boolean()
+      .default(false)
+      .describe("Include raw daily rows in addition to the compact summary."),
+    maxEmployees: z
+      .number()
+      .int()
+      .min(1)
+      .max(500)
+      .default(100)
+      .describe("Maximum number of employees returned in the employee summary."),
+  })
+  .superRefine((value, context) => {
+    const from = Date.parse(`${value.fromWorkingDay}T00:00:00Z`);
+    const to = Date.parse(`${value.toWorkingDay}T00:00:00Z`);
+    const validFrom =
+      Number.isFinite(from) && new Date(from).toISOString().slice(0, 10) === value.fromWorkingDay;
+    const validTo =
+      Number.isFinite(to) && new Date(to).toISOString().slice(0, 10) === value.toWorkingDay;
+    if (!validFrom) {
+      context.addIssue({ code: "custom", path: ["fromWorkingDay"], message: "Invalid calendar date" });
+    }
+    if (!validTo) {
+      context.addIssue({ code: "custom", path: ["toWorkingDay"], message: "Invalid calendar date" });
+    }
+    if (Number.isFinite(from) && Number.isFinite(to)) {
+      if (to < from) {
+        context.addIssue({
+          code: "custom",
+          path: ["toWorkingDay"],
+          message: "toWorkingDay must be on or after fromWorkingDay",
+        });
+      }
+      if (to - from > 366 * 24 * 60 * 60 * 1_000) {
+        context.addIssue({
+          code: "custom",
+          path: ["toWorkingDay"],
+          message: "The report range cannot exceed 366 days",
+        });
+      }
+    }
+  });
+
 function errorResult(error: unknown, tool: ToolDefinition): CallToolResult {
   const payload: Record<string, JsonValue> = {
     error: error instanceof Error ? error.message : String(error),
@@ -189,24 +264,39 @@ export function createCxmMcpServer(
   client: CxmApiClient,
   instanceName = "hicas-cxm",
 ): McpServer {
-  const getCount = tools.filter((tool) => tool.method === "GET").length;
+  const additionalReadTools = getAdditionalMcpToolCount(tools);
+  const getCount = tools.filter((tool) => tool.method === "GET").length + additionalReadTools;
   const postCount = tools.filter((tool) => tool.method === "POST").length;
   const putCount = tools.filter((tool) => tool.method === "PUT").length;
-  const breakdown = [`${getCount} GET`, `${postCount} POST`, ...(putCount ? [`${putCount} PUT`] : [])];
+  const deleteCount = tools.filter((tool) => tool.method === "DELETE").length;
+  const breakdown = [
+    `${getCount} GET`,
+    ...(postCount ? [`${postCount} POST`] : []),
+    ...(putCount ? [`${putCount} PUT`] : []),
+    ...(deleteCount ? [`${deleteCount} DELETE`] : []),
+  ];
+  const totalToolCount = tools.length + additionalReadTools;
   const server = new McpServer(
     {
       name: instanceName,
       version: "1.0.0",
       description:
-        "Allowlisted GET, POST and PUT access to HICAS CXM for agent-assisted data QC and controlled operations.",
+        "Allowlisted CXM, BIM, TingOp, and Check-in API access for agent-assisted data QC and controlled operations.",
     },
     {
       instructions:
-        `This server exposes ${tools.length} allowlisted CXM tools (${breakdown.join(", ")}). ` +
+        `This server exposes ${totalToolCount} allowlisted tools (${breakdown.join(", ")}). ` +
         "Use GET tools to cross-check projects, contracts, purchase orders, warehouses, transactions, payments, " +
         "fiscal periods, and workflow state. Paginate instead of requesting large result sets. " +
-        "Every POST and PUT call requires confirmWrite=true. Tools marked destructive also require " +
-        "confirmDestructive=true; confirm exact targets and payloads with the user before calling them.",
+        "Every POST, PUT, and DELETE call requires confirmWrite=true. Tools marked destructive also require " +
+        "confirmDestructive=true; confirm exact targets and payloads with the user before calling them. " +
+        (additionalReadTools
+          ? "Use tingop_hr_directory for companies/projects/teams/employees, " +
+            "tingop_checkin_attendance_report for a compact company attendance summary, and " +
+            "tingop_checkin_team_daily for one team/day including missing check-ins and detectable late arrivals. " +
+            "These convenience tools are read-only; use the prefixed raw GET tools for fields or workflows " +
+            "not covered by them."
+          : ""),
     },
   );
 
@@ -246,6 +336,7 @@ export function createCxmMcpServer(
           "hicas.vn/cxm-method": tool.method,
           "hicas.vn/cxm-path": tool.path,
           "hicas.vn/cxm-safety": tool.safety,
+          "hicas.vn/upstream": tool.upstream,
         },
       },
       async (rawArgs): Promise<CallToolResult> => {
@@ -270,6 +361,72 @@ export function createCxmMcpServer(
       },
     );
   }
+
+  const attendanceReportTool = findAttendanceReportTool(tools);
+  if (attendanceReportTool) {
+    server.registerTool(
+      ATTENDANCE_REPORT_TOOL_NAME,
+      {
+        title: "TingOp Check-in: Attendance report summary",
+        description:
+          "Read-only composite tool. Fetches the Check-in company report for a date range and " +
+          "summarizes worked minutes, approved minutes, employees, and daily totals. " +
+          "Use the direct Check-in GET tools when raw per-day or per-team details are needed.",
+        inputSchema: attendanceReportInputSchema,
+        outputSchema,
+        annotations: {
+          title: "TingOp Check-in: Attendance report summary",
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: true,
+        },
+        _meta: {
+          "hicas.vn/cxm-tag": "CheckIn",
+          "hicas.vn/cxm-method": "GET",
+          "hicas.vn/cxm-path": attendanceReportTool.path,
+          "hicas.vn/cxm-safety": "read-only",
+          "hicas.vn/upstream": "tingop-checkin",
+          "hicas.vn/composite": "attendance-report",
+        },
+      },
+      async (rawArgs): Promise<CallToolResult> => {
+        try {
+          const args = attendanceReportInputSchema.parse(rawArgs);
+          const result = await client.call(attendanceReportTool, {
+            externalCompanyId: args.externalCompanyId,
+            fromWorkingDay: args.fromWorkingDay,
+            toWorkingDay: args.toWorkingDay,
+          });
+          const summary = summarizeAttendanceReport(result.data, {
+            includeDailyRows: args.includeDailyRows,
+            maxEmployees: args.maxEmployees,
+          });
+          const output = {
+            data: {
+              externalCompanyId: args.externalCompanyId,
+              fromWorkingDay: args.fromWorkingDay,
+              toWorkingDay: args.toWorkingDay,
+              ...summary,
+            },
+            meta: {
+              endpoint: attendanceReportTool.path,
+              status: result.status,
+              contentType: result.contentType,
+            },
+          };
+          return {
+            content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
+            structuredContent: output,
+          };
+        } catch (error) {
+          return errorResult(error, attendanceReportTool);
+        }
+      },
+    );
+  }
+
+  registerHrTools(server, tools, client);
 
   return server;
 }

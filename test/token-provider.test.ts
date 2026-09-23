@@ -70,6 +70,35 @@ test("interactive login exchanges credentials without retaining the password", a
   assert.equal(await provider.getToken(), undefined);
 });
 
+test("OAuth client secret is sent for TingOp password and refresh grants", async () => {
+  const settings = loadSettings({
+    HOST: "127.0.0.1",
+    CXM_BASE_URL: "https://tingop.example.test",
+    CXM_OAUTH_CLIENT_ID: "TingOp",
+    CXM_OAUTH_SCOPE: "offline_access API",
+    CXM_OAUTH_CLIENT_SECRET: "tingop-client-secret",
+    CXM_REFRESH_TOKEN: "tingop-refresh",
+  });
+  const requests: URLSearchParams[] = [];
+  const provider = createTokenProvider(settings, async (_input, init) => {
+    const body = init?.body as URLSearchParams;
+    requests.push(body);
+    return Response.json({
+      access_token: body.get("grant_type") === "password" ? "login-access" : "refresh-access",
+      refresh_token: "next-refresh",
+    });
+  });
+
+  await provider.login?.({ username: "ting-user", password: "secret", remember: true });
+  assert.equal(requests[0]?.get("client_id"), "TingOp");
+  assert.equal(requests[0]?.get("scope"), "offline_access API");
+  assert.equal(requests[0]?.get("client_secret"), "tingop-client-secret");
+  provider.invalidateToken?.("login-access");
+  assert.equal(await provider.getToken(), "refresh-access");
+  assert.equal(requests[1]?.get("grant_type"), "refresh_token");
+  assert.equal(requests[1]?.get("client_secret"), "tingop-client-secret");
+});
+
 test("interactive login persists only the refresh token and restores it after restart", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "cxm-mcp-token-provider-"));
   t.after(() => rm(directory, { recursive: true, force: true }));

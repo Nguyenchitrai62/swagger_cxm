@@ -1,0 +1,2180 @@
+{
+  "generatedAt": "2026-09-15T04:21:19.706Z",
+  "sourceOpenApi": "https://sit.checkin.tingconnect.com/swagger/v1/swagger.json",
+  "sourceTitle": "Check In API: Các API để thực hiện việc đăng ký, nhận dạng khuôn mặt. Chấm công, chấm cơm và ghi chú cho việc điểm danh. Operator trong FaceCK sẽ tương ứng với Operator trong QLVH toàn nhà hoặc Project trong QLTC trong xây dựng. Company trong FaceCK sẽ tương ứng với Organization/Tenancy trong Identity Service",
+  "selectedTags": [
+    "CheckIn",
+    "Company",
+    "FaceIdentity",
+    "Notes",
+    "Operators",
+    "Shifts",
+    "ShiftSchedule",
+    "Team",
+    "TingDataSync"
+  ],
+  "tools": [
+    {
+      "name": "tingop-checkin_post_check_in_check_in_meals",
+      "title": "Check In: Check In Meals",
+      "description": "Save meals information of a employees group in Team, Operator,..\r\nSử dụng cho chức năng ghi nhận bữa ăn của cả team.\r\nTrả về:\r\n0: Ghi nhận đăng ký cơm thất bại\r\n>0: Ghi nhận đăng ký cơm thành công Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/meals",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: working_Day [date], mealList.",
+        "fields": [
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "ngày làm việc",
+            "format": "date"
+          },
+          {
+            "name": "mealList",
+            "wireName": "mealList",
+            "type": "array",
+            "required": false,
+            "description": "danh sách thông tin bữa ăn cần lưu lai\r\nDot not need to fill Working_Day on this information",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_company_register",
+      "title": "Check In: Check In Company Register",
+      "description": "Đăng ký một công ty để khởi tạo các tài nguyên cần cho thiết cho việc checkin cho công ty đó\r\nChỉ dùng cho Admin, không sử dụng ở cho người dùng thường       \r\nTrả về:\r\n0: Đăng ký thất bại\r\n>0: Đăng ký thành công Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/company/register",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "string",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_face_register",
+      "title": "Check In: Check In Face Register",
+      "description": "Đăng ký các ảnh khuôn mặt cho một người.\r\nSử dụng cho chức năng đăng ký khuôn mặt cho một nhân sự.\r\nTrả về:\r\n0: Đăng ký thất bại\r\n>0: Đăng ký thành công Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/face/register",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: Face_Idenity_Id (required) [uuid], Photos (required) [binary].",
+        "fields": [
+          {
+            "name": "faceIdenityId",
+            "wireName": "Face_Idenity_Id",
+            "type": "string",
+            "required": true,
+            "description": "Face Identity cần đăng ký khuôn mặt",
+            "format": "uuid"
+          },
+          {
+            "name": "photos",
+            "wireName": "Photos",
+            "type": "array",
+            "required": true,
+            "description": "Các ảnh để register, yêu cầu ít nhất 3 cái",
+            "itemType": "string",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_face_unregister",
+      "title": "Check In: Check In Face Unregister",
+      "description": "Hủy các ảnh đăng ký của một người.\r\nSử dụng trong trường hợp để có thể đăng ký các ảnh chụp mới hơn, chất lượng cao hơn ...\r\nTrả về: \r\n0: Hủy đăng ký thất bại\r\n>0: Hủy đăng ký thành công Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/face/unregister",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "string",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_face_detect",
+      "title": "Check In: Check In Face Detect",
+      "description": "Detect các face trong một ảnh. \r\nCác Face sẽ được phân loại thành d/s thuộc Team và d/s ngoài Team (thuộc công ty) để cho phép châm công NSTC. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/face/detect",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: Team_Id (required) [int32], Location (required), Photo (required) [binary].",
+        "fields": [
+          {
+            "name": "teamId",
+            "wireName": "Team_Id",
+            "type": "integer",
+            "required": true,
+            "description": "ID của team thực hiện việc check-in",
+            "format": "int32"
+          },
+          {
+            "name": "location",
+            "wireName": "Location",
+            "type": "string",
+            "required": true,
+            "description": "Vị trí thực hiện check-in, cần kiểm soát ở API để không cho phép null"
+          },
+          {
+            "name": "photo",
+            "wireName": "Photo",
+            "type": "string",
+            "required": true,
+            "description": "Ảnh cần xác định các khuôn mặt trong đó",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_face_detect_v2",
+      "title": "Check In: Check In Face Detect V2",
+      "description": "Detect các face trong một ảnh. \r\nCác Face sẽ được phân loại thành d/s thuộc Team và d/s ngoài Team (thuộc công ty) để cho phép châm công NSTC. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/face/detect_V2",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: CompanyId [uuid], Location (required), Photo (required) [binary].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "CompanyId",
+            "type": "string",
+            "required": false,
+            "description": "CompanyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "location",
+            "wireName": "Location",
+            "type": "string",
+            "required": true,
+            "description": "Vị trí thực hiện check-in, cần kiểm soát ở API để không cho phép null"
+          },
+          {
+            "name": "photo",
+            "wireName": "Photo",
+            "type": "string",
+            "required": true,
+            "description": "Ảnh cần xác định các khuôn mặt trong đó",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in",
+      "title": "Check In: Check In",
+      "description": "API để thực hiện việc ghi nhận checkin sau khi detect các face.\r\nTrả về: \r\n0: Xác nhận thất bại\r\n>0: Xác nhận thành công     \r\nThis method is obsolete. Use /v2 API instead Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: face_Detect_Result_Id (required) [int64], working_Day [date], shift_Id (required) [int32].",
+        "fields": [
+          {
+            "name": "faceDetectResultId",
+            "wireName": "face_Detect_Result_Id",
+            "type": "integer",
+            "required": true,
+            "description": "ID của kết quả detect để lấy các thông tin tạo cho bảng Facts như team, location, urlimage...\r\nTrương ứng với trường Id của Detected_Face_Dto",
+            "format": "int64"
+          },
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "Ngày làm việc, trường này sẽ được dùng để tạo ra Date_Key ở backend để map với bảng Date_Dim",
+            "format": "date"
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shift_Id",
+            "type": "integer",
+            "required": true,
+            "description": "Ca thực hiện việc check-in",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_v2",
+      "title": "Check In: Check In V2",
+      "description": "API để thực hiện việc ghi nhận checkin sau khi detect các face.\r\nCho phép chỉ rõ sẽ ghi nhận checkin cho từng người, cả trong và ngoài team\r\nTrả về: \r\n0: Xác nhận thất bại\r\n>0: Xác nhận thành công Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/v2",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: face_Detect_Result_Id (required) [int64], working_Day [date], shift_Id [int32], inside_Team_FaceIds (required) [uuid], outside_Team_FaceIds (required) [uuid].",
+        "fields": [
+          {
+            "name": "faceDetectResultId",
+            "wireName": "face_Detect_Result_Id",
+            "type": "integer",
+            "required": true,
+            "description": "ID của kết quả detect để lấy các thông tin tạo cho bảng Facts như team, location, urlimage...\r\nTrương ứng với trường Id của Detected_Face_Dto",
+            "format": "int64"
+          },
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "Ngày làm việc, trường này sẽ được dùng để tạo ra Date_Key ở backend để map với bảng Date_Dim",
+            "format": "date"
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shift_Id",
+            "type": "integer",
+            "required": false,
+            "description": "shift_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "insideTeamFaceIds",
+            "wireName": "inside_Team_FaceIds",
+            "type": "array",
+            "required": true,
+            "description": "D/s FaceId của các nhận sự thuộc Team được xác nhận checkin",
+            "itemType": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "outsideTeamFaceIds",
+            "wireName": "outside_Team_FaceIds",
+            "type": "array",
+            "required": true,
+            "description": "D/s FaceId của các nhận sự không thuộc Team được xác nhận checkin",
+            "itemType": "string",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_v3",
+      "title": "Check In: Check In V3",
+      "description": "API để thực hiện việc ghi nhận checkin sau khi detect các face.\r\nCho phép chỉ rõ sẽ ghi nhận checkin cho từng người, cả trong và ngoài team, có phân ca hoặc không\r\nTrả về: \r\n0: Xác nhận thất bại\r\n>0: Xác nhận thành công Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/v3",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "faceDetectResultId",
+          "wireName": "face_Detect_Result_Id",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "face_Detect_Result_Id query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_update_old_data",
+      "title": "Check In: Check In Update Old Data",
+      "description": "Update lại dữ liệu cũ Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/updateOldData",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": []
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_check_employs_checkin",
+      "title": "Check In: Check In Check Employs Checkin",
+      "description": "Execute CheckIn data in CXM. Endpoint: POST /api/CheckIn/checkEmploysCheckin. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/checkEmploysCheckin",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_attendance",
+      "title": "Check In: Check In Attendance",
+      "description": "Approve giờ làm việc trong một ngày của một nhân sự. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/attendance",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: working_Day [date], face_Identity_Id [uuid], day_Hours, approved_Day_Hours, approved_Note, team_Id [int32], approvedExtra.",
+        "fields": [
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "Ngày làm việc, trường này sẽ được dùng để tạo ra Date_Key ở backend để map với bảng Date_Dim",
+            "format": "date"
+          },
+          {
+            "name": "faceIdentityId",
+            "wireName": "face_Identity_Id",
+            "type": "string",
+            "required": false,
+            "description": "Id của face thực hiện checkin",
+            "format": "uuid"
+          },
+          {
+            "name": "dayHours",
+            "wireName": "day_Hours",
+            "type": "object",
+            "required": false,
+            "description": "day_Hours request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "approvedDayHours",
+            "wireName": "approved_Day_Hours",
+            "type": "object",
+            "required": false,
+            "description": "approved_Day_Hours request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "approvedNote",
+            "wireName": "approved_Note",
+            "type": "string",
+            "required": false,
+            "description": "Lý do điều chỉnh"
+          },
+          {
+            "name": "teamId",
+            "wireName": "team_Id",
+            "type": "integer",
+            "required": false,
+            "description": "TeamId của nhân sự đã thực hiện check in và được review",
+            "format": "int32"
+          },
+          {
+            "name": "approvedExtra",
+            "wireName": "approvedExtra",
+            "type": "string",
+            "required": false,
+            "description": "Các thông tin duyệt bổ sung, có thể là chi tiết giờ theo từng ca,... cụ thể xem ở class ApprovedExtra"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_check_in_check_in_attendance_month",
+      "title": "Check In: Check In Attendance Month",
+      "description": "Approve giờ làm việc của một số ngày của một người. Thường là các ngày trong một tháng Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "POST",
+      "path": "/api/CheckIn/attendance/month",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_company_import",
+      "title": "Company: Import",
+      "description": "Import a Company by Guid (đã được tạo ở Identity) from Ting/CxM Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Company",
+      "method": "POST",
+      "path": "/import",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: id [uuid], name, external_Id [int64], time_Zone [int32].",
+        "fields": [
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "string",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "externalId",
+            "wireName": "external_Id",
+            "type": "integer",
+            "required": false,
+            "description": "Company Id extends the Ting system",
+            "format": "int64"
+          },
+          {
+            "name": "timeZone",
+            "wireName": "time_Zone",
+            "type": "integer",
+            "required": false,
+            "description": "Time zone để xử lý phần check",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_face_identity_face_identity",
+      "title": "Face Identity: Face Identity",
+      "description": "Create a FaceIdentity Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "FaceIdentity",
+      "method": "POST",
+      "path": "/api/FaceIdentity",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: id [uuid], employeeId [int64], employeeCode, shiftId [int32], awsUserId, name, role, jobTitle, operatorId [uuid], faceRegistered, companyId [uuid], similarity [float].",
+        "fields": [
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "string",
+            "required": false,
+            "description": "Sẽ link theo Guid của HRM có thể là Ting hoặc Identity/CopyUserId. Tùy theo hệ thống tích hợp vào",
+            "format": "uuid"
+          },
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "awsUserId",
+            "wireName": "awsUserId",
+            "type": "string",
+            "required": false,
+            "description": "Member này chỉ để mapper và sử dụng khi cần ở backeden, \r\nKhi đưa về FE thì sẽ thay thế bằng FaceRegistered"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "string",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "jobTitle",
+            "wireName": "jobTitle",
+            "type": "string",
+            "required": false,
+            "description": "jobTitle request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "operatorId",
+            "wireName": "operatorId",
+            "type": "string",
+            "required": false,
+            "description": "operatorId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "faceRegistered",
+            "wireName": "faceRegistered",
+            "type": "boolean",
+            "required": false,
+            "description": "faceRegistered request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "similarity",
+            "wireName": "similarity",
+            "type": "number",
+            "required": false,
+            "description": "similarity request-body field from the CXM OpenAPI schema.",
+            "format": "float"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_face_identity_face_identity_import",
+      "title": "Face Identity: Face Identity Import",
+      "description": "Import a FaceIdentity from a Employee of CxM/Ting Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "FaceIdentity",
+      "method": "POST",
+      "path": "/api/FaceIdentity/import",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode, awsUserId, name, role, jobTitle, operatorId [uuid], faceRegistered, companyId [uuid].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "awsUserId",
+            "wireName": "awsUserId",
+            "type": "string",
+            "required": false,
+            "description": "Member này chỉ để mapper và sử dụng khi cần ở backend, \r\nKhi đưa về FE thì sẽ thay thế bằng FaceRegistered"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "string",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "jobTitle",
+            "wireName": "jobTitle",
+            "type": "string",
+            "required": false,
+            "description": "jobTitle request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "operatorId",
+            "wireName": "operatorId",
+            "type": "string",
+            "required": false,
+            "description": "operatorId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "faceRegistered",
+            "wireName": "faceRegistered",
+            "type": "boolean",
+            "required": false,
+            "description": "faceRegistered request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_face_identity_face_identity_company_update",
+      "title": "Face Identity: Face Identity Company Update",
+      "description": "API để update CompnayId theo Operator đã thiết lập cho nó Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "FaceIdentity",
+      "method": "POST",
+      "path": "/api/FaceIdentity/company/update",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": []
+    },
+    {
+      "name": "tingop-checkin_post_notes_notes",
+      "title": "Notes: Notes",
+      "description": "Create a note Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Notes",
+      "method": "POST",
+      "path": "/api/Notes",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: working_Day [date], face_Identity_Id [uuid], content.",
+        "fields": [
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "Ngày làm việc, trường này sẽ được dùng để tạo ra Date_Key ở backend để map với bảng Date_Dim",
+            "format": "date"
+          },
+          {
+            "name": "faceIdentityId",
+            "wireName": "face_Identity_Id",
+            "type": "string",
+            "required": false,
+            "description": "Id của face thực hiện checkin",
+            "format": "uuid"
+          },
+          {
+            "name": "content",
+            "wireName": "content",
+            "type": "string",
+            "required": false,
+            "description": "content request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_notes_notes_list",
+      "title": "Notes: Notes List",
+      "description": "Create note cho nhiều người (một ngày) hoặc một người nhiều ngày Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Notes",
+      "method": "POST",
+      "path": "/api/Notes/list",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_operators_operators_import",
+      "title": "Operators: Operators Import",
+      "description": "Import Operator/Project by Guid (đã được tạo trước đó từ các hệ thông tích hợp như Ting/CxM) Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Operators",
+      "method": "POST",
+      "path": "/api/Operators/import",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: id [uuid], external_Id [int64], name, companyId [uuid], companyLongId [int64], managerId [uuid].",
+        "fields": [
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "string",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "externalId",
+            "wireName": "external_Id",
+            "type": "integer",
+            "required": false,
+            "description": "external_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "companyLongId",
+            "wireName": "companyLongId",
+            "type": "integer",
+            "required": false,
+            "description": "Check với id company kiểu long",
+            "format": "int64"
+          },
+          {
+            "name": "managerId",
+            "wireName": "managerId",
+            "type": "string",
+            "required": false,
+            "description": "managerId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_shifts_shifts",
+      "title": "Shifts: Shifts",
+      "description": "Create a shifts Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Shifts",
+      "method": "POST",
+      "path": "/api/Shifts",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [uuid], name, startTime [time], endTime [time], status [int32], code, type [int32], parentId [int32], color, periodTimes.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "startTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "endTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "color",
+            "wireName": "color",
+            "type": "string",
+            "required": false,
+            "description": "color request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "periodTimes",
+            "wireName": "periodTimes",
+            "type": "array",
+            "required": false,
+            "description": "periodTimes request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_shifts_shifts_import",
+      "title": "Shifts: Shifts Import",
+      "description": "Import a shifts from CxM/Ting Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Shifts",
+      "method": "POST",
+      "path": "/api/Shifts/import",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: id [int32], company_Id [uuid], external_Id [int64], name, startTime [time], endTime [time], status [int32], code, type [int32], color, note, tolerance_First_Start [int64], tolerance_First_End [int64], tolerance_Second_Start [int64], tolerance_Second_End [int64], shiftChilds.",
+        "fields": [
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "integer",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "companyId",
+            "wireName": "company_Id",
+            "type": "string",
+            "required": false,
+            "description": "company_Id request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "externalId",
+            "wireName": "external_Id",
+            "type": "integer",
+            "required": false,
+            "description": "Company Id extends the Ting system",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "startTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "endTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "color",
+            "wireName": "color",
+            "type": "string",
+            "required": false,
+            "description": "color request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "toleranceFirstStart",
+            "wireName": "tolerance_First_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceFirstEnd",
+            "wireName": "tolerance_First_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondStart",
+            "wireName": "tolerance_Second_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondEnd",
+            "wireName": "tolerance_Second_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftChilds",
+            "wireName": "shiftChilds",
+            "type": "array",
+            "required": false,
+            "description": "shiftChilds request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_shift_schedule_shift_schedule",
+      "title": "Shift Schedule: Shift Schedule",
+      "description": "Create new ShiftSchedule Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "POST",
+      "path": "/api/ShiftSchedule",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode, faceId [uuid], companyId [uuid], company_Id [int64], shiftId [int32], teamId [int32], status [int32], operatorId [uuid], projectId [int64], date [date-time].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "faceId",
+            "wireName": "faceId",
+            "type": "string",
+            "required": false,
+            "description": "faceId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "companyId2",
+            "wireName": "company_Id",
+            "type": "integer",
+            "required": false,
+            "description": "company_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "operatorId",
+            "wireName": "operatorId",
+            "type": "string",
+            "required": false,
+            "description": "operatorId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "Operator Id extends from the Ting system",
+            "format": "int64"
+          },
+          {
+            "name": "date",
+            "wireName": "date",
+            "type": "string",
+            "required": false,
+            "description": "date request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_shift_schedule_shift_schedule_import_shift_schedule",
+      "title": "Shift Schedule: Shift Schedule Import Shift Schedule",
+      "description": "Create new ShiftSchedule Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "POST",
+      "path": "/api/ShiftSchedule/importShiftSchedule",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_team_team",
+      "title": "Team: Team",
+      "description": "Create a Team Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "POST",
+      "path": "/Team",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: operator_Id [uuid], name, status [int32], leader_Id [uuid].",
+        "fields": [
+          {
+            "name": "operatorId",
+            "wireName": "operator_Id",
+            "type": "string",
+            "required": false,
+            "description": "operator_Id request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của Team: Deactive, Active, Pending, ...\r\nMặc định là Active",
+            "format": "int32"
+          },
+          {
+            "name": "leaderId",
+            "wireName": "leader_Id",
+            "type": "string",
+            "required": false,
+            "description": "Leader_Id của nhóm",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_team_team_import",
+      "title": "Team: Team Import",
+      "description": "Import a Team from CxM/Ting Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team",
+      "method": "POST",
+      "path": "/Team/import",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: operator_Id [uuid], name, status [int32], leader_Id [uuid], id [int32].",
+        "fields": [
+          {
+            "name": "operatorId",
+            "wireName": "operator_Id",
+            "type": "string",
+            "required": false,
+            "description": "operator_Id request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của Team: Deactive, Active, Pending, ...\r\nMặc định là Active",
+            "format": "int32"
+          },
+          {
+            "name": "leaderId",
+            "wireName": "leader_Id",
+            "type": "string",
+            "required": false,
+            "description": "Leader_Id của nhóm",
+            "format": "uuid"
+          },
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "integer",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_team_team_by_id_shift",
+      "title": "Team: Team By Id Shift",
+      "description": "Thiết lập các ca cho một Team Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "POST",
+      "path": "/Team/{id}/shift",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Id của Team"
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_team_team_by_id_employee",
+      "title": "Team: Team By Id Employee",
+      "description": "Thiết lập các Nhân sự cho một Team Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "POST",
+      "path": "/Team/{id}/employee",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Id của Team"
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_post_ting_data_sync_ting_data_sync_companies",
+      "title": "Ting Data Sync: Ting Data Sync Companies",
+      "description": "Sync một công ty từ Ting sang Face, \r\nNếu là nhân sự thêm mới thì nên ImportEmployee =false để import nhân sự cả hai cùng lúc thay vì đồng bộ Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "TingDataSync",
+      "method": "POST",
+      "path": "/api/TingDataSync/Companies",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: token (required), ting_Company_Id [int64], importEmployee.",
+        "fields": [
+          {
+            "name": "token",
+            "wireName": "token",
+            "type": "string",
+            "required": true,
+            "description": "token request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "tingCompanyId",
+            "wireName": "ting_Company_Id",
+            "type": "integer",
+            "required": false,
+            "description": "ting_Company_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "importEmployee",
+            "wireName": "importEmployee",
+            "type": "boolean",
+            "required": false,
+            "description": "Có đồng bộ nhân sự hay không. Tạm thời nên không mà chỉ đồng bộ cơ cấu tổ chức từ Company->Operator->Department -> Company->Operator->Team"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_ting_data_sync_ting_data_sync_department",
+      "title": "Ting Data Sync: Ting Data Sync Department",
+      "description": "Import một team vào Ting và Face Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "TingDataSync",
+      "method": "POST",
+      "path": "/api/TingDataSync/Department",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: CompanyId (required) [int64], DepartmentId (required) [int64], Face_Team_Id (required) [int64], Employees (required) [binary].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "CompanyId",
+            "type": "integer",
+            "required": true,
+            "description": "Ting Company ID",
+            "format": "int64"
+          },
+          {
+            "name": "departmentId",
+            "wireName": "DepartmentId",
+            "type": "integer",
+            "required": true,
+            "description": "Ting DepartmentId",
+            "format": "int64"
+          },
+          {
+            "name": "faceTeamId",
+            "wireName": "Face_Team_Id",
+            "type": "integer",
+            "required": true,
+            "description": "Id của Face_team",
+            "format": "int64"
+          },
+          {
+            "name": "employees",
+            "wireName": "Employees",
+            "type": "string",
+            "required": true,
+            "description": "json file thông tin về nhân sự",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_post_ting_data_sync_ting_data_sync_team",
+      "title": "Ting Data Sync: Ting Data Sync Team",
+      "description": "Import môt team vào Face tho Employeeeid đã dc import vào Ting trước đó Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "TingDataSync",
+      "method": "POST",
+      "path": "/api/TingDataSync/team",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: start_employee_id (required) [int64], Face_Team_Id (required) [int64], Employees (required) [binary].",
+        "fields": [
+          {
+            "name": "startEmployeeId",
+            "wireName": "start_employee_id",
+            "type": "integer",
+            "required": true,
+            "description": "Ting Company ID",
+            "format": "int64"
+          },
+          {
+            "name": "faceTeamId",
+            "wireName": "Face_Team_Id",
+            "type": "integer",
+            "required": true,
+            "description": "Id của Face_team",
+            "format": "int64"
+          },
+          {
+            "name": "employees",
+            "wireName": "Employees",
+            "type": "string",
+            "required": true,
+            "description": "json file thông tin về nhân sự",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_check_in_check_in_attendance_faces_range",
+      "title": "Check In: Check In Attendance Faces Range",
+      "description": "Trả về danh sách các ngày có số liệu chấm công (checkin hoặc chốt) của danh sách nhân viên trong một khoảng thời gian Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "PUT",
+      "path": "/api/CheckIn/attendance/faces/range",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "dateOnly",
+          "wireName": "dateOnly",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "dateOnly query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "companyId query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_put_check_in_check_in_get_checkinby_company_by_external_company_id_report",
+      "title": "Check In: Check In Get Checkinby Company By External Company Id Report",
+      "description": "Execute CheckIn data in CXM. Endpoint: PUT /api/CheckIn/getCheckinbyCompany/{external_company_Id}/report. Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "CheckIn",
+      "method": "PUT",
+      "path": "/api/CheckIn/getCheckinbyCompany/{external_company_Id}/report",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalCompanyId",
+          "wireName": "external_company_Id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_company_Id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startTime",
+          "wireName": "startTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startTime query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endTime",
+          "wireName": "endTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endTime query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_put_company_get",
+      "title": "Company: Get",
+      "description": "Update a Company by Guid Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Company",
+      "method": "PUT",
+      "path": "/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, external_Id [int64], time_Zone [int32].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "externalId",
+            "wireName": "external_Id",
+            "type": "integer",
+            "required": false,
+            "description": "Company Id extends the Ting system",
+            "format": "int64"
+          },
+          {
+            "name": "timeZone",
+            "wireName": "time_Zone",
+            "type": "integer",
+            "required": false,
+            "description": "Time zone để xử lý phần check",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_face_identity_face_identity_by_id",
+      "title": "Face Identity: Face Identity By Id",
+      "description": "Update the FaceIdentity by id Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "FaceIdentity",
+      "method": "PUT",
+      "path": "/api/FaceIdentity/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeCode, name, role, jobTitle, operatorId [uuid].",
+        "fields": [
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "string",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "jobTitle",
+            "wireName": "jobTitle",
+            "type": "string",
+            "required": false,
+            "description": "jobTitle request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "operatorId",
+            "wireName": "operatorId",
+            "type": "string",
+            "required": false,
+            "description": "operatorId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_notes_notes_by_id",
+      "title": "Notes: Notes By Id",
+      "description": "Update note theo Id Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Notes",
+      "method": "PUT",
+      "path": "/api/Notes/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: working_Day [date], face_Identity_Id [uuid], content.",
+        "fields": [
+          {
+            "name": "workingDay",
+            "wireName": "working_Day",
+            "type": "string",
+            "required": false,
+            "description": "Ngày làm việc, trường này sẽ được dùng để tạo ra Date_Key ở backend để map với bảng Date_Dim",
+            "format": "date"
+          },
+          {
+            "name": "faceIdentityId",
+            "wireName": "face_Identity_Id",
+            "type": "string",
+            "required": false,
+            "description": "Id của face thực hiện checkin",
+            "format": "uuid"
+          },
+          {
+            "name": "content",
+            "wireName": "content",
+            "type": "string",
+            "required": false,
+            "description": "content request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_operators_operators_by_id",
+      "title": "Operators: Operators By Id",
+      "description": "Update the Operator/Project by ProjectGuid Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Operators",
+      "method": "PUT",
+      "path": "/api/Operators/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, managerId [uuid].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "managerId",
+            "wireName": "managerId",
+            "type": "string",
+            "required": false,
+            "description": "trường cần update",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_shifts_shifts_by_id",
+      "title": "Shifts: Shifts By Id",
+      "description": "Update the shift by id Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Shifts",
+      "method": "PUT",
+      "path": "/api/Shifts/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: id [int32], companyId [uuid], name, startTime [time], endTime [time], status [int32], code, type [int32], parentId [int32], color, note, tolerance_First_Start [int64], tolerance_First_End [int64], tolerance_Second_Start [int64], tolerance_Second_End [int64], shiftChilds, shiftParent.",
+        "fields": [
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "integer",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "startTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "endTime request-body field from the CXM OpenAPI schema.",
+            "format": "time"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "color",
+            "wireName": "color",
+            "type": "string",
+            "required": false,
+            "description": "color request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "toleranceFirstStart",
+            "wireName": "tolerance_First_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceFirstEnd",
+            "wireName": "tolerance_First_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondStart",
+            "wireName": "tolerance_Second_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondEnd",
+            "wireName": "tolerance_Second_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftChilds",
+            "wireName": "shiftChilds",
+            "type": "array",
+            "required": false,
+            "description": "shiftChilds request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
+          },
+          {
+            "name": "shiftParent",
+            "wireName": "shiftParent",
+            "type": "object",
+            "required": false,
+            "description": "DTO để lấy thông tin ca hoặc update"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_put_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Update  ShiftSchedule : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "PUT",
+      "path": "/api/ShiftSchedule/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop-checkin_put_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Update the Team by id Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "PUT",
+      "path": "/Team/{id}",
+      "safety": "write",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, status [int32], leader_Id [uuid].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của Team: Deactive, Active, Pending, ...\r\nMặc định là Active",
+            "format": "int32"
+          },
+          {
+            "name": "leaderId",
+            "wireName": "leader_Id",
+            "type": "string",
+            "required": false,
+            "description": "Leader_Id của nhóm",
+            "format": "uuid"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop-checkin_delete_company_get",
+      "title": "Company: Get",
+      "description": "Delete a Company by Guid Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Company",
+      "method": "DELETE",
+      "path": "/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_face_identity_face_identity_by_id",
+      "title": "Face Identity: Face Identity By Id",
+      "description": "Delete the shift by id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "FaceIdentity",
+      "method": "DELETE",
+      "path": "/api/FaceIdentity/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_notes_notes_by_id",
+      "title": "Notes: Notes By Id",
+      "description": "Delete the notes Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Notes",
+      "method": "DELETE",
+      "path": "/api/Notes/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_operators_operators_by_id",
+      "title": "Operators: Operators By Id",
+      "description": "Delete the Operator/Project by Guid Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Operators",
+      "method": "DELETE",
+      "path": "/api/Operators/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_shifts_shifts_by_id",
+      "title": "Shifts: Shifts By Id",
+      "description": "Delete the shift by id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Shifts",
+      "method": "DELETE",
+      "path": "/api/Shifts/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "DELETE",
+      "path": "/api/ShiftSchedule/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_delete_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Delete the Team by id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team",
+      "method": "DELETE",
+      "path": "/Team/{id}",
+      "safety": "destructive",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    }
+  ]
+}

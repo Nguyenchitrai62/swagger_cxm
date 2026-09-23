@@ -13,7 +13,24 @@ test("settings default to port 9000 and accept MCP_KEY", () => {
   assert.equal(settings.mcpApiKey, "fixed-key");
   assert.equal(settings.cxmOAuthClientId, "CxmApi_App");
   assert.equal(settings.cxmOAuthScope, "offline_access CxmApi");
+  assert.equal(settings.cxmOAuthClientSecret, undefined);
+  assert.equal(settings.tingopCheckInBaseUrl.origin, "https://sit.checkin.tingconnect.com");
   assert.equal(settings.cxmInteractiveLogin, false);
+});
+
+test("settings accept an OAuth client secret for upstreams such as TingOp", () => {
+  const settings = loadSettings({
+    HOST: "127.0.0.1",
+    CXM_BASE_URL: "https://tingop.example.test",
+    CXM_OAUTH_CLIENT_ID: "TingOp",
+    CXM_OAUTH_SCOPE: "offline_access API",
+    CXM_OAUTH_CLIENT_SECRET: "public-client-secret",
+    TINGOP_CHECKIN_BASE_URL: "https://checkin.example.test",
+  });
+  assert.equal(settings.cxmOAuthClientId, "TingOp");
+  assert.equal(settings.cxmOAuthScope, "offline_access API");
+  assert.equal(settings.cxmOAuthClientSecret, "public-client-secret");
+  assert.equal(settings.tingopCheckInBaseUrl.origin, "https://checkin.example.test");
 });
 
 test("settings accept a distinct MCP instance name", () => {

@@ -9,10 +9,15 @@ import type { Express, NextFunction, Request, RequestHandler, Response } from "e
 
 import { renderAuthPage } from "./auth-page.js";
 import { CxmApiClient } from "./cxm-client.js";
-import { createCxmMcpServer } from "./mcp-server.js";
+import { createCxmMcpServer, getAdditionalMcpToolCount } from "./mcp-server.js";
 import type { AppSettings } from "./settings.js";
 import { CxmAuthenticationError, type TokenProvider } from "./token-provider.js";
 import type { ToolConfig } from "./tool-config.js";
+
+interface AuxiliaryToolConfig {
+  read: ToolConfig;
+  write: ToolConfig;
+}
 
 export interface CxmMcpRuntime {
   app: Express;
@@ -83,6 +88,7 @@ function sendAuthPage(
       actionUrl: withMcpKey("/auth/login", request),
       logoutUrl: withMcpKey("/auth/logout", request),
       mcpUrl: withMcpKey("/mcp", request),
+      ...(settings.mcpUpstreamName ? { upstreamName: settings.mcpUpstreamName } : {}),
       ...options,
     }),
   );
@@ -131,6 +137,8 @@ export function createCxmMcpRuntime(
   writeConfig: ToolConfig,
   tokenProvider: TokenProvider,
   fetchImpl: typeof fetch = fetch,
+  bimConfig?: ToolConfig,
+  checkInConfig?: AuxiliaryToolConfig,
 ): CxmMcpRuntime {
   const appOptions: Parameters<typeof createMcpExpressApp>[0] = {
     host: settings.host,
@@ -142,7 +150,14 @@ export function createCxmMcpRuntime(
   app.use(urlencoded({ extended: false, limit: "16kb" }));
 
   const client = new CxmApiClient(settings, tokenProvider, fetchImpl);
-  const tools = [...readConfig.tools, ...writeConfig.tools];
+  const tools = [
+    ...readConfig.tools,
+    ...writeConfig.tools,
+    ...(bimConfig?.tools ?? []),
+    ...(checkInConfig?.read.tools ?? []),
+    ...(checkInConfig?.write.tools ?? []),
+  ];
+  const additionalReadTools = getAdditionalMcpToolCount(tools);
   const handler = createMcpHandler(
     () => createCxmMcpServer(tools, client, settings.mcpInstanceName),
     {
@@ -162,7 +177,15 @@ export function createCxmMcpRuntime(
       health: "/healthz",
       readTools: readConfig.tools.length,
       writeTools: writeConfig.tools.length,
-      totalTools: tools.length,
+      totalTools: tools.length + additionalReadTools,
+      bimReadTools: bimConfig?.tools.length ?? 0,
+      ...(additionalReadTools ? { compositeReadTools: additionalReadTools } : {}),
+      ...(checkInConfig
+        ? {
+            checkInReadTools: checkInConfig.read.tools.length,
+            checkInWriteTools: checkInConfig.write.tools.length,
+          }
+        : {}),
       authentication: settings.mcpApiKey
         ? ["MCP_KEY query parameter", "Authorization Bearer header"]
         : [],
@@ -175,7 +198,15 @@ export function createCxmMcpRuntime(
       upstream: settings.cxmBaseUrl.origin,
       readToolCount: readConfig.tools.length,
       writeToolCount: writeConfig.tools.length,
-      totalToolCount: tools.length,
+      totalToolCount: tools.length + additionalReadTools,
+      bimReadToolCount: bimConfig?.tools.length ?? 0,
+      ...(additionalReadTools ? { compositeReadToolCount: additionalReadTools } : {}),
+      ...(checkInConfig
+        ? {
+            checkInReadToolCount: checkInConfig.read.tools.length,
+            checkInWriteToolCount: checkInConfig.write.tools.length,
+          }
+        : {}),
       selectedReadTags: readConfig.selectedTags,
       selectedWriteTags: writeConfig.selectedTags,
       cxmTokenConfigured: tokenProvider.configured,

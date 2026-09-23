@@ -1,0 +1,2666 @@
+{
+  "generatedAt": "2026-09-15T03:48:31.913Z",
+  "sourceOpenApi": "https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json",
+  "sourceOpenApis": [
+    "https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json",
+    "https://tingop.tingconnect.com/swagger/8080_swagger/swagger.json"
+  ],
+  "sourceTitle": "HRM API + Project API",
+  "selectedTags": [
+    "Area",
+    "Companies",
+    "Employee",
+    "EmployeesGroup",
+    "ExcelAction",
+    "Group",
+    "JobCategories",
+    "JobTitle",
+    "PcvmProject",
+    "Project",
+    "Project_Employee",
+    "ProjectRole",
+    "ProjectWarehouse",
+    "Shift",
+    "ShiftSchedule",
+    "Tag",
+    "Team",
+    "Team_Employee",
+    "WorkPackage"
+  ],
+  "tools": [
+    {
+      "name": "tingop_companies_companies_by_id",
+      "title": "Companies: Companies By Id",
+      "description": "Get Companies by Id",
+      "tag": "Companies",
+      "method": "GET",
+      "path": "/Companies/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_employee_employee",
+      "title": "Employee: Employee",
+      "description": "Lấy tất cả các record trong bảng HRM",
+      "tag": "Employee",
+      "method": "GET",
+      "path": "/api/Employee",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "gender",
+          "wireName": "gender",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "gender query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "status",
+          "wireName": "status",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "status query parameter from the CXM OpenAPI schema.",
+          "default": -1
+        }
+      ]
+    },
+    {
+      "name": "tingop_employee_employee_getby_contact",
+      "title": "Employee: Employee Getby Contact",
+      "description": "Lấy tất cả các record trong bảng HRM",
+      "tag": "Employee",
+      "method": "GET",
+      "path": "/api/Employee/getbyContact",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "email",
+          "wireName": "email",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "email query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "phone",
+          "wireName": "phone",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "phone query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_employee_employee_by_id",
+      "title": "Employee: Employee By Id",
+      "description": "Read Employee data in CXM. Endpoint: GET /api/Employee/{id}.",
+      "tag": "Employee",
+      "method": "GET",
+      "path": "/api/Employee/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_employee_employee_company_by_company_id",
+      "title": "Employee: Employee Company By Company Id",
+      "description": "Lấy tất cả các thành viên trong công ty",
+      "tag": "Employee",
+      "method": "GET",
+      "path": "/api/Employee/company/{companyId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "groupCodeOrder",
+          "wireName": "groupCodeOrder",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "groupCodeOrder query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_employees_group_employees_group_get_by_company_id",
+      "title": "Employees Group: Employees Group Get By Company Id",
+      "description": "Lấy danh sách nhân sự có phòng ban",
+      "tag": "EmployeesGroup",
+      "method": "GET",
+      "path": "/EmployeesGroup/getByCompanyId/{companyId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_group_group_by_id",
+      "title": "Group: Group By Id",
+      "description": "Get Group by Id",
+      "tag": "Group",
+      "method": "GET",
+      "path": "/Group/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_group_group_company_by_company_id",
+      "title": "Group: Group Company By Company Id",
+      "description": "Danh sách phòng ban của 1 công ty",
+      "tag": "Group",
+      "method": "GET",
+      "path": "/Group/company/{companyId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_group_group_get_members_to_group_by_group_id",
+      "title": "Group: Group Get Members To Group By Group Id",
+      "description": "Get danh sách nhân sự của group",
+      "tag": "Group",
+      "method": "GET",
+      "path": "/Group/getMembersToGroup/{groupId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "groupId",
+          "wireName": "groupId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "groupId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_group_group_get_members_to_group_code",
+      "title": "Group: Group Get Members To Group Code",
+      "description": "Get danh sách nhân sự của group",
+      "tag": "Group",
+      "method": "GET",
+      "path": "/Group/getMembersToGroupCode",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "groupCode",
+          "wireName": "groupCode",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "groupCode query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_job_categories_job_categories_by_id",
+      "title": "Job Categories: Job Categories By Id",
+      "description": "Get JobCategories by Id",
+      "tag": "JobCategories",
+      "method": "GET",
+      "path": "/JobCategories/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_job_title_job_title_by_id",
+      "title": "Job Title: Job Title By Id",
+      "description": "Get JobTitle by Id",
+      "tag": "JobTitle",
+      "method": "GET",
+      "path": "/JobTitle/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_job_title_job_title_company_job_tile_by_company_id",
+      "title": "Job Title: Job Title Company Job Tile By Company Id",
+      "description": "Danh sách chức danh của 1 công ty",
+      "tag": "JobTitle",
+      "method": "GET",
+      "path": "/JobTitle/companyJobTile/{companyId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_area_area_by_id",
+      "title": "Area: Area By Id",
+      "description": "Get Area by Id",
+      "tag": "Area",
+      "method": "GET",
+      "path": "/Area/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_area_area_project_by_project_id",
+      "title": "Area: Area Project By Project Id",
+      "description": "Lấy toàn bộ Area của một Project với paging",
+      "tag": "Area",
+      "method": "GET",
+      "path": "/Area/project/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_excel_action_excel_action_export_area_file_by_project_id",
+      "title": "Excel Action: Excel Action Export Area File By Project Id",
+      "description": "Export Issues ra file Excel",
+      "tag": "ExcelAction",
+      "method": "GET",
+      "path": "/ExcelAction/exportAreaFile/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_excel_action_excel_action_export_work_packages_file_by_project_id",
+      "title": "Excel Action: Excel Action Export Work Packages File By Project Id",
+      "description": "Export Issues ra file Excel",
+      "tag": "ExcelAction",
+      "method": "GET",
+      "path": "/ExcelAction/exportWorkPackagesFile/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_pcvm_project_pcvm_project_by_id_details",
+      "title": "Pcvm Project: Pcvm Project By Id Details",
+      "description": "Lấy thông tin chi tiết về Project gồm các Team và Member",
+      "tag": "PcvmProject",
+      "method": "GET",
+      "path": "/api/PcvmProject/{id}/details",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Id của Project"
+        }
+      ]
+    },
+    {
+      "name": "tingop_pcvm_project_pcvm_project_test_call_service_by_id",
+      "title": "Pcvm Project: Pcvm Project Test Call Service By Id",
+      "description": "Lấy thông tin chi tiết về Project gồm các Team và Member",
+      "tag": "PcvmProject",
+      "method": "GET",
+      "path": "/api/PcvmProject/testCallService/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Id của Project"
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_project",
+      "title": "Project: Project",
+      "description": "Read project master data and project status in CXM. Endpoint: GET /api/Project.",
+      "tag": "Project",
+      "method": "GET",
+      "path": "/api/Project",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_project_current",
+      "title": "Project: Project Current",
+      "description": "Read project master data and project status in CXM. Endpoint: GET /api/Project/current.",
+      "tag": "Project",
+      "method": "GET",
+      "path": "/api/Project/current",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_project_by_id",
+      "title": "Project: Project By Id",
+      "description": "Read project master data and project status in CXM. Endpoint: GET /api/Project/{id}.",
+      "tag": "Project",
+      "method": "GET",
+      "path": "/api/Project/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_project_company_by_id",
+      "title": "Project: Project Company By Id",
+      "description": "Lấy danh sách các Project của một công ty",
+      "tag": "Project",
+      "method": "GET",
+      "path": "/api/Project/company/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "CompanyId của công ty cần lấy danh sách Project"
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_project_by_id_details",
+      "title": "Project: Project By Id Details",
+      "description": "Lấy thông tin chi tiết về Project gồm các Team và Member",
+      "tag": "Project",
+      "method": "GET",
+      "path": "/api/Project/{id}/details",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "Id của Project"
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_employee_project_employee_by_project_id",
+      "title": "Project Employee: Project Employee By Project Id",
+      "description": "Get Member by Id",
+      "tag": "Project_Employee",
+      "method": "GET",
+      "path": "/Project_Employee/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "employeeId query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_employee_project_employee_by_project_id_member",
+      "title": "Project Employee: Project Employee By Project Id Member",
+      "description": "Get Member của một project",
+      "tag": "Project_Employee",
+      "method": "GET",
+      "path": "/Project_Employee/{projectId}/member",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_role_project_role",
+      "title": "Project Role: Project Role",
+      "description": "Get tất cả Role trong 1 project",
+      "tag": "ProjectRole",
+      "method": "GET",
+      "path": "/ProjectRole",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_role_project_role_by_id",
+      "title": "Project Role: Project Role By Id",
+      "description": "Get Role by Id",
+      "tag": "ProjectRole",
+      "method": "GET",
+      "path": "/ProjectRole/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_role_project_role_roleof_company_by_company_id",
+      "title": "Project Role: Project Role Roleof Company By Company Id",
+      "description": "Get tất cả Role trong 1 công ty",
+      "tag": "ProjectRole",
+      "method": "GET",
+      "path": "/ProjectRole/roleofCompany/{companyId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_warehouse_project_warehouse_by_id",
+      "title": "Project Warehouse: Project Warehouse By Id",
+      "description": "Get ProjectWarehouse by Id",
+      "tag": "ProjectWarehouse",
+      "method": "GET",
+      "path": "/ProjectWarehouse/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_warehouse_project_warehouse_get_project_warehouse_by_project_id",
+      "title": "Project Warehouse: Project Warehouse Get Project Warehouse By Project Id",
+      "description": "Get ProjectWarehouse by Id",
+      "tag": "ProjectWarehouse",
+      "method": "GET",
+      "path": "/ProjectWarehouse/getProjectWarehouseByProjectId/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_warehouse_project_warehouse_get_project_warehouse_by_ware_hosue_id_by_ware_house_id",
+      "title": "Project Warehouse: Project Warehouse Get Project Warehouse By Ware Hosue Id By Ware House Id",
+      "description": "Get ProjectWarehouse by Id",
+      "tag": "ProjectWarehouse",
+      "method": "GET",
+      "path": "/ProjectWarehouse/getProjectWarehouseByWareHosueId/{wareHouseId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "wareHouseId",
+          "wireName": "wareHouseId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "wareHouseId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_project_warehouse_project_warehouse_get_project_warehouse_by_ware_hosue_code",
+      "title": "Project Warehouse: Project Warehouse Get Project Warehouse By Ware Hosue Code",
+      "description": "Get ProjectWarehouse by Id",
+      "tag": "ProjectWarehouse",
+      "method": "GET",
+      "path": "/ProjectWarehouse/getProjectWarehouseByWareHosueCode",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "wareHouseCode",
+          "wireName": "wareHouseCode",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "wareHouseCode query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_shift_shift",
+      "title": "Shift: Shift",
+      "description": "Get Shift",
+      "tag": "Shift",
+      "method": "GET",
+      "path": "/Shift",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startTime",
+          "wireName": "startTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startTime query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endTime",
+          "wireName": "endTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endTime query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "companyId query parameter from the CXM OpenAPI schema.",
+          "default": -1
+        }
+      ]
+    },
+    {
+      "name": "tingop_shift_shift_by_id",
+      "title": "Shift: Shift By Id",
+      "description": "Get Shift by Id",
+      "tag": "Shift",
+      "method": "GET",
+      "path": "/Shift/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Get ShiftSchedule by Id",
+      "tag": "ShiftSchedule",
+      "method": "GET",
+      "path": "/ShiftSchedule/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_shift_schedule_shift_schedule_get_by_employ_id",
+      "title": "Shift Schedule: Shift Schedule Get By Employ Id",
+      "description": "Get ShiftSchedule by Id",
+      "tag": "ShiftSchedule",
+      "method": "GET",
+      "path": "/ShiftSchedule/getByEmployId",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "employeeId query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "companyId query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_shift_schedule_shift_schedule_get_by_project_id",
+      "title": "Shift Schedule: Shift Schedule Get By Project Id",
+      "description": "Get ShiftSchedule by project Id",
+      "tag": "ShiftSchedule",
+      "method": "GET",
+      "path": "/ShiftSchedule/getByProjectId",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "projectId query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "companyId query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_tag_tag",
+      "title": "Tag: Tag",
+      "description": "Lấy tất cả các record trong bảng Tag",
+      "tag": "Tag",
+      "method": "GET",
+      "path": "/Tag",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "type",
+          "wireName": "type",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "type query parameter from the CXM OpenAPI schema.",
+          "default": -1
+        }
+      ]
+    },
+    {
+      "name": "tingop_tag_tag_by_id",
+      "title": "Tag: Tag By Id",
+      "description": "Lấy một record trong bảng Tag",
+      "tag": "Tag",
+      "method": "GET",
+      "path": "/Tag/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_team_team",
+      "title": "Team: Team",
+      "description": "Lấy tất cả các record trong bảng Team\r\nAPI này chỉ cần phải đóng lại khi triển khai",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/api/Team",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": []
+    },
+    {
+      "name": "tingop_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Read Team data in CXM. Endpoint: GET /api/Team/{id}.",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/api/Team/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_team_team_project_by_id",
+      "title": "Team: Team Project By Id",
+      "description": "Lấy danh sách các Team của một Project",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/api/Team/project/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "ProjectId cần lấy các Team của nó"
+        }
+      ]
+    },
+    {
+      "name": "tingop_team_team_by_id_details",
+      "title": "Team: Team By Id Details",
+      "description": "Lấy các thông tin chi tiết của một Team theo Id\r\n - Thông tin cơ bản của Team\r\n - Danh sách các thành viên của Team\r\n - Danh sách các ca (theo id) của Team",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/api/Team/{id}/details",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_team_team_get_team_by_user",
+      "title": "Team: Team Get Team By User",
+      "description": "Get team của User",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/api/Team/getTeamByUser",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "phone",
+          "wireName": "phone",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "phone query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "email",
+          "wireName": "email",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "email query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_team_employee_team_employee_team_by_team_id",
+      "title": "Team Employee: Team Employee Team By Team Id",
+      "description": "Lấy thành viên trong 1 công ty",
+      "tag": "Team_Employee",
+      "method": "GET",
+      "path": "/Team_Employee/team/{teamId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "teamId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "teamId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_work_package_work_package_by_id",
+      "title": "Work Package: Work Package By Id",
+      "description": "Get WorkPackage by Id",
+      "tag": "WorkPackage",
+      "method": "GET",
+      "path": "/WorkPackage/{id}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_work_package_work_package_project_by_project_id",
+      "title": "Work Package: Work Package Project By Project Id",
+      "description": "Lấy toàn bộ WorkPackage của một Project với paging",
+      "tag": "WorkPackage",
+      "method": "GET",
+      "path": "/WorkPackage/project/{projectId}",
+      "safety": "read-only",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    }
+  ]
+}

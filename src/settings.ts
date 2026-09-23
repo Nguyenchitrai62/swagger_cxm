@@ -4,10 +4,13 @@ export interface AppSettings {
   host: string;
   port: number;
   mcpInstanceName: string;
+  mcpUpstreamName?: string;
   allowedHosts?: string[];
   allowedOrigins?: string[];
   mcpApiKey?: string;
   cxmBaseUrl: URL;
+  bimBaseUrl: URL;
+  tingopCheckInBaseUrl: URL;
   cxmAccessToken?: string;
   cxmAccessTokenFile?: string;
   cxmRefreshToken?: string;
@@ -16,6 +19,7 @@ export interface AppSettings {
   cxmOAuthScope: string;
   cxmInteractiveLogin: boolean;
   cxmTenantId?: string;
+  cxmOAuthClientSecret?: string;
   requestTimeoutMs: number;
   maxRequestBytes: number;
   maxUploadBytes: number;
@@ -83,12 +87,25 @@ export function loadSettings(env: NodeJS.ProcessEnv = process.env): AppSettings 
   if (cxmBaseUrl.protocol !== "https:" && !isLoopback(cxmBaseUrl.hostname)) {
     throw new Error("CXM_BASE_URL must use HTTPS unless it points to loopback");
   }
+  const bimBaseUrl = new URL(optional(env.BIM_BASE_URL) ?? "https://bim.erp-uat.hicas.vn");
+  if (bimBaseUrl.protocol !== "https:" && !isLoopback(bimBaseUrl.hostname)) {
+    throw new Error("BIM_BASE_URL must use HTTPS unless it points to loopback");
+  }
+  const tingopCheckInBaseUrl = new URL(
+    optional(env.TINGOP_CHECKIN_BASE_URL) ?? "https://sit.checkin.tingconnect.com",
+  );
+  if (tingopCheckInBaseUrl.protocol !== "https:" && !isLoopback(tingopCheckInBaseUrl.hostname)) {
+    throw new Error("TINGOP_CHECKIN_BASE_URL must use HTTPS unless it points to loopback");
+  }
 
   const settings: AppSettings = {
     host,
     port: integerSetting(env, "PORT", 9000, 1, 65_535),
     mcpInstanceName: optional(env.MCP_INSTANCE_NAME) ?? "hicas-cxm",
+    mcpUpstreamName: optional(env.MCP_UPSTREAM_NAME) ?? "CXM",
     cxmBaseUrl,
+    bimBaseUrl,
+    tingopCheckInBaseUrl,
     cxmOAuthClientId: optional(env.CXM_OAUTH_CLIENT_ID) ?? "CxmApi_App",
     cxmOAuthScope: optional(env.CXM_OAUTH_SCOPE) ?? "offline_access CxmApi",
     cxmInteractiveLogin: booleanSetting(env, "CXM_INTERACTIVE_LOGIN"),
@@ -128,6 +145,7 @@ export function loadSettings(env: NodeJS.ProcessEnv = process.env): AppSettings 
   const cxmRefreshToken = optional(env.CXM_REFRESH_TOKEN);
   const cxmRefreshTokenFile = optional(env.CXM_REFRESH_TOKEN_FILE);
   const cxmTenantId = optional(env.CXM_TENANT_ID);
+  const cxmOAuthClientSecret = optional(env.CXM_OAUTH_CLIENT_SECRET);
   if (allowedHosts) settings.allowedHosts = allowedHosts;
   if (allowedOrigins) settings.allowedOrigins = allowedOrigins;
   if (mcpApiKey) settings.mcpApiKey = mcpApiKey;
@@ -136,5 +154,6 @@ export function loadSettings(env: NodeJS.ProcessEnv = process.env): AppSettings 
   if (cxmRefreshToken) settings.cxmRefreshToken = cxmRefreshToken;
   if (cxmRefreshTokenFile) settings.cxmRefreshTokenFile = cxmRefreshTokenFile;
   if (cxmTenantId) settings.cxmTenantId = cxmTenantId;
+  if (cxmOAuthClientSecret) settings.cxmOAuthClientSecret = cxmOAuthClientSecret;
   return settings;
 }

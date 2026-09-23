@@ -10,7 +10,10 @@
   "scripts": {
     "generate:tools": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts",
     "generate:tools:uat": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile uat",
+    "generate:tools:bim": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile bim",
     "generate:tools:sit": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile sit",
+    "generate:tools:tingop": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile tingop",
+    "generate:tools:tingop-checkin": "node --env-file-if-exists=.env --import tsx scripts/generate-tools.ts --profile tingop-checkin",
     "dev": "node --env-file-if-exists=.env --import tsx src/server.ts",
     "dev:watch": "node --env-file-if-exists=.env --watch --import tsx src/server.ts",
     "build": "tsc -p tsconfig.json",

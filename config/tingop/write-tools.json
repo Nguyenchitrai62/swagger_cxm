@@ -1,0 +1,4600 @@
+{
+  "generatedAt": "2026-09-15T03:48:31.948Z",
+  "sourceOpenApi": "https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json",
+  "sourceOpenApis": [
+    "https://tingop.tingconnect.com/swagger/8081_swagger/swagger.json",
+    "https://tingop.tingconnect.com/swagger/8080_swagger/swagger.json"
+  ],
+  "sourceTitle": "HRM API + Project API",
+  "selectedTags": [
+    "Area",
+    "Companies",
+    "Employee",
+    "EmployeesGroup",
+    "ExcelAction",
+    "Group",
+    "JobCategories",
+    "JobTitle",
+    "Project",
+    "Project_Employee",
+    "ProjectEmployee_Role",
+    "ProjectRole",
+    "ProjectWarehouse",
+    "Shift",
+    "ShiftSchedule",
+    "Tag",
+    "Team",
+    "Team_Employee",
+    "Team_Shift",
+    "WorkPackage"
+  ],
+  "tools": [
+    {
+      "name": "tingop_post_companies_companies",
+      "title": "Companies: Companies",
+      "description": "Create new Companies Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Companies",
+      "method": "POST",
+      "path": "/Companies",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: alias, fullName, logo, note, address, registerDate [date-time], activeDate [date-time], outDate [date-time].",
+        "fields": [
+          {
+            "name": "alias",
+            "wireName": "alias",
+            "type": "string",
+            "required": false,
+            "description": "alias request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "fullName",
+            "wireName": "fullName",
+            "type": "string",
+            "required": false,
+            "description": "Phòng ban của 1 trung tâm"
+          },
+          {
+            "name": "logo",
+            "wireName": "logo",
+            "type": "string",
+            "required": false,
+            "description": "Tên phòng ban"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "address",
+            "wireName": "address",
+            "type": "string",
+            "required": false,
+            "description": "address request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "registerDate",
+            "wireName": "registerDate",
+            "type": "string",
+            "required": false,
+            "description": "registerDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "activeDate",
+            "wireName": "activeDate",
+            "type": "string",
+            "required": false,
+            "description": "activeDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "outDate",
+            "wireName": "outDate",
+            "type": "string",
+            "required": false,
+            "description": "outDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_employee_employee",
+      "title": "Employee: Employee",
+      "description": "Execute Employee data in CXM. Endpoint: POST /api/Employee. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Employee",
+      "method": "POST",
+      "path": "/api/Employee",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], companyGuid [uuid], employeeCode, employIdConnect, dateOfBirth [date-time], startDate [date-time], endDate [date-time], gender, firstName, middleName, lastName, homeTown, identity, maritalStatus, nationality, picture, mood.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Id của công ty mà Employee thuộc về",
+            "format": "int64"
+          },
+          {
+            "name": "companyGuid",
+            "wireName": "companyGuid",
+            "type": "string",
+            "required": false,
+            "description": "Guid của công ty mà Employee thuộc về",
+            "format": "uuid"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "Mã Nhân viên."
+          },
+          {
+            "name": "employIdConnect",
+            "wireName": "employIdConnect",
+            "type": "string",
+            "required": false,
+            "description": "employIdConnect request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "dateOfBirth",
+            "wireName": "dateOfBirth",
+            "type": "string",
+            "required": false,
+            "description": "dateOfBirth request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "public double Salary { get; set; }",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "endDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "gender",
+            "wireName": "gender",
+            "type": "string",
+            "required": false,
+            "description": "gender request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "firstName",
+            "wireName": "firstName",
+            "type": "string",
+            "required": false,
+            "description": "firstName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "middleName",
+            "wireName": "middleName",
+            "type": "string",
+            "required": false,
+            "description": "middleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "lastName",
+            "wireName": "lastName",
+            "type": "string",
+            "required": false,
+            "description": "lastName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "homeTown",
+            "wireName": "homeTown",
+            "type": "string",
+            "required": false,
+            "description": "homeTown request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "identity",
+            "wireName": "identity",
+            "type": "string",
+            "required": false,
+            "description": "CMND, PP"
+          },
+          {
+            "name": "maritalStatus",
+            "wireName": "maritalStatus",
+            "type": "string",
+            "required": false,
+            "description": "Tình trạng hôn nhân"
+          },
+          {
+            "name": "nationality",
+            "wireName": "nationality",
+            "type": "string",
+            "required": false,
+            "description": "Quốc tịch"
+          },
+          {
+            "name": "picture",
+            "wireName": "picture",
+            "type": "string",
+            "required": false,
+            "description": "Url đến Avatar"
+          },
+          {
+            "name": "mood",
+            "wireName": "mood",
+            "type": "string",
+            "required": false,
+            "description": "Status text node"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_employee_employee_detail",
+      "title": "Employee: Employee Detail",
+      "description": "Create a Employee with detail infomation Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Employee",
+      "method": "POST",
+      "path": "/api/Employee/detail",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], companyGuid [uuid], employeeCode, employIdConnect, dateOfBirth [date-time], startDate [date-time], endDate [date-time], gender, firstName, middleName, lastName, homeTown, identity, maritalStatus, nationality, picture, mood, contactDetail, jobTitleId [int64].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Id của công ty mà Employee thuộc về",
+            "format": "int64"
+          },
+          {
+            "name": "companyGuid",
+            "wireName": "companyGuid",
+            "type": "string",
+            "required": false,
+            "description": "Guid của công ty mà Employee thuộc về",
+            "format": "uuid"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "Mã Nhân viên."
+          },
+          {
+            "name": "employIdConnect",
+            "wireName": "employIdConnect",
+            "type": "string",
+            "required": false,
+            "description": "employIdConnect request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "dateOfBirth",
+            "wireName": "dateOfBirth",
+            "type": "string",
+            "required": false,
+            "description": "dateOfBirth request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "public double Salary { get; set; }",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "endDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "gender",
+            "wireName": "gender",
+            "type": "string",
+            "required": false,
+            "description": "gender request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "firstName",
+            "wireName": "firstName",
+            "type": "string",
+            "required": false,
+            "description": "firstName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "middleName",
+            "wireName": "middleName",
+            "type": "string",
+            "required": false,
+            "description": "middleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "lastName",
+            "wireName": "lastName",
+            "type": "string",
+            "required": false,
+            "description": "lastName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "homeTown",
+            "wireName": "homeTown",
+            "type": "string",
+            "required": false,
+            "description": "homeTown request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "identity",
+            "wireName": "identity",
+            "type": "string",
+            "required": false,
+            "description": "CMND, PP"
+          },
+          {
+            "name": "maritalStatus",
+            "wireName": "maritalStatus",
+            "type": "string",
+            "required": false,
+            "description": "Tình trạng hôn nhân"
+          },
+          {
+            "name": "nationality",
+            "wireName": "nationality",
+            "type": "string",
+            "required": false,
+            "description": "Quốc tịch"
+          },
+          {
+            "name": "picture",
+            "wireName": "picture",
+            "type": "string",
+            "required": false,
+            "description": "Url đến Avatar"
+          },
+          {
+            "name": "mood",
+            "wireName": "mood",
+            "type": "string",
+            "required": false,
+            "description": "Status text node"
+          },
+          {
+            "name": "contactDetail",
+            "wireName": "contactDetail",
+            "type": "object",
+            "required": false,
+            "description": "contactDetail request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "jobTitleId",
+            "wireName": "jobTitleId",
+            "type": "integer",
+            "required": false,
+            "description": "jobTitleId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_employees_group_employees_group",
+      "title": "Employees Group: Employees Group",
+      "description": "Create new EmployeesGroup Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "EmployeesGroup",
+      "method": "POST",
+      "path": "/EmployeesGroup",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], groupId [int64], status [int32].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của nhân viên. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "groupId",
+            "wireName": "groupId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của group. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_group_group",
+      "title": "Group: Group",
+      "description": "Create new Group Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Group",
+      "method": "POST",
+      "path": "/Group",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], parentId [int64], name, managerId [int64], code, type [int32], status [int32].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "managerId",
+            "wireName": "managerId",
+            "type": "integer",
+            "required": false,
+            "description": "managerId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_job_categories_job_categories",
+      "title": "Job Categories: Job Categories",
+      "description": "Create new JobCategories Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "JobCategories",
+      "method": "POST",
+      "path": "/JobCategories",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], groupId [int64], name, status [int32], description.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Phòng ban của công ty",
+            "format": "int64"
+          },
+          {
+            "name": "groupId",
+            "wireName": "groupId",
+            "type": "integer",
+            "required": false,
+            "description": "groupId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên phòng ban"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_job_title_job_title",
+      "title": "Job Title: Job Title",
+      "description": "Create new JobTitle Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "JobTitle",
+      "method": "POST",
+      "path": "/JobTitle",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], name, code, status [int32], description.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên chức danh"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_area_area",
+      "title": "Area: Area",
+      "description": "Create new Area Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Area",
+      "method": "POST",
+      "path": "/Area",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: parentId [int64], name, code, description, projectId [int64].",
+        "fields": [
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_excel_action_excel_action_import_area_by_project_id",
+      "title": "Excel Action: Excel Action Import Area By Project Id",
+      "description": "Export Issues ra file Excel Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ExcelAction",
+      "method": "POST",
+      "path": "/ExcelAction/importArea/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: file [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "file",
+            "type": "string",
+            "required": false,
+            "description": "file request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_excel_action_excel_action_import_work_packages_by_project_id",
+      "title": "Excel Action: Excel Action Import Work Packages By Project Id",
+      "description": "Export Issues ra file Excel Warning: this POST may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ExcelAction",
+      "method": "POST",
+      "path": "/ExcelAction/importWorkPackages/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: file [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "file",
+            "type": "string",
+            "required": false,
+            "description": "file request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_project",
+      "title": "Project: Project",
+      "description": "Execute project master data and project status in CXM. Endpoint: POST /api/Project. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project",
+      "method": "POST",
+      "path": "/api/Project",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], name, code, startDate [date], endDate [date], address, description, avatar, ownerName, ownerPhone, ownerEmail, status [int32], project_Employees.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của dự án, cho phép tối đa 256 ký tự"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã dự án"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "Ngày bắt đầu dự án",
+            "format": "date"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "Ngày kết thúc dự án",
+            "format": "date"
+          },
+          {
+            "name": "address",
+            "wireName": "address",
+            "type": "string",
+            "required": false,
+            "description": "Địa chỉ, vị trí của dự án, cho phép tối đa 512 ký tự"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả về dự án"
+          },
+          {
+            "name": "avatar",
+            "wireName": "avatar",
+            "type": "string",
+            "required": false,
+            "description": "URL đến ảnh đại diện của Dự án"
+          },
+          {
+            "name": "ownerName",
+            "wireName": "ownerName",
+            "type": "string",
+            "required": false,
+            "description": "Tên chủ đầu tư dự án"
+          },
+          {
+            "name": "ownerPhone",
+            "wireName": "ownerPhone",
+            "type": "string",
+            "required": false,
+            "description": "Số điện thoại của nhà cung cấp"
+          },
+          {
+            "name": "ownerEmail",
+            "wireName": "ownerEmail",
+            "type": "string",
+            "required": false,
+            "description": "Email của nhà cung cấp"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái dự án\r\n1. Đang dự thầu\r\n2. Đang thi công\r\n3. Hoàn thành",
+            "format": "int32"
+          },
+          {
+            "name": "projectEmployees",
+            "wireName": "project_Employees",
+            "type": "array",
+            "required": false,
+            "description": "Danh sách thành viên add vào project",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_project_employee",
+      "title": "Project Employee: Project Employee",
+      "description": "Create new Project_Employee Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "POST",
+      "path": "/Project_Employee",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode [int64], name, code, role [int32], roleName, status [int32], note, phone, email, startTime [date-time], endTime [date-time], createTime [date-time], projectId [int64], roles [int32].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "integer",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "integer",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "roleName",
+            "wireName": "roleName",
+            "type": "string",
+            "required": false,
+            "description": "roleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "phone",
+            "wireName": "phone",
+            "type": "string",
+            "required": false,
+            "description": "phone request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "email",
+            "wireName": "email",
+            "type": "string",
+            "required": false,
+            "description": "email request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "startTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "endTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "createTime",
+            "wireName": "createTime",
+            "type": "string",
+            "required": false,
+            "description": "createTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "roles",
+            "wireName": "roles",
+            "type": "array",
+            "required": false,
+            "description": "roles request-body field from the CXM OpenAPI schema.",
+            "itemType": "integer",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_project_employee_members",
+      "title": "Project Employee: Project Employee Members",
+      "description": "Create new Member Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "POST",
+      "path": "/Project_Employee/members",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_project_employee_get_employee_projects",
+      "title": "Project Employee: Project Employee Get Employee Projects",
+      "description": "Lấy project của các nhân viên đang tham gia Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "POST",
+      "path": "/Project_Employee/getEmployeeProjects",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "dateTime",
+          "wireName": "dateTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "dateTime query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_project_employee_get_employee_team_projects",
+      "title": "Project Employee: Project Employee Get Employee Team Projects",
+      "description": "Lấy project của các nhân viên đang tham gia Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "POST",
+      "path": "/Project_Employee/getEmployeeTeamProjects",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "dateTime",
+          "wireName": "dateTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "dateTime query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_project_employee_project_upload_image",
+      "title": "Project Employee: Project Employee Project Upload Image",
+      "description": "upload File Image Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "POST",
+      "path": "/Project_Employee/project/uploadImage",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: File (required) [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "File",
+            "type": "string",
+            "required": true,
+            "description": "File request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_employee_role_project_employee_role",
+      "title": "Project Employee Role: Project Employee Role",
+      "description": "Create new Member_Role Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectEmployee_Role",
+      "method": "POST",
+      "path": "/ProjectEmployee_Role",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: project_EmployeeId [int64], roleId [int64].",
+        "fields": [
+          {
+            "name": "projectEmployeeId",
+            "wireName": "project_EmployeeId",
+            "type": "integer",
+            "required": false,
+            "description": "Gets or sets the project employeeId ID.",
+            "format": "int64"
+          },
+          {
+            "name": "roleId",
+            "wireName": "roleId",
+            "type": "integer",
+            "required": false,
+            "description": "Gets or sets the role of the member.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_role_project_role",
+      "title": "Project Role: Project Role",
+      "description": "Create new Role Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectRole",
+      "method": "POST",
+      "path": "/ProjectRole",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, companyId [int64], type [int32], description, status [int32].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của vai trò."
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Mỗi công ty sẽ có Role cho mỗi Project riêng",
+            "format": "int64"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "Loại của vai trò.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả của vai trò."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của vai trò.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_warehouse_project_warehouse",
+      "title": "Project Warehouse: Project Warehouse",
+      "description": "Create new ProjectWarehouse Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectWarehouse",
+      "method": "POST",
+      "path": "/ProjectWarehouse",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: projectId [int64], warehouseCode, warehouseId [int64], ma_nv, type [int32], status [int32], note, createTime [date-time].",
+        "fields": [
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "warehouseCode",
+            "wireName": "warehouseCode",
+            "type": "string",
+            "required": false,
+            "description": "warehouseCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "warehouseId",
+            "wireName": "warehouseId",
+            "type": "integer",
+            "required": false,
+            "description": "warehouseId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "maNv",
+            "wireName": "ma_nv",
+            "type": "string",
+            "required": false,
+            "description": "Nhân viên thủ kho"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "0: Kho vật tư / 1: Kho máy móc",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "createTime",
+            "wireName": "createTime",
+            "type": "string",
+            "required": false,
+            "description": "createTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_project_warehouse_project_warehouse_creates_by_project_id",
+      "title": "Project Warehouse: Project Warehouse Creates By Project Id",
+      "description": "Create new ProjectWarehouse Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectWarehouse",
+      "method": "POST",
+      "path": "/ProjectWarehouse/creates/{projectId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_shift_shift",
+      "title": "Shift: Shift",
+      "description": "Create new Shift Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Shift",
+      "method": "POST",
+      "path": "/Shift",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], code, startTime [time], endTime [time], name, tolerance_First_Start [int64], tolerance_First_End [int64], tolerance_Second_Start [int64], tolerance_Second_End [int64], type [int32], note, referenceFaceCKId, parentId [int64], color, status [int32], periodTimes.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Id của công ty mà Employee thuộc về",
+            "format": "int64"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã Ca"
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "Thời gian bắt đầu ca",
+            "format": "time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "Thời gian kết thúc ca",
+            "format": "time"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của ca: Ca sáng, chiều, ..."
+          },
+          {
+            "name": "toleranceFirstStart",
+            "wireName": "tolerance_First_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceFirstEnd",
+            "wireName": "tolerance_First_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondStart",
+            "wireName": "tolerance_Second_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondEnd",
+            "wireName": "tolerance_Second_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "referenceFaceCkid",
+            "wireName": "referenceFaceCKId",
+            "type": "string",
+            "required": false,
+            "description": "Lưu ID của Shift bên CheckIn"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "color",
+            "wireName": "color",
+            "type": "string",
+            "required": false,
+            "description": "color request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "periodTimes",
+            "wireName": "periodTimes",
+            "type": "array",
+            "required": false,
+            "description": "periodTimes request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_shift_schedule_shift_schedule",
+      "title": "Shift Schedule: Shift Schedule",
+      "description": "Create new ShiftSchedule Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "POST",
+      "path": "/ShiftSchedule",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode, shiftId [int32], teamId [int64], teamReferenceFaceCKId [int64], projectId [int64], companyId [uuid], company_Id [int64], date [date-time], status [int32], referenceFaceCKId.",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "teamReferenceFaceCkid",
+            "wireName": "teamReferenceFaceCKId",
+            "type": "integer",
+            "required": false,
+            "description": "teamReferenceFaceCKId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "companyId2",
+            "wireName": "company_Id",
+            "type": "integer",
+            "required": false,
+            "description": "company_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "date",
+            "wireName": "date",
+            "type": "string",
+            "required": false,
+            "description": "date request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "referenceFaceCkid",
+            "wireName": "referenceFaceCKId",
+            "type": "string",
+            "required": false,
+            "description": "Lưu Id của Shift bên CheckIn"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_shift_schedule_shift_schedule_create_shift_schedule",
+      "title": "Shift Schedule: Shift Schedule Create Shift Schedule",
+      "description": "Create new ShiftSchedule Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "POST",
+      "path": "/ShiftSchedule/createShiftSchedule",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_tag_tag",
+      "title": "Tag: Tag",
+      "description": "Create a tag Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Tag",
+      "method": "POST",
+      "path": "/Tag",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, code, description, status [int32], order [int32], type [int32], companyId [int64].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của tag"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Code"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "0. normal \r\n1. delete",
+            "format": "int32"
+          },
+          {
+            "name": "order",
+            "wireName": "order",
+            "type": "integer",
+            "required": false,
+            "description": "Order in tags of type",
+            "format": "int32"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "0. project status\r\n1. team status\r\n2. employee status",
+            "format": "int32"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Mỗi company sẽ có danh sách tag khác nhau",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_team_team",
+      "title": "Team: Team",
+      "description": "Execute Team data in CXM. Endpoint: POST /api/Team. Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "POST",
+      "path": "/api/Team",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], projectId [int64], name, code, status [int32], note, leader_Id [int64].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã được đánh tùy thuộc vào Cty"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của Team: Deactive, Active, Pending, ...\r\nMặc định là Active",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "Ghi chú cho team"
+          },
+          {
+            "name": "leaderId",
+            "wireName": "leader_Id",
+            "type": "integer",
+            "required": false,
+            "description": "EmployeeId của trưởng nhóm",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_team_employee_team_employee",
+      "title": "Team Employee: Team Employee",
+      "description": "Create new Team_Employee Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team_Employee",
+      "method": "POST",
+      "path": "/Team_Employee",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode [int64], name, code, role [int32], roleName, status [int32], note, phone, email, teamId [int64].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "integer",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "integer",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "roleName",
+            "wireName": "roleName",
+            "type": "string",
+            "required": false,
+            "description": "roleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "phone",
+            "wireName": "phone",
+            "type": "string",
+            "required": false,
+            "description": "phone request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "email",
+            "wireName": "email",
+            "type": "string",
+            "required": false,
+            "description": "email request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_team_employee_team_employee_many",
+      "title": "Team Employee: Team Employee Many",
+      "description": "Create list of Team_Employee Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team_Employee",
+      "method": "POST",
+      "path": "/Team_Employee/many",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_post_team_shift_team_shift",
+      "title": "Team Shift: Team Shift",
+      "description": "Create new Team_Shift Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "Team_Shift",
+      "method": "POST",
+      "path": "/Team_Shift",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: teamId [int64], shiftId [int64].",
+        "fields": [
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "Thể hiện mối quan hệ nhiều nhiều giữa Team và Shift.\r\nThường sẽ để cho biết một Team có những ca làm việc nào.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_post_work_package_work_package",
+      "title": "Work Package: Work Package",
+      "description": "Create new WorkPackage Warning: this POST may change CXM data and requires explicit write confirmation.",
+      "tag": "WorkPackage",
+      "method": "POST",
+      "path": "/WorkPackage",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: parentId [int64], name, code, description, projectId [int64], discipline [int32], areaId [int64].",
+        "fields": [
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "discipline",
+            "wireName": "discipline",
+            "type": "integer",
+            "required": false,
+            "description": "discipline request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "areaId",
+            "wireName": "areaId",
+            "type": "integer",
+            "required": false,
+            "description": "areaId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_companies_companies_by_id",
+      "title": "Companies: Companies By Id",
+      "description": "Update  Companies : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Companies",
+      "method": "PUT",
+      "path": "/Companies/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: alias, fullName, logo, note, address, registerDate [date-time], activeDate [date-time], outDate [date-time].",
+        "fields": [
+          {
+            "name": "alias",
+            "wireName": "alias",
+            "type": "string",
+            "required": false,
+            "description": "alias request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "fullName",
+            "wireName": "fullName",
+            "type": "string",
+            "required": false,
+            "description": "Phòng ban của 1 trung tâm"
+          },
+          {
+            "name": "logo",
+            "wireName": "logo",
+            "type": "string",
+            "required": false,
+            "description": "Tên phòng ban"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "address",
+            "wireName": "address",
+            "type": "string",
+            "required": false,
+            "description": "address request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "registerDate",
+            "wireName": "registerDate",
+            "type": "string",
+            "required": false,
+            "description": "registerDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "activeDate",
+            "wireName": "activeDate",
+            "type": "string",
+            "required": false,
+            "description": "activeDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "outDate",
+            "wireName": "outDate",
+            "type": "string",
+            "required": false,
+            "description": "outDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_employee_employee_by_id",
+      "title": "Employee: Employee By Id",
+      "description": "Execute Employee data in CXM. Endpoint: PUT /api/Employee/{id}. Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Employee",
+      "method": "PUT",
+      "path": "/api/Employee/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeCode, employIdConnect, dateOfBirth [date-time], startDate [date-time], endDate [date-time], gender, firstName, middleName, lastName, homeTown, identity, maritalStatus, nationality, picture, mood.",
+        "fields": [
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "Mã Nhân viên."
+          },
+          {
+            "name": "employIdConnect",
+            "wireName": "employIdConnect",
+            "type": "string",
+            "required": false,
+            "description": "employIdConnect request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "dateOfBirth",
+            "wireName": "dateOfBirth",
+            "type": "string",
+            "required": false,
+            "description": "dateOfBirth request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "public double Salary { get; set; }",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "endDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "gender",
+            "wireName": "gender",
+            "type": "string",
+            "required": false,
+            "description": "gender request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "firstName",
+            "wireName": "firstName",
+            "type": "string",
+            "required": false,
+            "description": "firstName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "middleName",
+            "wireName": "middleName",
+            "type": "string",
+            "required": false,
+            "description": "middleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "lastName",
+            "wireName": "lastName",
+            "type": "string",
+            "required": false,
+            "description": "lastName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "homeTown",
+            "wireName": "homeTown",
+            "type": "string",
+            "required": false,
+            "description": "homeTown request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "identity",
+            "wireName": "identity",
+            "type": "string",
+            "required": false,
+            "description": "CMND, PP"
+          },
+          {
+            "name": "maritalStatus",
+            "wireName": "maritalStatus",
+            "type": "string",
+            "required": false,
+            "description": "Tình trạng hôn nhân"
+          },
+          {
+            "name": "nationality",
+            "wireName": "nationality",
+            "type": "string",
+            "required": false,
+            "description": "Quốc tịch"
+          },
+          {
+            "name": "picture",
+            "wireName": "picture",
+            "type": "string",
+            "required": false,
+            "description": "Url đến Avatar"
+          },
+          {
+            "name": "mood",
+            "wireName": "mood",
+            "type": "string",
+            "required": false,
+            "description": "Status text node"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_employee_employee_by_id_detail",
+      "title": "Employee: Employee By Id Detail",
+      "description": "Update a Employee with detail infomation Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Employee",
+      "method": "PUT",
+      "path": "/api/Employee/{id}/detail",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeCode, employIdConnect, dateOfBirth [date-time], startDate [date-time], endDate [date-time], gender, firstName, middleName, lastName, homeTown, identity, maritalStatus, nationality, picture, mood, contactDetail.",
+        "fields": [
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "Mã Nhân viên."
+          },
+          {
+            "name": "employIdConnect",
+            "wireName": "employIdConnect",
+            "type": "string",
+            "required": false,
+            "description": "employIdConnect request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "dateOfBirth",
+            "wireName": "dateOfBirth",
+            "type": "string",
+            "required": false,
+            "description": "dateOfBirth request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "public double Salary { get; set; }",
+            "format": "date-time"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "endDate request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "gender",
+            "wireName": "gender",
+            "type": "string",
+            "required": false,
+            "description": "gender request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "firstName",
+            "wireName": "firstName",
+            "type": "string",
+            "required": false,
+            "description": "firstName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "middleName",
+            "wireName": "middleName",
+            "type": "string",
+            "required": false,
+            "description": "middleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "lastName",
+            "wireName": "lastName",
+            "type": "string",
+            "required": false,
+            "description": "lastName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "homeTown",
+            "wireName": "homeTown",
+            "type": "string",
+            "required": false,
+            "description": "homeTown request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "identity",
+            "wireName": "identity",
+            "type": "string",
+            "required": false,
+            "description": "CMND, PP"
+          },
+          {
+            "name": "maritalStatus",
+            "wireName": "maritalStatus",
+            "type": "string",
+            "required": false,
+            "description": "Tình trạng hôn nhân"
+          },
+          {
+            "name": "nationality",
+            "wireName": "nationality",
+            "type": "string",
+            "required": false,
+            "description": "Quốc tịch"
+          },
+          {
+            "name": "picture",
+            "wireName": "picture",
+            "type": "string",
+            "required": false,
+            "description": "Url đến Avatar"
+          },
+          {
+            "name": "mood",
+            "wireName": "mood",
+            "type": "string",
+            "required": false,
+            "description": "Status text node"
+          },
+          {
+            "name": "contactDetail",
+            "wireName": "contactDetail",
+            "type": "object",
+            "required": false,
+            "description": "contactDetail request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_employees_group_employees_group",
+      "title": "Employees Group: Employees Group",
+      "description": "Điều chuyển nhân sự Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "EmployeesGroup",
+      "method": "PUT",
+      "path": "/EmployeesGroup",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "id query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], groupId [int64], status [int32].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của nhân viên. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "groupId",
+            "wireName": "groupId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của group. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_employees_group_employees_group_update_employee_to_group_by_curent_group_id_by_employ_id",
+      "title": "Employees Group: Employees Group Update Employee To Group By Curent Group Id By Employ Id",
+      "description": "Điều chuyển nhân sự Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "EmployeesGroup",
+      "method": "PUT",
+      "path": "/EmployeesGroup/updateEmployeeToGroup/{curentGroupId}/{employId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "employId",
+          "wireName": "employId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "curentGroupId",
+          "wireName": "curentGroupId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "curentGroupId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], groupId [int64], status [int32].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của nhân viên. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "groupId",
+            "wireName": "groupId",
+            "type": "integer",
+            "required": false,
+            "description": "Lấy hoặc đặt khóa ngoại chỉ định Id của group. (Cho phép giá trị null)",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_group_group_by_id",
+      "title": "Group: Group By Id",
+      "description": "Update  Group : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Group",
+      "method": "PUT",
+      "path": "/Group/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], parentId [int64], name, managerId [int64], code, type [int32], status [int32].",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "managerId",
+            "wireName": "managerId",
+            "type": "integer",
+            "required": false,
+            "description": "managerId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_group_group_add_member_to_group_by_group_id",
+      "title": "Group: Group Add Member To Group By Group Id",
+      "description": "Add danh sách nhân sự vào group Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Group",
+      "method": "PUT",
+      "path": "/Group/addMemberToGroup/{groupId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "groupId",
+          "wireName": "groupId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "groupId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_put_job_categories_job_categories_by_id",
+      "title": "Job Categories: Job Categories By Id",
+      "description": "Update  JobCategories : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "JobCategories",
+      "method": "PUT",
+      "path": "/JobCategories/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], groupId [int64], name, status [int32], description.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Phòng ban của công ty",
+            "format": "int64"
+          },
+          {
+            "name": "groupId",
+            "wireName": "groupId",
+            "type": "integer",
+            "required": false,
+            "description": "groupId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên phòng ban"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_job_title_job_title_by_id",
+      "title": "Job Title: Job Title By Id",
+      "description": "Update  JobTitle : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "JobTitle",
+      "method": "PUT",
+      "path": "/JobTitle/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], name, code, status [int32], description.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên chức danh"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_area_area_by_id",
+      "title": "Area: Area By Id",
+      "description": "Update  Area : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Area",
+      "method": "PUT",
+      "path": "/Area/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: parentId [int64], name, code, description, projectId [int64].",
+        "fields": [
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_excel_action_excel_action_edit_area_file_by_project_id",
+      "title": "Excel Action: Excel Action Edit Area File By Project Id",
+      "description": "Export Issues ra file Excel Warning: this PUT may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ExcelAction",
+      "method": "PUT",
+      "path": "/ExcelAction/editAreaFile/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: file [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "file",
+            "type": "string",
+            "required": false,
+            "description": "file request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_excel_action_excel_action_edit_work_packages_file_by_project_id",
+      "title": "Excel Action: Excel Action Edit Work Packages File By Project Id",
+      "description": "Export Issues ra file Excel Warning: this PUT may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ExcelAction",
+      "method": "PUT",
+      "path": "/ExcelAction/editWorkPackagesFile/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "multipart",
+        "required": false,
+        "rootType": "object",
+        "description": "Multipart form request body. Fields: file [binary].",
+        "fields": [
+          {
+            "name": "file",
+            "wireName": "file",
+            "type": "string",
+            "required": false,
+            "description": "file request-body field from the CXM OpenAPI schema.",
+            "format": "binary"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_project_project_by_id",
+      "title": "Project: Project By Id",
+      "description": "Execute project master data and project status in CXM. Endpoint: PUT /api/Project/{id}. Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Project",
+      "method": "PUT",
+      "path": "/api/Project/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, code, startDate [date], endDate [date], address, description, avatar, ownerName, ownerPhone, ownerEmail, status [int32].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của dự án, cho phép tối đa 256 ký tự"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã dự án"
+          },
+          {
+            "name": "startDate",
+            "wireName": "startDate",
+            "type": "string",
+            "required": false,
+            "description": "Ngày bắt đầu dự án",
+            "format": "date"
+          },
+          {
+            "name": "endDate",
+            "wireName": "endDate",
+            "type": "string",
+            "required": false,
+            "description": "Ngày kết thúc dự án",
+            "format": "date"
+          },
+          {
+            "name": "address",
+            "wireName": "address",
+            "type": "string",
+            "required": false,
+            "description": "Địa chỉ, vị trí của dự án, cho phép tối đa 512 ký tự"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả về dự án"
+          },
+          {
+            "name": "avatar",
+            "wireName": "avatar",
+            "type": "string",
+            "required": false,
+            "description": "URL đến ảnh đại diện của Dự án"
+          },
+          {
+            "name": "ownerName",
+            "wireName": "ownerName",
+            "type": "string",
+            "required": false,
+            "description": "Tên chủ đầu tư dự án"
+          },
+          {
+            "name": "ownerPhone",
+            "wireName": "ownerPhone",
+            "type": "string",
+            "required": false,
+            "description": "Số điện thoại của nhà cung cấp"
+          },
+          {
+            "name": "ownerEmail",
+            "wireName": "ownerEmail",
+            "type": "string",
+            "required": false,
+            "description": "Email của nhà cung cấp"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái dự án\r\n1. Đang dự thầu\r\n2. Đang thi công\r\n3. Hoàn thành",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_project_employee_project_employee_by_project_id",
+      "title": "Project Employee: Project Employee By Project Id",
+      "description": "Update  Member : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Project_Employee",
+      "method": "PUT",
+      "path": "/Project_Employee/{projectId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "employeeId query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode [int64], name, code, role [int32], roleName, status [int32], note, phone, email, startTime [date-time], endTime [date-time], createTime [date-time], projectId [int64], projectRoleIds [int64].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "integer",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "integer",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "roleName",
+            "wireName": "roleName",
+            "type": "string",
+            "required": false,
+            "description": "roleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "phone",
+            "wireName": "phone",
+            "type": "string",
+            "required": false,
+            "description": "phone request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "email",
+            "wireName": "email",
+            "type": "string",
+            "required": false,
+            "description": "email request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "startTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "endTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "createTime",
+            "wireName": "createTime",
+            "type": "string",
+            "required": false,
+            "description": "createTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "projectRoleIds",
+            "wireName": "projectRoleIds",
+            "type": "array",
+            "required": false,
+            "description": "projectRoleIds request-body field from the CXM OpenAPI schema.",
+            "itemType": "integer",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_project_role_project_role_by_id",
+      "title": "Project Role: Project Role By Id",
+      "description": "Update Role : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectRole",
+      "method": "PUT",
+      "path": "/ProjectRole/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, companyId [int64], type [int32], description, status [int32].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của vai trò."
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Mỗi công ty sẽ có Role cho mỗi Project riêng",
+            "format": "int64"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "Loại của vai trò.",
+            "format": "int32"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả của vai trò."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của vai trò.",
+            "format": "int32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_project_warehouse_project_warehouse_by_id",
+      "title": "Project Warehouse: Project Warehouse By Id",
+      "description": "Update  ProjectWarehouse : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectWarehouse",
+      "method": "PUT",
+      "path": "/ProjectWarehouse/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: projectId [int64], warehouseCode, warehouseId [int64], ma_nv, type [int32], status [int32], note, createTime [date-time].",
+        "fields": [
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "warehouseCode",
+            "wireName": "warehouseCode",
+            "type": "string",
+            "required": false,
+            "description": "warehouseCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "warehouseId",
+            "wireName": "warehouseId",
+            "type": "integer",
+            "required": false,
+            "description": "warehouseId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "maNv",
+            "wireName": "ma_nv",
+            "type": "string",
+            "required": false,
+            "description": "Nhân viên thủ kho"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "0: Kho vật tư / 1: Kho máy móc",
+            "format": "int32"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "createTime",
+            "wireName": "createTime",
+            "type": "string",
+            "required": false,
+            "description": "createTime request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_project_warehouse_project_warehouse_get_project_warehouse_by_project_ids",
+      "title": "Project Warehouse: Project Warehouse Get Project Warehouse By Project Ids",
+      "description": "Get ProjectWarehouse by Id Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "ProjectWarehouse",
+      "method": "PUT",
+      "path": "/ProjectWarehouse/getProjectWarehouseByProjectIds",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_put_shift_shift_by_id",
+      "title": "Shift: Shift By Id",
+      "description": "Create new Shift : Post https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Shift",
+      "method": "PUT",
+      "path": "/Shift/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: companyId [int64], code, startTime [time], endTime [time], name, tolerance_First_Start [int64], tolerance_First_End [int64], tolerance_Second_Start [int64], tolerance_Second_End [int64], type [int32], note, referenceFaceCKId, parentId [int64], color, status [int32], id [int64], shiftChilds.",
+        "fields": [
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Id của công ty mà Employee thuộc về",
+            "format": "int64"
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã Ca"
+          },
+          {
+            "name": "startTime",
+            "wireName": "startTime",
+            "type": "string",
+            "required": false,
+            "description": "Thời gian bắt đầu ca",
+            "format": "time"
+          },
+          {
+            "name": "endTime",
+            "wireName": "endTime",
+            "type": "string",
+            "required": false,
+            "description": "Thời gian kết thúc ca",
+            "format": "time"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của ca: Ca sáng, chiều, ..."
+          },
+          {
+            "name": "toleranceFirstStart",
+            "wireName": "tolerance_First_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceFirstEnd",
+            "wireName": "tolerance_First_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_First_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondStart",
+            "wireName": "tolerance_Second_Start",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_Start request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "toleranceSecondEnd",
+            "wireName": "tolerance_Second_End",
+            "type": "integer",
+            "required": false,
+            "description": "tolerance_Second_End request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "type request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "referenceFaceCkid",
+            "wireName": "referenceFaceCKId",
+            "type": "string",
+            "required": false,
+            "description": "Lưu ID của Shift bên CheckIn"
+          },
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "color",
+            "wireName": "color",
+            "type": "string",
+            "required": false,
+            "description": "color request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "id",
+            "wireName": "id",
+            "type": "integer",
+            "required": false,
+            "description": "id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftChilds",
+            "wireName": "shiftChilds",
+            "type": "array",
+            "required": false,
+            "description": "shiftChilds request-body field from the CXM OpenAPI schema.",
+            "itemType": "object"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Update  ShiftSchedule : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "PUT",
+      "path": "/ShiftSchedule/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode, shiftId [int32], teamId [int64], teamReferenceFaceCKId [int64], projectId [int64], companyId [uuid], company_Id [int64], date [date-time], status [int32], referenceFaceCKId.",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "string",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "teamReferenceFaceCkid",
+            "wireName": "teamReferenceFaceCKId",
+            "type": "integer",
+            "required": false,
+            "description": "teamReferenceFaceCKId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "string",
+            "required": false,
+            "description": "companyId request-body field from the CXM OpenAPI schema.",
+            "format": "uuid"
+          },
+          {
+            "name": "companyId2",
+            "wireName": "company_Id",
+            "type": "integer",
+            "required": false,
+            "description": "company_Id request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "date",
+            "wireName": "date",
+            "type": "string",
+            "required": false,
+            "description": "date request-body field from the CXM OpenAPI schema.",
+            "format": "date-time"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "referenceFaceCkid",
+            "wireName": "referenceFaceCKId",
+            "type": "string",
+            "required": false,
+            "description": "Lưu Id của Shift bên CheckIn"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_tag_tag_by_id",
+      "title": "Tag: Tag By Id",
+      "description": "Update a Tag Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Tag",
+      "method": "PUT",
+      "path": "/Tag/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, description, status [int32], order [int32], type [int32], companyId [int64].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "Tên của tag"
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "Mô tả"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "0. normal \r\n1. delete",
+            "format": "int32"
+          },
+          {
+            "name": "order",
+            "wireName": "order",
+            "type": "integer",
+            "required": false,
+            "description": "Order in tags of type",
+            "format": "int32"
+          },
+          {
+            "name": "type",
+            "wireName": "type",
+            "type": "integer",
+            "required": false,
+            "description": "0. project status\r\n1. team status\r\n2. employee status",
+            "format": "int32"
+          },
+          {
+            "name": "companyId",
+            "wireName": "companyId",
+            "type": "integer",
+            "required": false,
+            "description": "Mỗi company sẽ có danh sách tag khác nhau",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Execute Team data in CXM. Endpoint: PUT /api/Team/{id}. Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "PUT",
+      "path": "/api/Team/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: name, code, note, status [int32], leader_Id [int64].",
+        "fields": [
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "Mã được đánh tùy thuộc vào Cty"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "Ghi chú cho team"
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "Trạng thái của Team: Deactive, Active, Pending, ...\r\nMặc định là Active",
+            "format": "int32"
+          },
+          {
+            "name": "leaderId",
+            "wireName": "leader_Id",
+            "type": "integer",
+            "required": false,
+            "description": "EmployeeId của trưởng nhóm",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_team_team_get_teams_by_ids",
+      "title": "Team: Team Get Teams By Ids",
+      "description": "Lấy các thông tin chi tiết của một Team theo Id\r\n - Thông tin cơ bản của Team\r\n - Danh sách các thành viên của Team\r\n - Danh sách các ca (theo id) của Team Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "PUT",
+      "path": "/api/Team/getTeamsByIds",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "filter",
+          "wireName": "filter",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "filter query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "expand",
+          "wireName": "expand",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "expand query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "select",
+          "wireName": "select",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "select query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "search",
+          "wireName": "search",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "search query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "paging",
+          "wireName": "paging",
+          "source": "query",
+          "type": "boolean",
+          "required": false,
+          "description": "paging query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "orderBy",
+          "wireName": "orderBy",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "orderBy query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "page",
+          "wireName": "page",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "page query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "pageSize",
+          "wireName": "pageSize",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "pageSize query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "offset",
+          "wireName": "offset",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "offset query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "take",
+          "wireName": "take",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "take query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "startDate",
+          "wireName": "startDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "startDate query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "endDate",
+          "wireName": "endDate",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "endDate query parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_put_team_team_by_id_leader_by_leader_id",
+      "title": "Team: Team By Id Leader By Leader Id",
+      "description": "Gán leaer cho Team Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team",
+      "method": "PUT",
+      "path": "/api/Team/{id}/leader/{leaderId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "leaderId",
+          "wireName": "leaderId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "leaderId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode [int64], name, code, role [int32], roleName, status [int32], note, phone, email, teamId [int64].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "integer",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "integer",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "roleName",
+            "wireName": "roleName",
+            "type": "string",
+            "required": false,
+            "description": "roleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "phone",
+            "wireName": "phone",
+            "type": "string",
+            "required": false,
+            "description": "phone request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "email",
+            "wireName": "email",
+            "type": "string",
+            "required": false,
+            "description": "email request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_team_employee_team_employee_by_id",
+      "title": "Team Employee: Team Employee By Id",
+      "description": "Update new thành viên của team Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team_Employee",
+      "method": "PUT",
+      "path": "/Team_Employee/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: employeeId [int64], employeeCode [int64], name, code, role [int32], roleName, status [int32], note, phone, email, teamId [int64].",
+        "fields": [
+          {
+            "name": "employeeId",
+            "wireName": "employeeId",
+            "type": "integer",
+            "required": false,
+            "description": "employeeId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "employeeCode",
+            "wireName": "employeeCode",
+            "type": "integer",
+            "required": false,
+            "description": "employeeCode request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "role",
+            "wireName": "role",
+            "type": "integer",
+            "required": false,
+            "description": "role request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "roleName",
+            "wireName": "roleName",
+            "type": "string",
+            "required": false,
+            "description": "roleName request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "status",
+            "wireName": "status",
+            "type": "integer",
+            "required": false,
+            "description": "status request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "note",
+            "wireName": "note",
+            "type": "string",
+            "required": false,
+            "description": "note request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "phone",
+            "wireName": "phone",
+            "type": "string",
+            "required": false,
+            "description": "phone request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "email",
+            "wireName": "email",
+            "type": "string",
+            "required": false,
+            "description": "email request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "teamId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_put_team_shift_team_shift_team_by_team_id",
+      "title": "Team Shift: Team Shift Team By Team Id",
+      "description": "Update shifts of a team Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "Team_Shift",
+      "method": "PUT",
+      "path": "/Team_Shift/team/{teamId}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "teamId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "teamId path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "array",
+        "description": "JSON request body. Supply the request body exactly as documented by CXM.",
+        "fields": []
+      }
+    },
+    {
+      "name": "tingop_put_work_package_work_package_by_id",
+      "title": "Work Package: Work Package By Id",
+      "description": "Update  WorkPackage : Put https: {} Warning: this PUT may change CXM data and requires explicit write confirmation.",
+      "tag": "WorkPackage",
+      "method": "PUT",
+      "path": "/WorkPackage/{id}",
+      "safety": "write",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: parentId [int64], name, code, description, projectId [int64], discipline [int32], areaId [int64].",
+        "fields": [
+          {
+            "name": "parentId",
+            "wireName": "parentId",
+            "type": "integer",
+            "required": false,
+            "description": "parentId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "wireName": "name",
+            "type": "string",
+            "required": false,
+            "description": "name request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "code",
+            "wireName": "code",
+            "type": "string",
+            "required": false,
+            "description": "code request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "description",
+            "wireName": "description",
+            "type": "string",
+            "required": false,
+            "description": "description request-body field from the CXM OpenAPI schema."
+          },
+          {
+            "name": "projectId",
+            "wireName": "projectId",
+            "type": "integer",
+            "required": false,
+            "description": "projectId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          },
+          {
+            "name": "discipline",
+            "wireName": "discipline",
+            "type": "integer",
+            "required": false,
+            "description": "discipline request-body field from the CXM OpenAPI schema.",
+            "format": "int32"
+          },
+          {
+            "name": "areaId",
+            "wireName": "areaId",
+            "type": "integer",
+            "required": false,
+            "description": "areaId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_delete_companies_companies_by_id",
+      "title": "Companies: Companies By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Companies",
+      "method": "DELETE",
+      "path": "/Companies/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_employee_employee_by_id",
+      "title": "Employee: Employee By Id",
+      "description": "Execute Employee data in CXM. Endpoint: DELETE /api/Employee/{id}. Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Employee",
+      "method": "DELETE",
+      "path": "/api/Employee/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_employees_group_employees_group",
+      "title": "Employees Group: Employees Group",
+      "description": "Delete nhân sự khỏi 1 nhóm hoặc phòng ban Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "EmployeesGroup",
+      "method": "DELETE",
+      "path": "/EmployeesGroup",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "id query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_employees_group_employees_group_delete_employ_group_by_employ_id_by_group_id",
+      "title": "Employees Group: Employees Group Delete Employ Group By Employ Id By Group Id",
+      "description": "Delete nhân sự khỏi 1 nhóm hoặc phòng ban Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "EmployeesGroup",
+      "method": "DELETE",
+      "path": "/EmployeesGroup/deleteEmployGroup/{employId}/{groupId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "employId",
+          "wireName": "employId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "groupId",
+          "wireName": "groupId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "groupId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_group_group_by_id",
+      "title": "Group: Group By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Group",
+      "method": "DELETE",
+      "path": "/Group/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_job_categories_job_categories_by_id",
+      "title": "Job Categories: Job Categories By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "JobCategories",
+      "method": "DELETE",
+      "path": "/JobCategories/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_job_title_job_title_by_id",
+      "title": "Job Title: Job Title By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "JobTitle",
+      "method": "DELETE",
+      "path": "/JobTitle/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_area_area_by_id",
+      "title": "Area: Area By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Area",
+      "method": "DELETE",
+      "path": "/Area/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_area_area_delete_all_area_by_project_id",
+      "title": "Area: Area Delete All Area By Project Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Area",
+      "method": "DELETE",
+      "path": "/Area/deleteAllArea/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_project_project_by_id",
+      "title": "Project: Project By Id",
+      "description": "Delete Project Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Project",
+      "method": "DELETE",
+      "path": "/api/Project/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_project_employee_project_employee_by_project_id",
+      "title": "Project Employee: Project Employee By Project Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Project_Employee",
+      "method": "DELETE",
+      "path": "/Project_Employee/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "employeeId query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_project_employee_project_employee_delete_employee_company_by_employee_code",
+      "title": "Project Employee: Project Employee Delete Employee Company By Employee Code",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Project_Employee",
+      "method": "DELETE",
+      "path": "/Project_Employee/deleteEmployeeCompany/{employeeCode}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "employeeCode",
+          "wireName": "employeeCode",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "employeeCode path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_project_role_project_role_by_id",
+      "title": "Project Role: Project Role By Id",
+      "description": "Delete Role by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ProjectRole",
+      "method": "DELETE",
+      "path": "/ProjectRole/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_project_warehouse_project_warehouse_by_id",
+      "title": "Project Warehouse: Project Warehouse By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ProjectWarehouse",
+      "method": "DELETE",
+      "path": "/ProjectWarehouse/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_shift_shift_by_id",
+      "title": "Shift: Shift By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Shift",
+      "method": "DELETE",
+      "path": "/Shift/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "ShiftSchedule",
+      "method": "DELETE",
+      "path": "/ShiftSchedule/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_tag_tag_by_id",
+      "title": "Tag: Tag By Id",
+      "description": "Delete a Tag Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Tag",
+      "method": "DELETE",
+      "path": "/Tag/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Execute Team data in CXM. Endpoint: DELETE /api/Team/{id}. Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team",
+      "method": "DELETE",
+      "path": "/api/Team/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_team_employee_team_employee_by_id",
+      "title": "Team Employee: Team Employee By Id",
+      "description": "Delete thành viên by id of team_employee Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team_Employee",
+      "method": "DELETE",
+      "path": "/Team_Employee/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_team_employee_team_employee_team_by_team_id_employee_by_employee_id",
+      "title": "Team Employee: Team Employee Team By Team Id Employee By Employee Id",
+      "description": "Delete by teamId and employeeId Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team_Employee",
+      "method": "DELETE",
+      "path": "/Team_Employee/team/{teamId}/employee/{employeeId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employeeId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "teamId",
+          "wireName": "teamId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "teamId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_team_shift_team_shift",
+      "title": "Team Shift: Team Shift",
+      "description": "Delete Shift in a team Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "Team_Shift",
+      "method": "DELETE",
+      "path": "/Team_Shift",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [],
+      "requestBody": {
+        "mode": "json",
+        "required": false,
+        "rootType": "object",
+        "description": "JSON request body. Fields: teamId [int64], shiftId [int64].",
+        "fields": [
+          {
+            "name": "teamId",
+            "wireName": "teamId",
+            "type": "integer",
+            "required": false,
+            "description": "Thể hiện mối quan hệ nhiều nhiều giữa Team và Shift.\r\nThường sẽ để cho biết một Team có những ca làm việc nào.",
+            "format": "int64"
+          },
+          {
+            "name": "shiftId",
+            "wireName": "shiftId",
+            "type": "integer",
+            "required": false,
+            "description": "shiftId request-body field from the CXM OpenAPI schema.",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tingop_delete_work_package_work_package_by_id",
+      "title": "Work Package: Work Package By Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "WorkPackage",
+      "method": "DELETE",
+      "path": "/WorkPackage/{id}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop_delete_work_package_work_package_delete_all_wpk_by_project_id",
+      "title": "Work Package: Work Package Delete All Wpk By Project Id",
+      "description": "Delete template by Id Warning: this DELETE may perform a bulk, import, synchronization, cancellation, rejection, reset, overwrite, or deletion action and requires destructive confirmation.",
+      "tag": "WorkPackage",
+      "method": "DELETE",
+      "path": "/WorkPackage/deleteAllWPK/{projectId}",
+      "safety": "destructive",
+      "upstream": "tingop",
+      "parameters": [
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "projectId path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    }
+  ]
+}

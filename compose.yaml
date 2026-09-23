@@ -18,6 +18,8 @@ services:
       CXM_BASE_URL: "https://cxm.erp-uat.hicas.vn"
       CXM_TOOLS_CONFIG: "config/tools.json"
       CXM_WRITE_TOOLS_CONFIG: "config/write-tools.json"
+      BIM_BASE_URL: "https://bim.erp-uat.hicas.vn"
+      BIM_TOOLS_CONFIG: "config/bim/tools.json"
       CXM_REFRESH_TOKEN_FILE: "/app/data/cxm-refresh-token"
       MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
       MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env to localhost, the server IP, and any public hostname}"
@@ -59,6 +61,45 @@ services:
     volumes:
       - cxm-auth-data-sit:/app/data
 
+  mcp-tingop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hicas-cxm-mcp:latest
+    container_name: hicas-cxm-mcp-tingop
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: "9000"
+      MCP_INSTANCE_NAME: "tingop"
+      MCP_UPSTREAM_NAME: "TingOp"
+      CXM_BASE_URL: "https://tingop.tingconnect.com"
+      CXM_TOOLS_CONFIG: "config/tingop/tools.json"
+      CXM_WRITE_TOOLS_CONFIG: "config/tingop/write-tools.json"
+      TINGOP_CHECKIN_BASE_URL: "https://sit.checkin.tingconnect.com"
+      TINGOP_CHECKIN_TOOLS_CONFIG: "config/tingop-checkin/tools.json"
+      TINGOP_CHECKIN_WRITE_TOOLS_CONFIG: "config/tingop-checkin/write-tools.json"
+      # TingOp has its own OAuth client and must never reuse a CXM token.
+      CXM_ACCESS_TOKEN: ""
+      CXM_ACCESS_TOKEN_FILE: ""
+      CXM_REFRESH_TOKEN: ""
+      CXM_REFRESH_TOKEN_FILE: "/app/data/tingop-refresh-token"
+      CXM_OAUTH_CLIENT_ID: "TingOp"
+      CXM_OAUTH_SCOPE: "offline_access API"
+      # This public client value is also present in the TingOp frontend. It can
+      # be overridden in .env if TingOp changes its OAuth client configuration.
+      CXM_OAUTH_CLIENT_SECRET: "${TINGOP_OAUTH_CLIENT_SECRET:-ConstruxivViewersecret}"
+      MCP_KEY: "${MCP_KEY:?Set MCP_KEY in .env}"
+      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:?Set MCP_ALLOWED_HOSTS in .env},mcp-tingop.lm.io.vn"
+    ports:
+      - "9002:9000"
+    volumes:
+      - tingop-auth-data:/app/data
+
 volumes:
   cxm-auth-data:
   cxm-auth-data-sit:
+  tingop-auth-data:

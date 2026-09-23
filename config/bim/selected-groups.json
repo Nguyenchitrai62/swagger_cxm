@@ -1,0 +1,33 @@
+{
+  "sourceOpenApi": "https://bim.erp-uat.hicas.vn/swagger/v1/swagger.json",
+  "expectedSourceGetCount": 167,
+  "expectedGetToolCount": 164,
+  "excludedTags": [
+    "AbpApiDefinition",
+    "AbpApplicationConfiguration",
+    "AbpApplicationLocalization",
+    "Permissions",
+    "Features",
+    "Login",
+    "Profile",
+    "Tenant",
+    "AbpTenant",
+    "User",
+    "CxmUser",
+    "UserLookup",
+    "Role",
+    "OrganizationUnit",
+    "TimeZoneSettings",
+    "EmailSettings",
+    "EmailTemplate",
+    "ExternalApiLog",
+    "Banner",
+    "Account",
+    "DynamicClaims",
+    "SystemInfo"
+  ],
+  "excludedPaths": [],
+  "reviewPaths": [],
+  "upstream": "bim",
+  "allowedMethods": ["GET"]
+}

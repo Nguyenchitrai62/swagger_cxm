@@ -5,12 +5,14 @@ type JsonObject = Record<string, unknown>;
 
 interface SelectedGroups {
   sourceOpenApi: string;
-  expectedSourceGetCount: number;
-  expectedGetToolCount: number;
-  expectedSourcePostCount: number;
-  expectedPostToolCount: number;
+  expectedSourceGetCount?: number;
+  expectedGetToolCount?: number;
+  expectedSourcePostCount?: number;
+  expectedPostToolCount?: number;
   expectedSourcePutCount?: number;
   expectedPutToolCount?: number;
+  expectedSourceDeleteCount?: number;
+  expectedDeleteToolCount?: number;
   excludedTags: string[];
   excludedPaths: string[];
   reviewPaths: string[];
@@ -22,9 +24,15 @@ interface SelectedGroups {
   includedEndpoints?: string[];
   /** Endpoints forced to `destructive` regardless of their path shape. */
   destructiveEndpoints?: string[];
+  /** A separate upstream is exposed through the same MCP only when explicitly configured. */
+  upstream?: "cxm" | "bim" | "tingop" | "tingop-checkin";
+  /** A profile may combine multiple OpenAPI documents published by one API host. */
+  sourceOpenApis?: string[];
+  /** Restrict a snapshot to exactly these HTTP methods. */
+  allowedMethods?: HttpMethod[];
 }
 
-type HttpMethod = "GET" | "POST" | "PUT";
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface GeneratedParameter {
   name: string;
@@ -304,12 +312,13 @@ function generateToolName(
   path: string,
   method: HttpMethod,
   used: Set<string>,
+  upstream: "cxm" | "bim" | "tingop" | "tingop-checkin",
 ): string {
-  const prefix = method === "GET" ? `cxm_${snake(tag)}` : `cxm_${method.toLowerCase()}_${snake(tag)}`;
+  const prefix = method === "GET" ? `${upstream}_${snake(tag)}` : `${upstream}_${method.toLowerCase()}_${snake(tag)}`;
   const root = pathRootForTag(tag);
   let remainder = path.startsWith(root) ? path.slice(root.length) : path.replace(/^\/api\//, "");
 
-  if (!remainder || remainder === "/") remainder = method === "POST" ? "/execute" : "/list";
+  if (!remainder || remainder === "/") remainder = method === "GET" ? "/list" : "/execute";
   if (remainder === "/{id}") remainder = "/get";
 
   const suffixParts: string[] = [];
@@ -341,6 +350,7 @@ function writeSafety(
   path: string,
   method: HttpMethod,
 ): "write" | "destructive" {
+  if (method === "DELETE") return "destructive";
   if ((selected.destructiveEndpoints ?? []).includes(`${method} ${path}`)) return "destructive";
   return /(?:^|\/)(?:delete|delete-many|remove|cancel|reject|revoke|reset|clear|terminate|deactivate|rollback|import|sync|update-many)(?:\/|$|-)/i.test(path)
     ? "destructive"
@@ -356,9 +366,9 @@ function shouldExclude(
   // An explicit per-endpoint opt-in outranks the tag and /admin/ exclusions, but
   // only for the exact method listed.
   if ((selected.includedEndpoints ?? []).includes(`${method} ${path}`)) return false;
-  // PUT is opt-in only. Tag-based inclusion would otherwise hand the agent every
-  // update endpoint in the API the moment PUT generation was switched on.
-  if (method === "PUT") return true;
+  // Mutating methods are opt-in. Tag-based inclusion would otherwise hand the
+  // agent every update/delete endpoint the moment generation was switched on.
+  if (method === "PUT" || method === "DELETE") return true;
   return (
     selected.excludedTags.includes(tag) ||
     selected.excludedPaths.includes(path) ||
@@ -372,6 +382,7 @@ function createOutput(
   method: HttpMethod,
 ): { output: JsonObject; sourceCount: number; excludedCount: number; toolCount: number; tools: JsonObject[]; tags: Set<string> } {
   const paths = isObject(openApi.paths) ? openApi.paths : {};
+  const upstream = selected.upstream ?? "cxm";
   const tools: JsonObject[] = [];
   const usedToolNames = new Set<string>();
   const includedTags = new Set<string>();
@@ -403,7 +414,7 @@ function createOutput(
     const safety = method === "GET"
       ? selected.reviewPaths.includes(path) ? "review" : "read-only"
       : writeSafety(selected, path, method);
-    const generatedName = generateToolName(tag, path, method, usedToolNames);
+    const generatedName = generateToolName(tag, path, method, usedToolNames, upstream);
     const operationDescription =
       typeof operation.description === "string" && operation.description.trim()
         ? operation.description.trim()
@@ -419,8 +430,8 @@ function createOutput(
           : "";
     const requestBody = method === "GET" ? undefined : generateRequestBody(operation, openApi);
     const namePrefix = method === "GET"
-      ? `cxm_${snake(tag)}_`
-      : `cxm_${method.toLowerCase()}_${snake(tag)}_`;
+      ? `${upstream}_${snake(tag)}_`
+      : `${upstream}_${method.toLowerCase()}_${snake(tag)}_`;
 
     tools.push({
       name: generatedName,
@@ -430,6 +441,7 @@ function createOutput(
       method,
       path,
       safety,
+      upstream,
       parameters,
       ...(requestBody ? { requestBody } : {}),
     });
@@ -444,6 +456,9 @@ function createOutput(
     output: {
       generatedAt: new Date().toISOString(),
       sourceOpenApi: selected.sourceOpenApi,
+      ...(selected.sourceOpenApis && selected.sourceOpenApis.length > 1
+        ? { sourceOpenApis: selected.sourceOpenApis }
+        : {}),
       sourceTitle:
         isObject(openApi.info) && typeof openApi.info.title === "string"
           ? openApi.info.title
@@ -479,78 +494,143 @@ async function main(): Promise<void> {
       `${profileDirectory}/write-tools.json`,
   );
   const selected = JSON.parse(await readFile(selectedPath, "utf8")) as SelectedGroups;
+  const sourceOpenApis = selected.sourceOpenApis?.length
+    ? selected.sourceOpenApis
+    : selected.sourceOpenApi
+      ? [selected.sourceOpenApi]
+      : [];
+  if (!sourceOpenApis.length) throw new Error("selected-groups.json must define sourceOpenApi or sourceOpenApis");
 
-  const response = await fetch(selected.sourceOpenApi, {
-    headers: { accept: "application/json" },
-    signal: AbortSignal.timeout(60_000),
-  });
-  if (!response.ok) {
-    throw new Error(`OpenAPI request failed with HTTP ${response.status}`);
+  const openApis: JsonObject[] = [];
+  for (const sourceOpenApi of sourceOpenApis) {
+    const response = await fetch(sourceOpenApi, {
+      headers: { accept: "application/json" },
+      signal: AbortSignal.timeout(60_000),
+    });
+    if (!response.ok) {
+      throw new Error(`OpenAPI request failed with HTTP ${response.status} for ${sourceOpenApi}`);
+    }
+    openApis.push((await response.json()) as JsonObject);
   }
+  const mergedPaths: JsonObject = {};
+  const mergedComponents: JsonObject = {};
+  const openApi: JsonObject = {
+    ...openApis[0],
+    info: {
+      ...(isObject(openApis[0]?.info) ? openApis[0].info : {}),
+      title: openApis
+        .map((api) => (isObject(api.info) && typeof api.info.title === "string" ? api.info.title : "API"))
+        .join(" + "),
+    },
+    paths: mergedPaths,
+    components: mergedComponents,
+  };
+  for (const api of openApis) {
+    for (const [path, pathItem] of Object.entries(isObject(api.paths) ? api.paths : {})) {
+      if (Object.hasOwn(mergedPaths, path)) {
+        throw new Error(`OpenAPI documents contain duplicate path ${path}`);
+      }
+      mergedPaths[path] = pathItem;
+    }
+    if (!isObject(api.components)) continue;
+    for (const [section, value] of Object.entries(api.components)) {
+      const target = isObject(mergedComponents[section]) ? mergedComponents[section] : {};
+      if (!isObject(value)) continue;
+      for (const [name, definition] of Object.entries(value)) {
+        if (Object.hasOwn(target, name) && JSON.stringify(target[name]) !== JSON.stringify(definition)) {
+          throw new Error(`OpenAPI documents contain conflicting ${section}.${name}`);
+        }
+        target[name] = definition;
+      }
+      mergedComponents[section] = target;
+    }
+  }
+  const allowedMethods = selected.allowedMethods ?? ["GET", "POST", "PUT"];
+  const readResult = allowedMethods.includes("GET") ? createOutput(openApi, selected, "GET") : undefined;
+  const postResult = allowedMethods.includes("POST") ? createOutput(openApi, selected, "POST") : undefined;
+  const putResult = allowedMethods.includes("PUT") ? createOutput(openApi, selected, "PUT") : undefined;
+  const deleteResult = allowedMethods.includes("DELETE")
+    ? createOutput(openApi, selected, "DELETE")
+    : undefined;
 
-  const openApi = (await response.json()) as JsonObject;
-  const readResult = createOutput(openApi, selected, "GET");
-  const postResult = createOutput(openApi, selected, "POST");
-  const putResult = createOutput(openApi, selected, "PUT");
-
-  // PUT tools ship in the same frozen write allowlist as POST: both mutate CXM and
-  // both gate on confirmWrite.
+  // All mutating methods ship in the same frozen write allowlist and are gated by
+  // confirmWrite; destructive tools additionally require confirmDestructive.
   const writeResult = {
-    sourceCount: postResult.sourceCount,
-    excludedCount: postResult.excludedCount + putResult.excludedCount,
-    toolCount: postResult.toolCount + putResult.toolCount,
     output: {
-      ...postResult.output,
-      selectedTags: [...new Set([...postResult.tags, ...putResult.tags])].sort((a, b) =>
-        a.localeCompare(b),
-      ),
-      tools: [...postResult.tools, ...putResult.tools],
+      ...(postResult?.output ?? { sourceOpenApi: selected.sourceOpenApi, sourceTitle: "CXM API", tools: [] }),
+      selectedTags: [
+        ...new Set([
+          ...(postResult?.tags ?? []),
+          ...(putResult?.tags ?? []),
+          ...(deleteResult?.tags ?? []),
+        ]),
+      ].sort((a, b) => a.localeCompare(b)),
+      tools: [
+        ...(postResult?.tools ?? []),
+        ...(putResult?.tools ?? []),
+        ...(deleteResult?.tools ?? []),
+      ],
     },
   };
 
-  if (putResult.sourceCount !== (selected.expectedSourcePutCount ?? 0)) {
+  if (putResult && putResult.sourceCount !== (selected.expectedSourcePutCount ?? 0)) {
     throw new Error(
       `Expected ${selected.expectedSourcePutCount ?? 0} source PUT endpoints but found ${putResult.sourceCount}. ` +
         "The upstream OpenAPI changed; review the administration exclusions.",
     );
   }
-  if (putResult.toolCount !== (selected.expectedPutToolCount ?? 0)) {
+  if (putResult && putResult.toolCount !== (selected.expectedPutToolCount ?? 0)) {
     throw new Error(
       `Expected ${selected.expectedPutToolCount ?? 0} PUT tools but generated ${putResult.toolCount}. ` +
         "PUT endpoints are only admitted one at a time through includedEndpoints.",
     );
   }
-  if (readResult.sourceCount !== selected.expectedSourceGetCount) {
+  if (deleteResult && deleteResult.sourceCount !== (selected.expectedSourceDeleteCount ?? 0)) {
+    throw new Error(
+      `Expected ${selected.expectedSourceDeleteCount ?? 0} source DELETE endpoints but found ${deleteResult.sourceCount}. ` +
+        "The upstream OpenAPI changed; review the deletion exclusions.",
+    );
+  }
+  if (deleteResult && deleteResult.toolCount !== (selected.expectedDeleteToolCount ?? 0)) {
+    throw new Error(
+      `Expected ${selected.expectedDeleteToolCount ?? 0} DELETE tools but generated ${deleteResult.toolCount}. ` +
+        "DELETE endpoints are only admitted one at a time through includedEndpoints.",
+    );
+  }
+  if (readResult && readResult.sourceCount !== selected.expectedSourceGetCount) {
     throw new Error(
       `Expected ${selected.expectedSourceGetCount} source GET endpoints but found ${readResult.sourceCount}. ` +
         "The upstream OpenAPI changed; review the administration exclusions.",
     );
   }
-  if (writeResult.sourceCount !== selected.expectedSourcePostCount) {
+  if (postResult && postResult.sourceCount !== selected.expectedSourcePostCount) {
     throw new Error(
-      `Expected ${selected.expectedSourcePostCount} source POST endpoints but found ${writeResult.sourceCount}. ` +
+      `Expected ${selected.expectedSourcePostCount} source POST endpoints but found ${postResult.sourceCount}. ` +
         "The upstream OpenAPI changed; review the administration exclusions.",
     );
   }
-  if (readResult.toolCount !== selected.expectedGetToolCount) {
+  if (readResult && readResult.toolCount !== selected.expectedGetToolCount) {
     throw new Error(
       `Expected ${selected.expectedGetToolCount} GET tools but generated ${readResult.toolCount}. ` +
         "The upstream OpenAPI may have changed; review before updating the frozen allowlist.",
     );
   }
-  if (postResult.toolCount !== selected.expectedPostToolCount) {
+  if (postResult && postResult.toolCount !== selected.expectedPostToolCount) {
     throw new Error(
       `Expected ${selected.expectedPostToolCount} POST tools but generated ${postResult.toolCount}. ` +
         "The upstream OpenAPI may have changed; review before updating the frozen allowlist.",
     );
   }
-  await writeFile(readOutputPath, `${JSON.stringify(readResult.output, null, 2)}\n`, "utf8");
-  await writeFile(writeOutputPath, `${JSON.stringify(writeResult.output, null, 2)}\n`, "utf8");
+  if (readResult) await writeFile(readOutputPath, `${JSON.stringify(readResult.output, null, 2)}\n`, "utf8");
+  if (postResult || putResult || deleteResult) {
+    await writeFile(writeOutputPath, `${JSON.stringify(writeResult.output, null, 2)}\n`, "utf8");
+  }
   process.stdout.write(
     `Generated ${profile.toUpperCase()} allowlists: ` +
-      `${readResult.toolCount} GET tools (${readResult.excludedCount} excluded), ` +
-      `${postResult.toolCount} POST tools (${postResult.excludedCount} excluded) and ` +
-      `${putResult.toolCount} PUT tools (${putResult.excludedCount} excluded).\n`,
+      `${readResult?.toolCount ?? 0} GET tools (${readResult?.excludedCount ?? 0} excluded), ` +
+      `${postResult?.toolCount ?? 0} POST tools (${postResult?.excludedCount ?? 0} excluded), ` +
+      `${putResult?.toolCount ?? 0} PUT tools (${putResult?.excludedCount ?? 0} excluded), ` +
+      `${deleteResult?.toolCount ?? 0} DELETE tools (${deleteResult?.excludedCount ?? 0} excluded).\n`,
   );
 }
 

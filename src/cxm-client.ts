@@ -184,15 +184,22 @@ export class CxmApiClient {
   ) {}
 
   async call(tool: ToolDefinition, args: Record<string, unknown>): Promise<CxmApiResult> {
+    const upstreamName = this.settings.mcpUpstreamName ?? "CXM";
     let token = await this.tokenProvider.getToken();
     if (!token) {
       throw new CxmApiError(
-        "CXM is not signed in. Open /auth/login?MCP_KEY=<YOUR_KEY> in a browser, or configure an access/refresh token.",
+        `${upstreamName} is not signed in. Open /auth/login?MCP_KEY=<YOUR_KEY> in a browser, or configure an access/refresh token.`,
         "CXM_TOKEN_MISSING",
       );
     }
 
-    const url = buildRequestUrl(this.settings.cxmBaseUrl, tool, args);
+    const baseUrl =
+      tool.upstream === "bim"
+        ? this.settings.bimBaseUrl
+        : tool.upstream === "tingop-checkin"
+          ? this.settings.tingopCheckInBaseUrl
+          : this.settings.cxmBaseUrl;
+    const url = buildRequestUrl(baseUrl, tool, args);
     const headers = new Headers({
       accept: "application/json, text/plain, */*",
       authorization: `Bearer ${token}`,
@@ -200,7 +207,7 @@ export class CxmApiClient {
     });
     if (this.settings.cxmTenantId) headers.set("__tenant", this.settings.cxmTenantId);
 
-    const sendsBody = tool.method === "POST" || tool.method === "PUT";
+    const sendsBody = tool.method === "POST" || tool.method === "PUT" || tool.method === "DELETE";
     let requestBody: BodyInit | undefined;
     if (sendsBody && tool.requestBody?.mode === "json") {
       const mappedBody = mapBodyFields(tool, args.body);
@@ -291,7 +298,7 @@ export class CxmApiClient {
         return await this.fetchImpl(url, init);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        throw new CxmApiError(`Cannot reach CXM: ${message}`, "CXM_NETWORK_ERROR");
+        throw new CxmApiError(`Cannot reach ${upstreamName}: ${message}`, "CXM_NETWORK_ERROR");
       }
     };
 
@@ -310,7 +317,7 @@ export class CxmApiClient {
     const data = parseBody(bytes, contentType);
     if (!response.ok) {
       throw new CxmApiError(
-        `CXM returned HTTP ${response.status}`,
+        `${upstreamName} returned HTTP ${response.status}`,
         response.status === 401 ? "CXM_UNAUTHORIZED" : "CXM_HTTP_ERROR",
         response.status,
         data,

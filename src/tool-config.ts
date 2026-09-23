@@ -48,9 +48,10 @@ const toolDefinitionSchema = z.strictObject({
   title: z.string().min(1),
   description: z.string().min(1),
   tag: z.string().min(1),
-  method: z.enum(["GET", "POST", "PUT"]),
+  method: z.enum(["GET", "POST", "PUT", "DELETE"]),
   path: z.string().startsWith("/"),
   safety: z.enum(["read-only", "review", "write", "destructive"]),
+  upstream: z.enum(["cxm", "bim", "tingop", "tingop-checkin"]).default("cxm"),
   parameters: z.array(parameterSchema).default([]),
   requestBody: requestBodySchema.optional(),
 });
@@ -58,6 +59,7 @@ const toolDefinitionSchema = z.strictObject({
 const toolConfigSchema = z.strictObject({
   generatedAt: z.string().datetime(),
   sourceOpenApi: z.string().url(),
+  sourceOpenApis: z.array(z.string().url()).min(1).optional(),
   sourceTitle: z.string().min(1),
   selectedTags: z.array(z.string()).min(1),
   tools: z.array(toolDefinitionSchema).min(1),

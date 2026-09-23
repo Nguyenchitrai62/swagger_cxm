@@ -1,0 +1,877 @@
+{
+  "generatedAt": "2026-09-15T04:21:19.668Z",
+  "sourceOpenApi": "https://sit.checkin.tingconnect.com/swagger/v1/swagger.json",
+  "sourceTitle": "Check In API: Các API để thực hiện việc đăng ký, nhận dạng khuôn mặt. Chấm công, chấm cơm và ghi chú cho việc điểm danh. Operator trong FaceCK sẽ tương ứng với Operator trong QLVH toàn nhà hoặc Project trong QLTC trong xây dựng. Company trong FaceCK sẽ tương ứng với Organization/Tenancy trong Identity Service",
+  "selectedTags": [
+    "CheckIn",
+    "FaceIdentity",
+    "Notes",
+    "Operators",
+    "Shifts",
+    "ShiftSchedule",
+    "Team"
+  ],
+  "tools": [
+    {
+      "name": "tingop-checkin_check_in_check_in_operator_by_external_id_teams",
+      "title": "Check In: Check In Operator By External Id Teams",
+      "description": "API lấy danh sách các Team và các ca làm việc của Team đó trong một Operator/Project\r\nOperator trong FaceCK sẽ tương ứng với Operator trong QLVH toàn nhà hoặc Project trong QLTC trong xây dựng.",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/operator/{external_id}/teams",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalId",
+          "wireName": "external_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_id của operator. lấy từ Ting"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_team_by_team_id_shift_by_shift_id",
+      "title": "Check In: Check In Team By Team Id Shift By Shift Id",
+      "description": "Lấy thông tin về các member của Team và các lượt đã checkin của từng người trong một ca của một ngày làm việc\r\nSử dụng cho màn hình chính của chức năng Checkin. Hiện d/s của Team, cùng trạng thái checkin, bữa ăn, note..\r\nThis method is obsolete. Use v2/team/{team_id}/shift/{shift_id} API instead.",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/team/{team_id}/shift/{shift_id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "team_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "ID của Team"
+        },
+        {
+          "name": "shiftId",
+          "wireName": "shift_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "ID của ca cần có thông tin checkin"
+        },
+        {
+          "name": "workingDay",
+          "wireName": "working_day",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Ngày làm việc. Lấy ngày hiện tại ở FE (yyyy-MM-dd)"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_v2_team_by_team_id_shift_by_shift_id",
+      "title": "Check In: Check In V2 Team By Team Id Shift By Shift Id",
+      "description": "Lấy thông tin về các member của Team và các lượt đã checkin của từng người trong một ca của một ngày làm việc\r\nSử dụng cho màn hình chính của chức năng Checkin. Hiện d/s của Team, cùng trạng thái checkin, bữa ăn, note..\r\nPhân danh thành hai nhóm NS của Team và NSTC",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/v2/team/{team_id}/shift/{shift_id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "team_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "ID của Team"
+        },
+        {
+          "name": "shiftId",
+          "wireName": "shift_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "ID của ca cần có thông tin checkin"
+        },
+        {
+          "name": "workingDay",
+          "wireName": "working_day",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Ngày làm việc. Lấy ngày hiện tại ở FE (yyyy-MM-dd)"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_v2_team_by_team_id",
+      "title": "Check In: Check In V2 Team By Team Id",
+      "description": "Lấy thông tin điểm danh của một ngày của một team, bao gồm của NS của Team và NSTC\r\nVới mỗi người sẽ có các thông tin sau:\r\n- Các lượt checkin của cả ngày\r\n- Các lượt checkin theo từng ca\r\n- Các thời gian làm việc của từng ca\r\n- Thời gian làm việc cả ngày\r\n- Thời gian làm việc được duyệt\r\n- Các note, meals vvv",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/v2/team/{team_id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "team_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "team_id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "working_day",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "working_day query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "operatorId",
+          "wireName": "operatorId",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "operatorId query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "companyId query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_operator_by_external_id_faceidentity",
+      "title": "Check In: Check In Operator By External Id Faceidentity",
+      "description": "API lấy danh sách thành viên của một Operator.\r\nSử dụng cho màn hình Register Face",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/operator/{external_id}/faceidentity",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalId",
+          "wireName": "external_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_id của operator. lấy từ Ting"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_checkin_by_id_image",
+      "title": "Check In: Check In Checkin By Id Image",
+      "description": "Lấy ảnh của lần check in về để hiển thị",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/checkin/{id}/image",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_company_by_company_id_details",
+      "title": "Check In: Check In Company By Company Id Details",
+      "description": "Get Detail Checkin by Company",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/company/{companyId}/details",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "FromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "FromWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "ToWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "ToWorkingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_company_by_company_id_report_month_by_month_number",
+      "title": "Check In: Check In Company By Company Id Report Month By Month Number",
+      "description": "Xuất báo cáo chấm công theo tháng của một công ty.\r\nmonthNumber: 1-12. Lấy báo cáo theo monthNumber của năm hiện tại. \r\nNếu tháng hiện tại thì là lấy monthNumber của năm trước\r\nTrả về file đã nén bao gồm cả xlsx và csv",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/company/{companyId}/report/month/{monthNumber}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "monthNumber",
+          "wireName": "monthNumber",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "monthNumber path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_face_by_face_identity_id_report_month_by_month_number",
+      "title": "Check In: Check In Face By Face Identity Id Report Month By Month Number",
+      "description": "Trả về thông tin chấm công: checkin + approved theo từng ngày trong một khoảng thời gian yêu cầu của một nhân sự\r\nSử dụng cho form xem và duyệt thời gian chấm công của một nhân sự theo tháng",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/face/{face_identity_id}/report/month/{monthNumber}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "faceIdentityId",
+          "wireName": "face_identity_id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "face_identity_id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "monthNumber",
+          "wireName": "monthNumber",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "monthNumber path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "projectId query parameter from the CXM OpenAPI schema.",
+          "default": -1
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_face_by_face_identity_id_report_range",
+      "title": "Check In: Check In Face By Face Identity Id Report Range",
+      "description": "Trả về thông tin chấm công: checkin + approved theo từng ngày trong một khoảng thời gian yêu cầu của một nhân sự\r\nSử dụng cho form xem và duyệt thời gian chấm công của một nhân sự một thời gian (tháng, tuần, 2 tuần).. hoặc là link công việc trong issue",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/face/{face_identity_id}/report/range",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "faceIdentityId",
+          "wireName": "face_identity_id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "face_identity_id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "fromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "fromWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "toWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "toWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "projectId",
+          "wireName": "projectId",
+          "source": "query",
+          "type": "integer",
+          "required": false,
+          "description": "projectId query parameter from the CXM OpenAPI schema.",
+          "default": -1
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_by_company_id_daily",
+      "title": "Check In: Check In Attendance Company By Company Id Daily",
+      "description": "Trả về danh sách nhân sự có số liệu chấm công (checkin hoặc chốt) của công ty theo một ngày",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/{companyId}/daily",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "workingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Định dạng yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_team_by_team_id_daily",
+      "title": "Check In: Check In Attendance Team By Team Id Daily",
+      "description": "Trả về danh sách nhân sự có số liệu chấm công (checkin hoặc chốt) của team theo một ngày",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/team/{teamId}/daily",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "teamId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "teamId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "workingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Định dạng yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_face_by_face_identity_id_range",
+      "title": "Check In: Check In Attendance Face By Face Identity Id Range",
+      "description": "Trả về danh sách các ngày có số liệu chấm công (checkin hoặc chốt) của một người trong một khoảng thời gian",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/face/{face_identity_id}/range",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "faceIdentityId",
+          "wireName": "face_identity_id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "face_identity_id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "fromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Định dạng yyyy-MM-dd"
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "toWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Định dạng yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_by_company_id_employee_by_employee_id_range",
+      "title": "Check In: Check In Attendance Company By Company Id Employee By Employee Id Range",
+      "description": "Trả về danh sách các ngày có số liệu chấm công (checkin hoặc chốt) của một người trong một khoảng thời gian",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/{companyId}/employee/{employeeId}/range",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyId",
+          "wireName": "companyId",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "companyId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employeeId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "FromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "FromWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "ToWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "ToWorkingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_external_by_external_company_id_employee_by_employee_id_range",
+      "title": "Check In: Check In Attendance Company External By External Company Id Employee By Employee Id Range",
+      "description": "Trả về danh sách các ngày có số liệu chấm công (checkin hoặc chốt) của một người trong một khoảng thời gian. Tìm theo external_company_Id và employeeId",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/external/{external_company_Id}/employee/{employeeId}/range",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalCompanyId",
+          "wireName": "external_company_Id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_company_Id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employeeId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "FromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "FromWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "ToWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "ToWorkingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_external_by_external_company_id_daily",
+      "title": "Check In: Check In Attendance Company External By External Company Id Daily",
+      "description": "Read CheckIn data in CXM. Endpoint: GET /api/CheckIn/attendance/company/external/{external_company_Id}/daily.",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/external/{external_company_Id}/daily",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalCompanyId",
+          "wireName": "external_company_Id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_company_Id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "workingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "workingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_team_by_team_id_report_daily",
+      "title": "Check In: Check In Team By Team Id Report Daily",
+      "description": "Trả về thông tin chấm công: checkin + approved theo từng ngày trong một khoảng thời gian yêu cầu của team\r\nSử dụng cho form xem và duyệt thời gian chấm công của cho một team trong một ngày\r\nDanh sách nhân sư trả về sẽ bao gồm:\r\n - Các nhân sự chấm công thuộc teamId\r\n - Các nhân sự thuộc teamId, có chấm công ở team khác nhưng team đó phải cùng Project/Operator với teamId",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/team/{teamId}/report/daily",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "teamId",
+          "wireName": "teamId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "teamId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "workingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "workingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_external_by_external_company_id_daily_v2",
+      "title": "Check In: Check In Attendance Company External By External Company Id Daily V2",
+      "description": "Trả về danh sách nhân sự có số liệu chấm công (checkin hoặc chốt) của công ty theo một ngày. Lấy theo external_company_Id của công ty",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/external/{external_company_Id}/daily/v2",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalCompanyId",
+          "wireName": "external_company_Id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_company_Id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "workingDay",
+          "wireName": "workingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "Định dạng yyyy-MM-dd"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_check_in_check_in_attendance_company_external_by_external_company_id_report_range",
+      "title": "Check In: Check In Attendance Company External By External Company Id Report Range",
+      "description": "Trả về thông tin tổng thơi gian làm cả chính, ca phụ của mỗi người theo từng ngày trong khoảng thời gian đưa vào của một công ty",
+      "tag": "CheckIn",
+      "method": "GET",
+      "path": "/api/CheckIn/attendance/company/external/{external_company_Id}/report/range",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalCompanyId",
+          "wireName": "external_company_Id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_company_Id path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "fromWorkingDay",
+          "wireName": "FromWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "FromWorkingDay query parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "toWorkingDay",
+          "wireName": "ToWorkingDay",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "ToWorkingDay query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_face_identity_face_identity_by_id",
+      "title": "Face Identity: Face Identity By Id",
+      "description": "Get a FaceIdentity",
+      "tag": "FaceIdentity",
+      "method": "GET",
+      "path": "/api/FaceIdentity/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_face_identity_face_identity_operator_by_external_id",
+      "title": "Face Identity: Face Identity Operator By External Id",
+      "description": "API lấy danh sách thành viên của một Operator.\r\nSử dụng cho màn hình Register Face",
+      "tag": "FaceIdentity",
+      "method": "GET",
+      "path": "/api/FaceIdentity/operator/{external_id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "externalId",
+          "wireName": "external_id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "external_id của operator. lấy từ Ting"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_face_identity_face_identity_company_by_company_guid",
+      "title": "Face Identity: Face Identity Company By Company Guid",
+      "description": "API lấy danh sách FaceIdentity các thành viên của một Company.\r\nSử dụng cho màn hình Register Face/hoặc báo cáo",
+      "tag": "FaceIdentity",
+      "method": "GET",
+      "path": "/api/FaceIdentity/company/{company_guid}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyGuid",
+          "wireName": "company_guid",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "external_id của operator. lấy từ Ting"
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_notes_notes_by_id",
+      "title": "Notes: Notes By Id",
+      "description": "Get the note by id",
+      "tag": "Notes",
+      "method": "GET",
+      "path": "/api/Notes/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_operators_operators_by_id",
+      "title": "Operators: Operators By Id",
+      "description": "Get the Operator/Project by Guid",
+      "tag": "Operators",
+      "method": "GET",
+      "path": "/api/Operators/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_shifts_shifts_by_id",
+      "title": "Shifts: Shifts By Id",
+      "description": "Get the shift by id",
+      "tag": "Shifts",
+      "method": "GET",
+      "path": "/api/Shifts/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_shifts_shifts_company_by_company_guid",
+      "title": "Shifts: Shifts Company By Company Guid",
+      "description": "Get the shift by Company_Guid",
+      "tag": "Shifts",
+      "method": "GET",
+      "path": "/api/Shifts/company/{company_guid}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyGuid",
+          "wireName": "company_guid",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "company_guid path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_shift_schedule_shift_schedule_get_shift_schedule_employee_id_by_employee_id",
+      "title": "Shift Schedule: Shift Schedule Get Shift Schedule Employee Id By Employee Id",
+      "description": "Lấy danh sách ca của 1 nhân sự trong ngày",
+      "tag": "ShiftSchedule",
+      "method": "GET",
+      "path": "/api/ShiftSchedule/getShiftScheduleEmployeeId/{employeeId}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "employeeId",
+          "wireName": "employeeId",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "employeeId path parameter from the CXM OpenAPI schema."
+        },
+        {
+          "name": "dateTime",
+          "wireName": "dateTime",
+          "source": "query",
+          "type": "string",
+          "required": false,
+          "description": "dateTime query parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_shift_schedule_shift_schedule_by_id",
+      "title": "Shift Schedule: Shift Schedule By Id",
+      "description": "Get ShiftSchedule by Id",
+      "tag": "ShiftSchedule",
+      "method": "GET",
+      "path": "/api/ShiftSchedule/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_team_team",
+      "title": "Team: Team",
+      "description": "Get all Team",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/Team",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": []
+    },
+    {
+      "name": "tingop-checkin_team_team_by_id",
+      "title": "Team: Team By Id",
+      "description": "Get the Team by id",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/Team/{id}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "id",
+          "wireName": "id",
+          "source": "path",
+          "type": "integer",
+          "required": true,
+          "description": "id path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    },
+    {
+      "name": "tingop-checkin_team_team_company_by_company_guid",
+      "title": "Team: Team Company By Company Guid",
+      "description": "Get the Team by Company",
+      "tag": "Team",
+      "method": "GET",
+      "path": "/Team/company/{company_guid}",
+      "safety": "read-only",
+      "upstream": "tingop-checkin",
+      "parameters": [
+        {
+          "name": "companyGuid",
+          "wireName": "company_guid",
+          "source": "path",
+          "type": "string",
+          "required": true,
+          "description": "company_guid path parameter from the CXM OpenAPI schema."
+        }
+      ]
+    }
+  ]
+}

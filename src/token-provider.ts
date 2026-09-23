@@ -176,8 +176,11 @@ export function createTokenProvider(
         client_id: settings.cxmOAuthClientId,
         scope: settings.cxmOAuthScope,
         remember: "true",
+        ...(settings.cxmOAuthClientSecret
+          ? { client_secret: settings.cxmOAuthClientSecret }
+          : {}),
       }),
-      "Cannot refresh CXM access token",
+      `Cannot refresh ${settings.mcpUpstreamName ?? "CXM"} access token`,
     );
     return acceptTokens(tokens.accessToken, tokens.refreshToken, refreshToken);
   }
@@ -237,8 +240,11 @@ export function createTokenProvider(
           client_id: settings.cxmOAuthClientId,
           scope,
           remember: String(credentials.remember),
+          ...(settings.cxmOAuthClientSecret
+            ? { client_secret: settings.cxmOAuthClientSecret }
+            : {}),
         }),
-        "Đăng nhập CXM thất bại",
+        `Đăng nhập ${settings.mcpUpstreamName ?? "CXM"} thất bại`,
       );
       await acceptTokens(tokens.accessToken, tokens.refreshToken);
     },
